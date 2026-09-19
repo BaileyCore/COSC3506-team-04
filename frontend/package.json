@@ -1,0 +1,13 @@
+{
+  "name": "cosc3506-phase0-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "node build.mjs"
+  }
+}

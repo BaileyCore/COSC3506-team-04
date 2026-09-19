@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phase 0 — Items</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 34rem; margin: 2rem auto; padding: 0 1rem; }
+    form { display: flex; gap: .5rem; margin: 1rem 0; }
+    input { flex: 1; padding: .5rem; }
+    button { padding: .5rem 1rem; }
+    li { padding: .35rem 0; }
+    #status { min-height: 1.25rem; color: #b00; }
+  </style>
+</head>
+<body>
+  <h1>Items</h1>
+  <p id="health">Checking backend…</p>
+  <form id="add">
+    <input id="title" placeholder="New item title" autocomplete="off">
+    <button type="submit">Add</button>
+  </form>
+  <p id="status"></p>
+  <ul id="items"></ul>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
