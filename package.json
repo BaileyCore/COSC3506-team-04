@@ -12,5 +12,9 @@
     "check:repo": "node scripts/verify-phase0.mjs repo",
     "check:final": "node scripts/verify-phase0.mjs repo --require-tag phase0-complete --production",
     "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "pg-mem": "^3.0.14",
+    "playwright": "^1.63.0"
   }
 }

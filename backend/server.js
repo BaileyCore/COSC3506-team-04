@@ -3,6 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const { Pool } = require("pg");
+const {initializeTalent, talentRouter} = require("./talent");
 
 if (!process.env.DATABASE_URL) {
   console.error("DATABASE_URL is required. Copy backend/.env.example to backend/.env and set it.");
@@ -18,6 +19,8 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: isLocalDatabase ? false : { rejectUnauthorized: false },
 });
+
+app.use("/api", talentRouter(pool));
 
 app.get("/api/health", async (_request, response) => {
   try {
@@ -66,6 +69,9 @@ app.use((error, _request, response, _next) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`API listening on port ${port}`);
+initializeTalent(pool).then(() => {
+  app.listen(port, "0.0.0.0", () => console.log(`API listening on port ${port}`));
+}).catch(error => {
+  console.error("Talent database initialization failed:", error.message);
+  process.exit(1);
 });

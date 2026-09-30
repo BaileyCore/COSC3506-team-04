@@ -1,0 +1,407 @@
+[
+  {
+    "id": "S01",
+    "name": "Avery Chen",
+    "headline": "XR Developer focused on training simulations",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Unity",
+      "C#",
+      "OpenXR"
+    ],
+    "links": {
+      "github": "https://github.com/example-avery"
+    },
+    "project_ids": [
+      "P01",
+      "P04"
+    ]
+  },
+  {
+    "id": "S02",
+    "name": "Maya Patel",
+    "headline": "3D Artist and technical artist",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship",
+      "contract"
+    ],
+    "skills": [
+      "Blender",
+      "Maya",
+      "Unity"
+    ],
+    "links": {
+      "github": "https://github.com/example-maya"
+    },
+    "project_ids": [
+      "P01",
+      "P05"
+    ]
+  },
+  {
+    "id": "S03",
+    "name": "Noah Williams",
+    "headline": "Backend developer for interactive systems",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Python",
+      "PostgreSQL",
+      "FastAPI"
+    ],
+    "links": {
+      "github": "https://github.com/example-noah"
+    },
+    "project_ids": [
+      "P02"
+    ]
+  },
+  {
+    "id": "S04",
+    "name": "Sofia Martin",
+    "headline": "Full-stack developer building accessible web apps",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship",
+      "full-time"
+    ],
+    "skills": [
+      "TypeScript",
+      "React",
+      "PostgreSQL"
+    ],
+    "links": {
+      "github": "https://github.com/example-sofia"
+    },
+    "project_ids": [
+      "P02",
+      "P06"
+    ]
+  },
+  {
+    "id": "S05",
+    "name": "Ethan Brown",
+    "headline": "Game and XR developer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Unity",
+      "C#",
+      "Blender"
+    ],
+    "links": {
+      "github": "https://github.com/example-ethan"
+    },
+    "project_ids": [
+      "P03"
+    ]
+  },
+  {
+    "id": "S06",
+    "name": "Leila Ahmed",
+    "headline": "UX researcher for immersive learning",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "UX Research",
+      "Figma",
+      "Accessibility"
+    ],
+    "links": {
+      "github": "https://github.com/example-leila"
+    },
+    "project_ids": [
+      "P01",
+      "P06"
+    ]
+  },
+  {
+    "id": "S07",
+    "name": "Lucas Tremblay",
+    "headline": "WebXR and graphics developer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "contract"
+    ],
+    "skills": [
+      "JavaScript",
+      "WebXR",
+      "Three.js"
+    ],
+    "links": {
+      "github": "https://github.com/example-lucas"
+    },
+    "project_ids": [
+      "P07"
+    ]
+  },
+  {
+    "id": "S08",
+    "name": "Emma Wilson",
+    "headline": "XR developer for healthcare applications",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Unity",
+      "C#",
+      "Meta Quest"
+    ],
+    "links": {
+      "github": "https://github.com/example-emma"
+    },
+    "project_ids": [
+      "P04"
+    ]
+  },
+  {
+    "id": "S09",
+    "name": "Owen Singh",
+    "headline": "AI and data developer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship",
+      "contract"
+    ],
+    "skills": [
+      "Python",
+      "Machine Learning",
+      "FastAPI"
+    ],
+    "links": {
+      "github": "https://github.com/example-owen"
+    },
+    "project_ids": [
+      "P08"
+    ]
+  },
+  {
+    "id": "S10",
+    "name": "Chloe King",
+    "headline": "Frontend developer and UI designer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "React",
+      "TypeScript",
+      "Figma"
+    ],
+    "links": {
+      "github": "https://github.com/example-chloe"
+    },
+    "project_ids": [
+      "P06"
+    ]
+  },
+  {
+    "id": "S11",
+    "name": "Daniel Kim",
+    "headline": "XR interaction developer",
+    "program": "Computer Science",
+    "status": "alumni",
+    "profile_status": "published",
+    "availability": [
+      "full-time"
+    ],
+    "skills": [
+      "Unity",
+      "C#",
+      "OpenXR"
+    ],
+    "links": {
+      "github": "https://github.com/example-daniel"
+    },
+    "project_ids": [
+      "P03",
+      "P04"
+    ]
+  },
+  {
+    "id": "S12",
+    "name": "Priya Desai",
+    "headline": "Technical artist for real-time 3D",
+    "program": "Computer Science",
+    "status": "alumni",
+    "profile_status": "published",
+    "availability": [
+      "contract"
+    ],
+    "skills": [
+      "Blender",
+      "Unity",
+      "Shader Development"
+    ],
+    "links": {
+      "github": "https://github.com/example-priya"
+    },
+    "project_ids": [
+      "P05"
+    ]
+  },
+  {
+    "id": "S13",
+    "name": "Benjamin Roy",
+    "headline": "Cloud and API developer",
+    "program": "Computer Science",
+    "status": "alumni",
+    "profile_status": "published",
+    "availability": [
+      "full-time"
+    ],
+    "skills": [
+      "Node.js",
+      "PostgreSQL",
+      "Docker"
+    ],
+    "links": {
+      "github": "https://github.com/example-ben"
+    },
+    "project_ids": [
+      "P02",
+      "P08"
+    ]
+  },
+  {
+    "id": "S14",
+    "name": "Grace Li",
+    "headline": "Mobile and spatial computing developer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Swift",
+      "RealityKit",
+      "Vision Pro"
+    ],
+    "links": {
+      "github": "https://github.com/example-grace"
+    },
+    "project_ids": [
+      "P09"
+    ]
+  },
+  {
+    "id": "S15",
+    "name": "Marcus Hill",
+    "headline": "Interactive media developer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Unity",
+      "JavaScript",
+      "WebXR"
+    ],
+    "links": {
+      "github": "https://github.com/example-marcus"
+    },
+    "project_ids": [
+      "P07"
+    ]
+  },
+  {
+    "id": "S16",
+    "name": "Nora Evans",
+    "headline": "XR developer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "unpublished",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Unity",
+      "C#"
+    ],
+    "links": {
+      "github": "https://github.com/example-nora"
+    },
+    "project_ids": [
+      "P03"
+    ]
+  },
+  {
+    "id": "S17",
+    "name": "Samir Haddad",
+    "headline": "3D developer and researcher",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship"
+    ],
+    "skills": [
+      "Unity",
+      "Blender",
+      "C#"
+    ],
+    "links": {
+      "github": "https://github.com/example-samir"
+    },
+    "project_ids": [
+      "P05"
+    ]
+  },
+  {
+    "id": "S18",
+    "name": "Isabella Moore",
+    "headline": "Accessibility-focused software developer",
+    "program": "Computer Science",
+    "status": "current",
+    "profile_status": "published",
+    "availability": [
+      "internship",
+      "contract"
+    ],
+    "skills": [
+      "Accessibility",
+      "React",
+      "TypeScript"
+    ],
+    "links": {
+      "github": "https://github.com/example-isabella"
+    },
+    "project_ids": [
+      "P06"
+    ]
+  }
+]
