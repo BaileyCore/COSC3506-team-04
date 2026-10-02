@@ -3,26 +3,208 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Phase 0 — Items</title>
+
+  <title>ImmXrsive Talent Directory</title>
+
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 34rem; margin: 2rem auto; padding: 0 1rem; }
-    form { display: flex; gap: .5rem; margin: 1rem 0; }
-    input { flex: 1; padding: .5rem; }
-    button { padding: .5rem 1rem; }
-    li { padding: .35rem 0; }
-    #status { min-height: 1.25rem; color: #b00; }
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 1.5rem;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    header p {
+      margin-bottom: 0;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    .filters {
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .filter-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      margin-right: .75rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: .75rem;
+      margin-top: .5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      cursor: pointer;
+      padding: .7rem 1rem;
+      border: none;
+      border-radius: 6px;
+      background: #2563eb;
+      color: white;
+    }
+
+    button:focus,
+    input:focus {
+      outline: 3px solid #93c5fd;
+      outline-offset: 2px;
+    }
+
+    .students {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin: .75rem 0;
+    }
+
+    .skill {
+      background: #e5e7eb;
+      border-radius: 999px;
+      padding: .25rem .6rem;
+      font-size: .85rem;
+    }
+
+    .message {
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 390px) {
+      main {
+        padding: .75rem;
+      }
+
+      header {
+        padding: 1rem;
+      }
+
+      .students {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <h1>Items</h1>
-  <p id="health">Checking backend…</p>
-  <form id="add">
-    <input id="title" placeholder="New item title" autocomplete="off">
-    <button type="submit">Add</button>
-  </form>
-  <p id="status"></p>
-  <ul id="items"></ul>
+
+  <header>
+    <h1>Talent Directory</h1>
+    <p>Discover students and alumni based on skills, experience, and availability.</p>
+  </header>
+
+  <main>
+
+    <section class="filters" aria-label="Talent filters">
+
+      <div class="filter-group">
+        <label for="search">
+          <strong>Search talent</strong>
+        </label>
+
+        <input
+          id="search"
+          type="text"
+          placeholder="Search by name, headline, or skill"
+        >
+      </div>
+
+      <div class="filter-group">
+        <strong>Skills</strong>
+        <div id="skillFilters"></div>
+      </div>
+
+      <div class="filter-group">
+        <strong>Availability</strong>
+
+        <label>
+          <input type="checkbox" name="availability" value="internship">
+          Internship
+        </label>
+
+        <label>
+          <input type="checkbox" name="availability" value="full-time">
+          Full-time
+        </label>
+
+        <label>
+          <input type="checkbox" name="availability" value="contract">
+          Contract
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <strong>Status</strong>
+
+        <label>
+          <input type="checkbox" name="status" value="current">
+          Current
+        </label>
+
+        <label>
+          <input type="checkbox" name="status" value="alumni">
+          Alumni
+        </label>
+      </div>
+
+      <button id="clearFilters" type="button">
+        Clear Filters
+      </button>
+
+    </section>
+
+    <p id="status"></p>
+
+    <section
+      id="students"
+      class="students"
+      aria-live="polite"
+    ></section>
+
+  </main>
+
   <script src="config.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>

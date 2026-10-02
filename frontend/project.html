@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project</title>
+
+<style>
+    * {
+    box-sizing: border-box;
+    }
+
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+    }
+
+    header {
+    background: #111827;
+    color: white;
+    padding: 1.5rem;
+    }
+
+    main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    }
+
+    .project,
+    .contributor {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    button {
+    cursor: pointer;
+    padding: .7rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    }
+
+    a,
+    button {
+    margin-top: .5rem;
+    }
+
+    button:focus,
+    a:focus {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+    }
+
+    @media (max-width: 390px) {
+    main {
+        padding: .75rem;
+    }
+
+    header {
+        padding: 1rem;
+    }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Project Evidence</h1>
+</header>
+
+<main>
+
+    <p>
+    <a href="/">← Back to Talent Directory</a>
+    </p>
+
+    <section id="project" class="project">
+    Loading project...
+    </section>
+
+    <section>
+    <h2>Contributors</h2>
+    <div id="contributors"></div>
+    </section>
+
+</main>
+
+<script src="config.js"></script>
+<script src="project.js"></script>
+
+</body>
+</html>

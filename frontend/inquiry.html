@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Employer Inquiry</title>
+
+<style>
+    * {
+    box-sizing: border-box;
+    }
+
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+    }
+
+    header {
+    background: #111827;
+    color: white;
+    padding: 1.5rem;
+    }
+
+    main {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    }
+
+    form {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .field {
+    margin-bottom: 1rem;
+    }
+
+    label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: .35rem;
+    }
+
+    input,
+    textarea {
+    width: 100%;
+    padding: .7rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font: inherit;
+    }
+
+    textarea {
+    min-height: 140px;
+    resize: vertical;
+    }
+
+    button {
+    cursor: pointer;
+    padding: .7rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    }
+
+    input:focus,
+    textarea:focus,
+    button:focus,
+    a:focus {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+    }
+
+    .context {
+    background: #eef2ff;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    }
+
+    #success {
+    margin-top: 1rem;
+    font-weight: bold;
+    }
+
+    @media (max-width: 390px) {
+    main {
+        padding: .75rem;
+    }
+
+      header {
+        padding: 1rem;
+    }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Employer Inquiry</h1>
+</header>
+
+<main>
+
+    <p>
+    <a href="/">← Back to Talent Directory</a>
+    </p>
+
+    <div id="context" class="context"></div>
+
+    <form id="inquiryForm">
+
+      <div class="field">
+        <label for="companyName">Company name</label>
+        <input id="companyName" name="companyName" required>
+    </div>
+
+    <div class="field">
+        <label for="contactName">Contact name</label>
+        <input id="contactName" name="contactName" required>
+    </div>
+
+    <div class="field">
+        <label for="contactEmail">Contact email</label>
+        <input
+        id="contactEmail"
+        name="contactEmail"
+        type="email"
+        required
+        >
+    </div>
+
+    <div class="field">
+        <label for="message">Inquiry details</label>
+        <textarea
+        id="message"
+        name="message"
+        required
+        ></textarea>
+    </div>
+
+    <button type="submit">Submit Inquiry</button>
+
+    </form>
+
+    <p id="success" aria-live="polite"></p>
+
+</main>
+
+<script src="inquiry.js"></script>
+
+</body>
+</html>

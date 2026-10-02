@@ -1,0 +1,246 @@
+[
+  {
+    "id": "P01",
+    "title": "Industrial Safety VR Trainer",
+    "description": "Immersive safety training prototype for industrial onboarding.",
+    "domain": "Training / Simulation",
+    "technologies": [
+      "Unity",
+      "C#",
+      "Blender"
+    ],
+    "contributors": [
+      {
+        "student_id": "S01",
+        "role": "XR Developer"
+      },
+      {
+        "student_id": "S02",
+        "role": "3D Artist"
+      },
+      {
+        "student_id": "S06",
+        "role": "UX Researcher"
+      }
+    ],
+    "links": {
+      "demo": "https://example.com/p01-demo"
+    }
+  },
+  {
+    "id": "P02",
+    "title": "Campus Service Request Platform",
+    "description": "A web platform for tracking campus service requests.",
+    "domain": "Operations",
+    "technologies": [
+      "React",
+      "TypeScript",
+      "FastAPI",
+      "PostgreSQL"
+    ],
+    "contributors": [
+      {
+        "student_id": "S03",
+        "role": "Backend Developer"
+      },
+      {
+        "student_id": "S04",
+        "role": "Frontend Developer"
+      },
+      {
+        "student_id": "S13",
+        "role": "Cloud/API Developer"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/example-org/p02"
+    }
+  },
+  {
+    "id": "P03",
+    "title": "Museum Quest Experience",
+    "description": "Quest-based interactive museum exploration.",
+    "domain": "Cultural Heritage",
+    "technologies": [
+      "Unity",
+      "C#",
+      "Meta Quest"
+    ],
+    "contributors": [
+      {
+        "student_id": "S05",
+        "role": "XR Developer"
+      },
+      {
+        "student_id": "S11",
+        "role": "XR Interaction Developer"
+      },
+      {
+        "student_id": "S16",
+        "role": "QA Tester"
+      }
+    ],
+    "links": {
+      "video": "https://example.com/p03-video"
+    }
+  },
+  {
+    "id": "P04",
+    "title": "XR Anatomy Lab",
+    "description": "Interactive anatomy learning environment.",
+    "domain": "Healthcare",
+    "technologies": [
+      "Unity",
+      "C#",
+      "OpenXR",
+      "Meta Quest"
+    ],
+    "contributors": [
+      {
+        "student_id": "S01",
+        "role": "XR Developer"
+      },
+      {
+        "student_id": "S08",
+        "role": "XR Developer"
+      },
+      {
+        "student_id": "S11",
+        "role": "Interaction Developer"
+      }
+    ],
+    "links": {
+      "demo": "https://example.com/p04-demo"
+    }
+  },
+  {
+    "id": "P05",
+    "title": "Virtual Production Art Pipeline",
+    "description": "Real-time asset workflow for immersive production.",
+    "domain": "Media",
+    "technologies": [
+      "Unity",
+      "Blender",
+      "Maya",
+      "Shader Development"
+    ],
+    "contributors": [
+      {
+        "student_id": "S02",
+        "role": "Technical Artist"
+      },
+      {
+        "student_id": "S12",
+        "role": "Technical Artist"
+      },
+      {
+        "student_id": "S17",
+        "role": "3D Developer"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/example-org/p05"
+    }
+  },
+  {
+    "id": "P06",
+    "title": "Accessible Event Discovery",
+    "description": "Accessible mobile-first campus event discovery prototype.",
+    "domain": "Accessibility",
+    "technologies": [
+      "React",
+      "TypeScript",
+      "Figma"
+    ],
+    "contributors": [
+      {
+        "student_id": "S04",
+        "role": "Frontend Developer"
+      },
+      {
+        "student_id": "S06",
+        "role": "UX Researcher"
+      },
+      {
+        "student_id": "S10",
+        "role": "UI Designer"
+      },
+      {
+        "student_id": "S18",
+        "role": "Accessibility Developer"
+      }
+    ],
+    "links": {
+      "demo": "https://example.com/p06-demo"
+    }
+  },
+  {
+    "id": "P07",
+    "title": "WebXR Campus Tour",
+    "description": "Browser-based spatial campus tour.",
+    "domain": "Education",
+    "technologies": [
+      "JavaScript",
+      "WebXR",
+      "Three.js"
+    ],
+    "contributors": [
+      {
+        "student_id": "S07",
+        "role": "WebXR Developer"
+      },
+      {
+        "student_id": "S15",
+        "role": "Interactive Developer"
+      }
+    ],
+    "links": {
+      "demo": "https://example.invalid/demo"
+    }
+  },
+  {
+    "id": "P08",
+    "title": "Partner Insight Dashboard",
+    "description": "Dashboard summarizing project and engagement data.",
+    "domain": "Analytics",
+    "technologies": [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "Machine Learning"
+    ],
+    "contributors": [
+      {
+        "student_id": "S09",
+        "role": "AI/Data Developer"
+      },
+      {
+        "student_id": "S13",
+        "role": "Backend Developer"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/example-org/p08"
+    }
+  },
+  {
+    "id": "P09",
+    "title": "Spatial Campus Guide",
+    "description": "Spatial computing navigation prototype.",
+    "domain": "Education",
+    "technologies": [
+      "Swift",
+      "RealityKit",
+      "Vision Pro"
+    ],
+    "contributors": [
+      {
+        "student_id": "S14",
+        "role": "Spatial Computing Developer"
+      }
+    ],
+    "links": {
+      "video": "https://example.com/p09-video"
+    }
+  }
+]
