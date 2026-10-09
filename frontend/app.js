@@ -8,6 +8,44 @@ const clearFiltersButton = document.getElementById("clearFilters");
 
 let allStudents = [];
 let allSkills = [];
+const FILTER_STORAGE_KEY = "talent-directory-filters";
+
+function selectedFilters() {
+  return {
+    search: searchInput.value,
+    skills: getSelectedValues("skill"),
+    availability: getSelectedValues("availability"),
+    statuses: getSelectedValues("status"),
+  };
+}
+
+function saveFilters() {
+  try {
+    sessionStorage.setItem(FILTER_STORAGE_KEY, JSON.stringify(selectedFilters()));
+  } catch (error) {
+    console.warn("Filter preferences could not be stored:", error);
+  }
+}
+
+function restoreFilters() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(FILTER_STORAGE_KEY) || "null");
+    if (!saved) return;
+    searchInput.value = saved.search || "";
+    for (const [name, values] of [
+      ["skill", saved.skills],
+      ["availability", saved.availability],
+      ["status", saved.statuses],
+    ]) {
+      if (!Array.isArray(values)) continue;
+      document.querySelectorAll('input[name="' + name + '"]').forEach((input) => {
+        input.checked = values.includes(input.value);
+      });
+    }
+  } catch (error) {
+    console.warn("Saved filters could not be restored:", error);
+  }
+}
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => {
@@ -44,9 +82,8 @@ if (!skillsResponse.ok) {
 allSkills = await skillsResponse.json();
 
     renderSkillFilters();
-    renderStudents(allStudents);
-
-    statusText.textContent = `${allStudents.length} published talent profiles found.`;
+    restoreFilters();
+    applyFilters();
   } catch (error) {
     console.error(error);
 
@@ -190,6 +227,7 @@ function applyFilters() {
 
   renderStudents(filteredStudents);
 
+  saveFilters();
   statusText.textContent =
     `${filteredStudents.length} matching profile(s).`;
 }
@@ -205,10 +243,7 @@ function clearFilters() {
       input.checked = false;
     });
 
-  renderStudents(allStudents);
-
-  statusText.textContent =
-    `${allStudents.length} published talent profiles found.`;
+  applyFilters();
 }
 
 searchInput.addEventListener("input", applyFilters);
@@ -236,6 +271,13 @@ studentsContainer.addEventListener("click", (event) => {
 
   window.location.href =
     `/student.html?id=${encodeURIComponent(studentId)}`;
+});
+
+// Re-sync results on back/forward cache restoration.
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && allStudents.length > 0) {
+    applyFilters();
+  }
 });
 
 loadStudents();
