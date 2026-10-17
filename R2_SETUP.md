@@ -18,7 +18,7 @@ Never commit real secrets. Put them in the hosting provider's environment settin
 
 ## Database
 
-Run the updated root `schema.sql` against the existing PostgreSQL database. It preserves the current tables and adds R2 account, one-time affiliation challenge, and private profile tables using `IF NOT EXISTS`.
+The backend applies the additive root `schema.sql` when an R2 API request arrives. The script uses `IF NOT EXISTS` and preserves existing tables. Confirm the hosting database role can create tables; if not, run the updated root `schema.sql` once using the database owner account.
 
 ## Local/deployed check sequence
 
