@@ -176,6 +176,8 @@ module.exports = function createR2Router(pool) {
     }
     const profile = {
       name: text(source.name, 100), headline: text(source.headline, 180), program: text(source.program, 120),
+      biography: text(source.biography, 2000), location: text(source.location, 120),
+      show_availability: source.show_availability !== false, show_links: source.show_links !== false,
       availability: Array.isArray(source.availability) ? [...new Set(source.availability.map((v) => text(v, 40)).filter((v) => ["internship", "full-time", "contract"].includes(v)))] : [],
       skills, links
     };
@@ -193,7 +195,7 @@ module.exports = function createR2Router(pool) {
       const p = profileResult.rows[0]?.profile || {};
       if (!p.name || !p.headline || !p.program) { await client.query("ROLLBACK"); return res.status(400).json({ error: "Add your name, headline, and program before publishing." }); }
       const studentId = "U" + String(req.githubId);
-      await client.query("INSERT INTO students (id,name,headline,program,status,profile_status,availability,links) VALUES ($1,$2,$3,$4,'current','published',$5::jsonb,$6::jsonb) ON CONFLICT (id) DO UPDATE SET name=EXCLUDED.name,headline=EXCLUDED.headline,program=EXCLUDED.program,profile_status='published',availability=EXCLUDED.availability,links=EXCLUDED.links", [studentId,p.name,p.headline,p.program,JSON.stringify(p.availability || []),JSON.stringify(p.links || {})]);
+      await client.query("INSERT INTO students (id,name,headline,program,biography,location,status,profile_status,availability,links) VALUES ($1,$2,$3,$4,$5,$6,'current','published',$7::jsonb,$8::jsonb) ON CONFLICT (id) DO UPDATE SET name=EXCLUDED.name,headline=EXCLUDED.headline,program=EXCLUDED.program,biography=EXCLUDED.biography,location=EXCLUDED.location,profile_status='published',availability=EXCLUDED.availability,links=EXCLUDED.links", [studentId,p.name,p.headline,p.program,p.biography,p.location,JSON.stringify(p.show_availability === false ? [] : p.availability || []),JSON.stringify(p.show_links === false ? {} : p.links || {})]);
       await client.query("DELETE FROM student_skills WHERE student_id=$1", [studentId]);
       for (const skill of p.skills || []) await client.query("INSERT INTO student_skills (student_id,skill_name) VALUES ($1,$2) ON CONFLICT DO NOTHING", [studentId,skill]);
       await client.query("UPDATE r2_profiles SET published=TRUE, updated_at=NOW() WHERE github_id=$1", [req.githubId]);
