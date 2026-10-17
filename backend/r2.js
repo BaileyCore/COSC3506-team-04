@@ -109,6 +109,8 @@ module.exports = function createR2Router(pool) {
   router.post("/affiliation/request", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const email = text(req.body.email, 254).toLowerCase();
     if (!/^[^\s@]+@[^\s@]+$/.test(email) || email.split("@")[1] !== DOMAIN) return res.status(400).json({ error: "Enter your Algoma email address." });
+    const existingAccount = await pool.query("SELECT verified_at FROM r2_accounts WHERE github_id=$1", [req.githubId]);
+    if (existingAccount.rows[0]?.verified_at) return res.status(409).json({ error: "This GitHub account already has a verified Algoma email. Contact support if it needs correction." });
     if (!process.env.RESEND_API_KEY || !process.env.VERIFICATION_FROM_EMAIL) return res.status(503).json({ error: "Email verification is not configured yet." });
     const code = String(crypto.randomInt(0, 1000000)).padStart(6, "0");
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
