@@ -28,7 +28,7 @@ The backend applies the additive root `schema.sql` when an R2 API request arrive
 3. Request a code for an approved-domain address and verify it before the configured expiry (no more than 30 minutes). Message requests are limited to one per minute and five per hour per GitHub account; wrong-code attempts are limited to five per challenge. Test the cooldown and attempt limit.
 4. Create and save a private draft. Confirm it is not present in `/api/students`.
 5. Import each supplied resume PDF. The browser proposes editable candidates for shared skills, education, experience, and links. Select and apply candidates explicitly; uploading alone must not change fields. Confirm the untrusted-text fixture is treated as ordinary text and produces no instruction-driven action, and that the minimal fixture can be completed manually.
-6. Preview, save, publish, and confirm the profile appears in the directory.
+6. Preview, save, publish, and confirm the profile appears in the directory. Try all three themes and both About/Project Evidence orders; confirm public skills and availability filters return the same results.
 7. Unpublish and confirm the profile disappears from public directory/API results.
 8. Repeat with a second account and verify it cannot access or change the first account's draft.
 
