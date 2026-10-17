@@ -42,12 +42,16 @@ function requireOrigin(req, res, next) {
 function text(value, max) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
+function cookie(req, name) {
+  return (req.headers.cookie || "").split(";").map((part) => part.trim()).find((part) => part.startsWith(name + "="))?.slice(name.length + 1);
+}
 
 module.exports = function createR2Router(pool) {
   router.get("/auth/github", (req, res) => {
     if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CALLBACK_URL) return res.status(503).send("GitHub OAuth is not configured.");
     const state = crypto.randomBytes(24).toString("hex");
     pendingStates.set(state, Date.now() + 10 * 60 * 1000);
+    res.cookie("r2_oauth_state", state, { httpOnly: true, secure: true, sameSite: "lax", maxAge: 10 * 60 * 1000, path: "/api/auth" });
     for (const [key, expires] of pendingStates) if (expires < Date.now()) pendingStates.delete(key);
     const params = new URLSearchParams({ client_id: process.env.GITHUB_CLIENT_ID, redirect_uri: process.env.GITHUB_CALLBACK_URL, scope: "read:user user:email", state });
     res.redirect("https://github.com/login/oauth/authorize?" + params);
@@ -57,7 +61,9 @@ module.exports = function createR2Router(pool) {
     try {
       const expires = pendingStates.get(req.query.state);
       pendingStates.delete(req.query.state);
-      if (!expires || expires < Date.now() || !req.query.code) return res.status(400).send("Sign-in expired. Return to the profile page and try again.");
+      const stateCookie = cookie(req, "r2_oauth_state");
+      res.clearCookie("r2_oauth_state", { httpOnly: true, secure: true, sameSite: "lax", path: "/api/auth" });
+      if (!expires || expires < Date.now() || stateCookie !== req.query.state || !req.query.code) return res.status(400).send("Sign-in expired. Return to the profile page and try again.");
       const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
         method: "POST", headers: { Accept: "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({ client_id: process.env.GITHUB_CLIENT_ID, client_secret: process.env.GITHUB_CLIENT_SECRET, code: req.query.code, redirect_uri: process.env.GITHUB_CALLBACK_URL })
