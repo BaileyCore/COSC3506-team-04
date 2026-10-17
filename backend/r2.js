@@ -2,6 +2,7 @@ const crypto = require("node:crypto");
 const express = require("express");
 
 const router = express.Router();
+const asyncHandler = (handler) => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
 const pendingStates = new Map();
 const DOMAIN = (process.env.ALGOMA_EMAIL_DOMAIN || "algomau.ca").toLowerCase();
 const COOKIE = "r2_session";
@@ -57,7 +58,7 @@ module.exports = function createR2Router(pool) {
     res.redirect("https://github.com/login/oauth/authorize?" + params);
   });
 
-  router.get("/auth/github/callback", async (req, res) => {
+  router.get("/auth/github/callback", asyncHandler(async (req, res) => {
     try {
       const expires = pendingStates.get(req.query.state);
       pendingStates.delete(req.query.state);
@@ -80,22 +81,22 @@ module.exports = function createR2Router(pool) {
       console.error("GitHub sign-in failed:", error.message);
       res.status(500).send("Sign-in failed. Please try again.");
     }
-  });
+  }));;
 
-  router.get("/auth/me", async (req, res) => {
+  router.get("/auth/me", asyncHandler(async (req, res) => {
     const id = getSession(req);
     if (!id) return res.status(401).json({ authenticated: false });
     const result = await pool.query("SELECT github_login, email, verified_at FROM r2_accounts WHERE github_id=$1", [id]);
     if (!result.rows[0]) return res.status(401).json({ authenticated: false });
     res.json({ authenticated: true, github_login: result.rows[0].github_login, email: result.rows[0].email, verified: Boolean(result.rows[0].verified_at) });
-  });
+  }));;
 
   router.post("/auth/logout", requireOrigin, (_req, res) => {
     res.clearCookie(COOKIE, { httpOnly: true, secure: true, sameSite: "lax", path: "/" });
     res.json({ ok: true });
   });
 
-  router.post("/affiliation/request", requireOrigin, requireSession, async (req, res) => {
+  router.post("/affiliation/request", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const email = text(req.body.email, 254).toLowerCase();
     if (!/^[^\s@]+@[^\s@]+$/.test(email) || email.split("@")[1] !== DOMAIN) return res.status(400).json({ error: "Enter your Algoma email address." });
     if (!process.env.RESEND_API_KEY || !process.env.VERIFICATION_FROM_EMAIL) return res.status(503).json({ error: "Email verification is not configured yet." });
@@ -105,16 +106,18 @@ module.exports = function createR2Router(pool) {
     const sent = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: "Bearer " + process.env.RESEND_API_KEY, "Content-Type": "application/json" }, body: JSON.stringify({ from: process.env.VERIFICATION_FROM_EMAIL, to: [email], subject: "Your Algoma verification code", text: "Your one-time verification code is " + code + ". It expires in 30 minutes." }) });
     if (!sent.ok) return res.status(502).json({ error: "Could not send the verification email." });
     res.json({ ok: true, message: "Check your Algoma email for a verification code." });
-  });
+  }));;
 
-  router.post("/affiliation/verify", requireOrigin, requireSession, async (req, res) => {
+  router.post("/affiliation/verify", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const code = text(req.body.code, 6);
     if (!/^\d{6}$/.test(code)) return res.status(400).json({ error: "Enter the six-digit code." });
     const result = await pool.query("SELECT email, code_hash, expires_at, used_at, attempts FROM r2_verification_challenges WHERE github_id=$1", [req.githubId]);
     const challenge = result.rows[0];
     if (!challenge || challenge.used_at || new Date(challenge.expires_at) < new Date()) return res.status(400).json({ error: "Code expired or already used. Request a new code." });
     if (challenge.attempts >= 5) return res.status(429).json({ error: "Too many attempts. Request a new code." });
-    if (hash(code) !== challenge.code_hash) {
+    const submittedHash = Buffer.from(hash(code));
+    const savedHash = Buffer.from(challenge.code_hash);
+    if (submittedHash.length !== savedHash.length || !crypto.timingSafeEqual(submittedHash, savedHash)) {
       await pool.query("UPDATE r2_verification_challenges SET attempts=attempts+1 WHERE github_id=$1", [req.githubId]);
       return res.status(400).json({ error: "That code is incorrect." });
     }
@@ -122,16 +125,16 @@ module.exports = function createR2Router(pool) {
     await pool.query("UPDATE r2_accounts SET email=$2, verified_at=NOW() WHERE github_id=$1", [req.githubId, challenge.email]);
     await pool.query("INSERT INTO r2_profiles (github_id, profile) VALUES ($1, '{}'::jsonb) ON CONFLICT (github_id) DO NOTHING", [req.githubId]);
     res.json({ ok: true });
-  });
+  }));;
 
-  router.get("/profile", requireSession, async (req, res) => {
+  router.get("/profile", requireSession, asyncHandler(async (req, res) => {
     const account = await pool.query("SELECT verified_at FROM r2_accounts WHERE github_id=$1", [req.githubId]);
     if (!account.rows[0]?.verified_at) return res.status(403).json({ error: "Verify your Algoma email first." });
     const result = await pool.query("SELECT profile, published FROM r2_profiles WHERE github_id=$1", [req.githubId]);
     res.json(result.rows[0] || { profile: {}, published: false });
-  });
+  }));;
 
-  router.put("/profile", requireOrigin, requireSession, async (req, res) => {
+  router.put("/profile", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const account = await pool.query("SELECT verified_at FROM r2_accounts WHERE github_id=$1", [req.githubId]);
     if (!account.rows[0]?.verified_at) return res.status(403).json({ error: "Verify your Algoma email first." });
     const source = req.body || {};
@@ -149,14 +152,14 @@ module.exports = function createR2Router(pool) {
     }
     const profile = {
       name: text(source.name, 100), headline: text(source.headline, 180), program: text(source.program, 120),
-      availability: Array.isArray(source.availability) ? [...new Set(source.availability.map((v) => text(v, 40)))] : [],
+      availability: Array.isArray(source.availability) ? [...new Set(source.availability.map((v) => text(v, 40)).filter((v) => ["internship", "full-time", "contract"].includes(v)))] : [],
       skills, links
     };
     await pool.query("INSERT INTO r2_profiles (github_id, profile) VALUES ($1,$2::jsonb) ON CONFLICT (github_id) DO UPDATE SET profile=EXCLUDED.profile, updated_at=NOW()", [req.githubId, JSON.stringify(profile)]);
     res.json({ ok: true, profile });
-  });
+  }));;
 
-  router.post("/profile/publish", requireOrigin, requireSession, async (req, res) => {
+  router.post("/profile/publish", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
@@ -177,14 +180,14 @@ module.exports = function createR2Router(pool) {
       console.error("Profile publish failed:", error.message);
       res.status(500).json({ error: "Could not publish profile." });
     } finally { client.release(); }
-  });
+  }));;
 
-  router.post("/profile/unpublish", requireOrigin, requireSession, async (req, res) => {
+  router.post("/profile/unpublish", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const studentId = "U" + String(req.githubId);
     await pool.query("UPDATE students SET profile_status='draft' WHERE id=$1", [studentId]);
     await pool.query("UPDATE r2_profiles SET published=FALSE, updated_at=NOW() WHERE github_id=$1", [req.githubId]);
     res.json({ ok: true });
-  });
+  }));;
 
   return router;
 };
