@@ -10,7 +10,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_ORIGIN || "https://cosc3506-team-04-1.onrender.com", credentials: true }));
 app.use(express.json());
 
 const isLocalDatabase = process.env.DATABASE_URL.includes("localhost");
@@ -18,6 +18,9 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: isLocalDatabase ? false : { rejectUnauthorized: false },
 });
+
+const createR2Router = require("./r2");
+app.use("/api", createR2Router(pool));
 
 app.get("/api/health", async (_request, response) => {
   try {
