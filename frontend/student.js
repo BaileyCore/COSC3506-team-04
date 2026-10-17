@@ -56,7 +56,9 @@ try {
     if (student.section_order === "projects-about") main.insertBefore(projectsSection, aboutContainer);
     else main.insertBefore(aboutContainer, projectsSection);
 
+    const initials = student.name.trim().split(/\s+/).slice(0,2).map(part=>part[0]||"").join("").toUpperCase();
     profileContainer.innerHTML = `
+    <div class="avatar" aria-label="Default profile avatar">${escapeHtml(initials)}</div>
     <h2>${escapeHtml(student.name)}</h2>
 
     <p><strong>${escapeHtml(student.headline)}</strong></p>
