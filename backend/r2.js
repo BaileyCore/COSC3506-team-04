@@ -54,7 +54,7 @@ module.exports = function createR2Router(pool) {
     pendingStates.set(state, Date.now() + 10 * 60 * 1000);
     res.cookie("r2_oauth_state", state, { httpOnly: true, secure: true, sameSite: "lax", maxAge: 10 * 60 * 1000, path: "/api/auth" });
     for (const [key, expires] of pendingStates) if (expires < Date.now()) pendingStates.delete(key);
-    const params = new URLSearchParams({ client_id: process.env.GITHUB_CLIENT_ID, redirect_uri: process.env.GITHUB_CALLBACK_URL, scope: "read:user user:email", state });
+    const params = new URLSearchParams({ client_id: process.env.GITHUB_CLIENT_ID, redirect_uri: process.env.GITHUB_CALLBACK_URL, scope: "read:user", state });
     res.redirect("https://github.com/login/oauth/authorize?" + params);
   });
 
