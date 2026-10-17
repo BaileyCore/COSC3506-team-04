@@ -55,7 +55,7 @@ module.exports = function createR2Router(pool) {
   // Applying it here makes the R2 account tables available on a fresh deploy.
   const schemaSql = fs.readFileSync(path.join(__dirname, "../schema.sql"), "utf8");
   const schemaReady = pool.query(schemaSql);
-  router.use((_req, _res, next) => {
+  router.use(["/auth", "/affiliation", "/profile"], (_req, _res, next) => {
     schemaReady.then(() => next()).catch(next);
   });
 
