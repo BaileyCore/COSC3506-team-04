@@ -2,6 +2,8 @@ const API = window.API_BASE_URL;
 
 const profileContainer = document.getElementById("profile");
 const projectsContainer = document.getElementById("projects");
+const aboutContainer = document.getElementById("aboutSection");
+const projectsSection = document.getElementById("projectsSection");
 
 function escapeHtml(value) {
 return String(value).replace(/[&<>"']/g, (character) => {
@@ -47,6 +49,12 @@ try {
     }
 
     const student = await response.json();
+    document.body.dataset.theme = ["classic", "compact", "warm"].includes(student.theme) ? student.theme : "classic";
+    aboutContainer.hidden = !student.biography;
+    aboutContainer.innerHTML = student.biography ? "<h2>About</h2><p>" + escapeHtml(student.biography) + "</p>" : "";
+    const main = profileContainer.parentElement;
+    if (student.section_order === "projects-about") main.insertBefore(projectsSection, aboutContainer);
+    else main.insertBefore(aboutContainer, projectsSection);
 
     profileContainer.innerHTML = `
     <h2>${escapeHtml(student.name)}</h2>
@@ -63,7 +71,6 @@ try {
         ${escapeHtml(student.program)}
     </p>
     ${student.location ? `<p><strong>Location:</strong> ${escapeHtml(student.location)}</p>` : ""}
-    ${student.biography ? `<p><strong>About:</strong> ${escapeHtml(student.biography)}</p>` : ""}
 
     <p>
         <strong>Availability:</strong>
