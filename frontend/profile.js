@@ -16,6 +16,62 @@ $("preview").onclick=()=>{const p=readProfile();const links=p.show_links?Object.
 $("publish").onclick=async()=>{try{await call("/profile",{method:"PUT",body:JSON.stringify(readProfile())});const result=await call("/profile/publish",{method:"POST",body:"{}"});note("Profile published. Public profile: "+result.url);$("unpublish").hidden=false}catch(e){note(e.message,true)}};
 $("unpublish").onclick=async()=>{try{await call("/profile/unpublish",{method:"POST",body:"{}"});note("Profile unpublished. It no longer appears in the public directory.");$("unpublish").hidden=true}catch(e){note(e.message,true)}};
 $("logout").onclick=async()=>{try{await call("/auth/logout",{method:"POST",body:"{}"});location.reload()}catch(e){note(e.message,true)}};
-$("applyResumeSuggestions").onclick=()=>{const selected=[...document.querySelectorAll('input[name="resumeSkillSuggestion"]:checked')].map(x=>x.value);for(const skill of selected){const target=[...document.querySelectorAll('input[name="skill"]')].find(x=>x.value===skill);if(target)target.checked=true}note(selected.length?"Selected resume skill suggestions added to the draft. Save when ready.":"No suggestions selected.");$("resumeSuggestions").hidden=true};
-$("resume").onchange=async(event)=>{const file=event.target.files?.[0];if(!file)return;$("resumeSuggestions").hidden=true;$("suggestionSkills").replaceChildren();if(file.type!=="application/pdf"){note("Choose a PDF resume.",true);return}if(file.size>10*1024*1024){$("resumeStatus").textContent="This PDF is larger than the 10 MB import limit. You can enter profile details manually.";note("Resume is too large to import.",true);return}$("resumeStatus").textContent="Reading PDF locally…";try{const pdfjs=await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs");pdfjs.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";const pdf=await pdfjs.getDocument({data:await file.arrayBuffer()}).promise;let text="";for(let n=1;n<=Math.min(pdf.numPages,8);n++){const page=await pdf.getPage(n);const c=await page.getTextContent();text+=" "+c.items.map(x=>x.str).join(" ")}const normalized=text.toLocaleLowerCase();const skills=[...document.querySelectorAll('input[name="skill"]')];const found=skills.map(x=>x.value).filter(skill=>normalized.includes(skill.toLocaleLowerCase()));if(found.length){for(const skill of found){const label=document.createElement("label");label.className="choice";const input=document.createElement("input");input.type="checkbox";input.name="resumeSkillSuggestion";input.value=skill;const textNode=document.createTextNode(skill);label.append(input,textNode);$("suggestionSkills").append(label)}$("resumeSuggestions").hidden=false;$("resumeStatus").textContent="PDF text was read locally. Review the exact shared-skill matches below; no profile fields were changed."}else{$("resumeStatus").textContent="PDF text was read locally. No shared skills matched; enter profile details yourself."}note("Resume processed in this browser. Nothing was added or saved automatically.")}catch(e){$("resumeStatus").textContent="Could not read this PDF. You can still complete the form manually.";note("Resume import failed; your draft was not changed.",true)}};
+function addResumeCandidate(kind,value){
+  if(!value)return;
+  const card=document.createElement("div");card.className="resume-candidate panel";
+  const label=document.createElement("label");label.className="choice";
+  const check=document.createElement("input");check.type="checkbox";check.name="resumeCandidate";check.dataset.kind=kind;
+  label.append(check,document.createTextNode("Select "+kind+" candidate"));
+  const edit=document.createElement("textarea");edit.value=value;edit.setAttribute("aria-label","Edit "+kind+" candidate");edit.rows=2;
+  card.append(label,edit);$("suggestionItems").append(card);
+}
+$("applyResumeSuggestions").onclick=()=>{
+  const selected=[...document.querySelectorAll('input[name="resumeCandidate"]:checked')];
+  let applied=0,unmatched=0;
+  for(const check of selected){
+    const card=check.closest(".resume-candidate"),value=card.querySelector("textarea").value.trim(),kind=check.dataset.kind;
+    if(!value)continue;
+    if(kind==="skill"){const target=[...document.querySelectorAll('input[name="skill"]')].find(x=>x.value.toLocaleLowerCase()===value.toLocaleLowerCase());if(target){target.checked=true;applied++}else unmatched++}
+    else if(kind==="education"){$("program").value=value;applied++}
+    else if(kind==="experience"){$("biography").value=$("biography").value.trim()?$("biography").value.trim()+"\n"+value:value;applied++}
+    else if(kind==="link"){
+      let url=value.replace(/[.,;)]*$/,"");
+      if(!/^https:\/\//i.test(url)){if(/^(www\.|github\.com\/|linkedin\.com\/)/i.test(url))url="https://"+url;else{unmatched++;continue}}
+      try{const parsed=new URL(url);if(parsed.protocol!=="https:"){unmatched++;continue}const field=/github\.com$/i.test(parsed.hostname)?$("github"):$("portfolio");field.value=url;applied++}catch{unmatched++}
+    }
+  }
+  $("resumeSuggestions").hidden=true;
+  note(applied?applied+" selected resume candidate(s) applied. Review the fields and save when ready."+(unmatched?" "+unmatched+" candidate(s) need manual review.":""):(unmatched?"No selected candidate matched a shared skill or safe link; review it manually.":"No suggestions selected."));
+};
+$("resume").onchange=async(event)=>{
+  const file=event.target.files?.[0];if(!file)return;
+  $("resumeSuggestions").hidden=true;$("suggestionItems").replaceChildren();
+  if(file.type!=="application/pdf"){note("Choose a PDF resume.",true);return}
+  if(file.size>10*1024*1024){$("resumeStatus").textContent="This PDF is larger than the 10 MB import limit. You can enter profile details manually.";note("Resume is too large to import.",true);return}
+  $("resumeStatus").textContent="Reading PDF locally…";
+  try{
+    const pdfjs=await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs");
+    pdfjs.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
+    const pdf=await pdfjs.getDocument({data:await file.arrayBuffer()}).promise;
+    let text="";
+    for(let n=1;n<=Math.min(pdf.numPages,8);n++){const page=await pdf.getPage(n);const content=await page.getTextContent();text+=content.items.map(item=>item.str+(item.hasEOL?"\n":" ")).join("")}
+    const lines=text.split(/\r?\n/).map(line=>line.trim()).filter(line=>line.length>3);
+    const availableSkills=[...document.querySelectorAll('input[name="skill"]')].map(input=>input.value);
+    const matchedSkills=availableSkills.filter(skill=>text.toLocaleLowerCase().includes(skill.toLocaleLowerCase()));
+    const education=lines.filter(line=>/\b(university|college|bsc|bachelor|education|computer science)\b/i.test(line)&&!/^(education|skills)$/i.test(line)).slice(0,4);
+    const experience=lines.filter(line=>/\b(experience|assistant|intern|developer|built|worked|conducted|prototype|research)\b/i.test(line)&&!/^(experience|work experience)$/i.test(line)).slice(0,5);
+    const links=[...new Set((text.match(/(?:https?:\/\/|www\.)[^\s|]+|(?:github\.com|linkedin\.com)\/[^\s|]+/gi)||[]).map(link=>link.replace(/[.,;)]*$/,"")))].slice(0,8);
+    matchedSkills.forEach(value=>addResumeCandidate("skill",value));
+    education.forEach(value=>addResumeCandidate("education",value));
+    experience.forEach(value=>addResumeCandidate("experience",value));
+    links.forEach(value=>addResumeCandidate("link",value));
+    const count=matchedSkills.length+education.length+experience.length+links.length;
+    $("resumeStatus").textContent=count?"PDF text was read locally. Review or edit each candidate before selecting Apply; no profile fields changed. Only the first eight pages are read.":"PDF text was read locally, but no supported candidates were found. Continue manually.";
+    $("resumeSuggestions").hidden=!count;
+    note("Resume processed in this browser. Extracted text is not stored or sent to the server.");
+  }catch(error){
+    $("resumeStatus").textContent="Could not read this PDF. You can still complete the form manually.";
+    note("Resume import failed; your draft was not changed.",true);
+  }
+};
 start();
