@@ -23,7 +23,11 @@
 <label for="resume">Import a PDF resume for editable suggestions</label><input id="resume" type="file" accept="application/pdf"><p id="resumeStatus" class="muted">Resume text is processed in this browser. Review every suggestion before saving.</p>
 <div id="resumeSuggestions" class="panel" hidden><h3>Resume skill suggestions</h3><p class="muted">Choose which exact shared-skill matches you want to add. Resume text is untrusted and does not fill profile fields.</p><div id="suggestionSkills"></div><button id="applyResumeSuggestions" type="button">Add selected suggestions to draft</button></div>
 <div class="columns"><div><label for="name">Name</label><input id="name" maxlength="100"></div><div><label for="program">Program</label><input id="program" maxlength="120"></div></div>
-<label for="headline">Headline</label><input id="headline" maxlength="180">
+<label for="headline">Professional headline</label><input id="headline" maxlength="180">
+<label for="biography">About you</label><textarea id="biography" maxlength="2000" rows="5"></textarea>
+<label for="location">Location (optional)</label><input id="location" maxlength="120">
+<label class="choice"><input id="showAvailability" type="checkbox" checked> Show my availability publicly</label>
+<label class="choice"><input id="showLinks" type="checkbox" checked> Show my professional links publicly</label>
 <label>Availability</label><div id="availability"></div>
 <label>Shared skills</label><div id="skills"></div>
 <label>Professional links (HTTPS only)</label><div class="columns"><div><label for="portfolio">Portfolio URL</label><input id="portfolio" type="url" placeholder="https://…"></div><div><label for="github">GitHub URL</label><input id="github" type="url" placeholder="https://github.com/…"></div></div>
