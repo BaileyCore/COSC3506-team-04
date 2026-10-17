@@ -23,7 +23,7 @@ The backend applies the additive root `schema.sql` when an R2 API request arrive
 ## Local/deployed check sequence
 
 1. Open the frontend in a fresh browser session and select **Student? Sign in to manage your profile**.
-2. Complete GitHub OAuth. The application requests only `read:user user:email`.
+2. Complete GitHub OAuth. The application requests only `read:user` from GitHub; Algoma affiliation is verified separately by email challenge.
 3. Request a code for an `@algomau.ca` address and verify it before the 30-minute expiry.
 4. Create and save a private draft. Confirm it is not present in `/api/students`.
 5. Import one of the supplied resume PDFs. The PDF is parsed in the browser; suggestions are editable and are not saved automatically.
