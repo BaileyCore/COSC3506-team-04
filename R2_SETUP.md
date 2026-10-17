@@ -25,9 +25,9 @@ The backend applies the additive root `schema.sql` when an R2 API request arrive
 
 1. Open the frontend in a fresh browser session and select **Student? Sign in to manage your profile**.
 2. Complete GitHub OAuth. The application requests only `read:user` from GitHub; Algoma affiliation is verified separately by email challenge.
-3. Request a code for an approved-domain address and verify it before the 30-minute expiry. Message requests are limited to one per minute and five per hour per GitHub account; wrong-code attempts are limited to five per challenge.
+3. Request a code for an approved-domain address and verify it before the configured expiry (no more than 30 minutes). Message requests are limited to one per minute and five per hour per GitHub account; wrong-code attempts are limited to five per challenge. Test the cooldown and attempt limit.
 4. Create and save a private draft. Confirm it is not present in `/api/students`.
-5. Import one of the supplied resume PDFs. The PDF is parsed in the browser; suggestions are editable and are not saved automatically.
+5. Import each supplied resume PDF. The browser proposes editable candidates for shared skills, education, experience, and links. Select and apply candidates explicitly; uploading alone must not change fields. Confirm the untrusted-text fixture is treated as ordinary text and produces no instruction-driven action, and that the minimal fixture can be completed manually.
 6. Preview, save, publish, and confirm the profile appears in the directory.
 7. Unpublish and confirm the profile disappears from public directory/API results.
 8. Repeat with a second account and verify it cannot access or change the first account's draft.
