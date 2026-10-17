@@ -2,6 +2,8 @@ const API = window.API_BASE_URL;
 
 const profileContainer = document.getElementById("profile");
 const projectsContainer = document.getElementById("projects");
+const aboutContainer = document.getElementById("aboutSection");
+const projectsSection = document.getElementById("projectsSection");
 
 function escapeHtml(value) {
 return String(value).replace(/[&<>"']/g, (character) => {
@@ -47,8 +49,16 @@ try {
     }
 
     const student = await response.json();
+    document.body.dataset.theme = ["classic", "compact", "warm"].includes(student.theme) ? student.theme : "classic";
+    aboutContainer.hidden = !student.biography;
+    aboutContainer.innerHTML = student.biography ? "<h2>About</h2><p>" + escapeHtml(student.biography) + "</p>" : "";
+    const main = profileContainer.parentElement;
+    if (student.section_order === "projects-about") main.insertBefore(projectsSection, aboutContainer);
+    else main.insertBefore(aboutContainer, projectsSection);
 
+    const initials = student.name.trim().split(/\s+/).slice(0,2).map(part=>part[0]||"").join("").toUpperCase();
     profileContainer.innerHTML = `
+    <div class="avatar" aria-label="Default profile avatar">${escapeHtml(initials)}</div>
     <h2>${escapeHtml(student.name)}</h2>
 
     <p><strong>${escapeHtml(student.headline)}</strong></p>
@@ -62,6 +72,7 @@ try {
         <strong>Program:</strong>
         ${escapeHtml(student.program)}
     </p>
+    ${student.location ? `<p><strong>Location:</strong> ${escapeHtml(student.location)}</p>` : ""}
 
     <p>
         <strong>Availability:</strong>
