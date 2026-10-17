@@ -7,6 +7,7 @@ const router = express.Router();
 const asyncHandler = (handler) => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
 const pendingStates = new Map();
 const DOMAINS = (process.env.ALGOMA_EMAIL_DOMAINS || process.env.ALGOMA_EMAIL_DOMAIN || "algomau.ca").split(",").map((domain) => domain.trim().toLowerCase()).filter(Boolean);
+const CODE_TTL_MINUTES = Math.min(30, Math.max(1, Number.parseInt(process.env.VERIFICATION_CODE_TTL_MINUTES || "30", 10) || 30));
 const COOKIE = "r2_session";
 
 function hash(value) {
@@ -125,7 +126,7 @@ module.exports = function createR2Router(pool) {
     `, [req.githubId]);
     if (!rateLimit.rows.length) return res.status(429).json({ error: "Wait one minute between verification emails; at most five can be requested per hour." });
     const code = String(crypto.randomInt(0, 1000000)).padStart(6, "0");
-    const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + CODE_TTL_MINUTES * 60 * 1000);
     await pool.query("INSERT INTO r2_verification_challenges (github_id, email, code_hash, expires_at, attempts) VALUES ($1,$2,$3,$4,0) ON CONFLICT (github_id) DO UPDATE SET email=EXCLUDED.email, code_hash=EXCLUDED.code_hash, expires_at=EXCLUDED.expires_at, attempts=0, used_at=NULL", [req.githubId, email, hash(code), expiresAt]);
     const sent = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: "Bearer " + process.env.RESEND_API_KEY, "Content-Type": "application/json" }, body: JSON.stringify({ from: process.env.VERIFICATION_FROM_EMAIL, to: [email], subject: "Your Algoma verification code", text: "Your one-time verification code is " + code + ". It expires in 30 minutes." }) });
     if (!sent.ok) return res.status(502).json({ error: "Could not send the verification email." });
