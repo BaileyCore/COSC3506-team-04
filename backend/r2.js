@@ -6,7 +6,7 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = (handler) => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
 const pendingStates = new Map();
-const DOMAIN = (process.env.ALGOMA_EMAIL_DOMAIN || "algomau.ca").toLowerCase();
+const DOMAINS = (process.env.ALGOMA_EMAIL_DOMAINS || process.env.ALGOMA_EMAIL_DOMAIN || "algomau.ca").split(",").map((domain) => domain.trim().toLowerCase()).filter(Boolean);
 const COOKIE = "r2_session";
 
 function hash(value) {
@@ -108,10 +108,22 @@ module.exports = function createR2Router(pool) {
 
   router.post("/affiliation/request", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const email = text(req.body.email, 254).toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+$/.test(email) || email.split("@")[1] !== DOMAIN) return res.status(400).json({ error: "Enter your Algoma email address." });
+    if (!/^[^\s@]+@[^\s@]+$/.test(email) || !DOMAINS.includes(email.slice(email.lastIndexOf("@") + 1))) return res.status(400).json({ error: "Enter your Algoma email address." });
     const existingAccount = await pool.query("SELECT verified_at FROM r2_accounts WHERE github_id=$1", [req.githubId]);
     if (existingAccount.rows[0]?.verified_at) return res.status(409).json({ error: "This GitHub account already has a verified Algoma email. Contact support if it needs correction." });
     if (!process.env.RESEND_API_KEY || !process.env.VERIFICATION_FROM_EMAIL) return res.status(503).json({ error: "Email verification is not configured yet." });
+    const rateLimit = await pool.query(`
+      INSERT INTO r2_verification_limits (github_id, window_started_at, request_count, last_requested_at)
+      VALUES ($1, NOW(), 1, NOW())
+      ON CONFLICT (github_id) DO UPDATE SET
+        request_count = CASE WHEN r2_verification_limits.window_started_at < NOW() - INTERVAL '1 hour' THEN 1 ELSE r2_verification_limits.request_count + 1 END,
+        window_started_at = CASE WHEN r2_verification_limits.window_started_at < NOW() - INTERVAL '1 hour' THEN NOW() ELSE r2_verification_limits.window_started_at END,
+        last_requested_at = NOW()
+      WHERE r2_verification_limits.last_requested_at <= NOW() - INTERVAL '60 seconds'
+        AND (r2_verification_limits.window_started_at < NOW() - INTERVAL '1 hour' OR r2_verification_limits.request_count < 5)
+      RETURNING github_id
+    `, [req.githubId]);
+    if (!rateLimit.rows.length) return res.status(429).json({ error: "Wait one minute between verification emails; at most five can be requested per hour." });
     const code = String(crypto.randomInt(0, 1000000)).padStart(6, "0");
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
     await pool.query("INSERT INTO r2_verification_challenges (github_id, email, code_hash, expires_at, attempts) VALUES ($1,$2,$3,$4,0) ON CONFLICT (github_id) DO UPDATE SET email=EXCLUDED.email, code_hash=EXCLUDED.code_hash, expires_at=EXCLUDED.expires_at, attempts=0, used_at=NULL", [req.githubId, email, hash(code), expiresAt]);
