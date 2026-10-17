@@ -62,6 +62,8 @@ try {
         <strong>Program:</strong>
         ${escapeHtml(student.program)}
     </p>
+    ${student.location ? `<p><strong>Location:</strong> ${escapeHtml(student.location)}</p>` : ""}
+    ${student.biography ? `<p><strong>About:</strong> ${escapeHtml(student.biography)}</p>` : ""}
 
     <p>
         <strong>Availability:</strong>
