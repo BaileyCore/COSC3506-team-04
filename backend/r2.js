@@ -1,4 +1,6 @@
 const crypto = require("node:crypto");
+const fs = require("node:fs");
+const path = require("node:path");
 const express = require("express");
 
 const router = express.Router();
@@ -48,6 +50,14 @@ function cookie(req, name) {
 }
 
 module.exports = function createR2Router(pool) {
+  // All statements in the root schema are additive and use IF NOT EXISTS.
+  // Applying it here makes the R2 account tables available on a fresh deploy.
+  const schemaSql = fs.readFileSync(path.join(__dirname, "../schema.sql"), "utf8");
+  const schemaReady = pool.query(schemaSql);
+  router.use((_req, _res, next) => {
+    schemaReady.then(() => next()).catch(next);
+  });
+
   router.get("/auth/github", (req, res) => {
     if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CALLBACK_URL) return res.status(503).send("GitHub OAuth is not configured.");
     const state = crypto.randomBytes(24).toString("hex");
