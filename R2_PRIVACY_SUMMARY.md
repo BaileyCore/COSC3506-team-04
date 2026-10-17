@@ -4,7 +4,7 @@ This summary describes the R2 student self-service changes on branch `r2/student
 
 ## Information handled
 
-GitHub OAuth supplies the student's GitHub numeric account ID and login name. Students enter an Algoma email address and receive a one-time verification code. The application stores the GitHub ID/login, verified Algoma email and verification time, plus the profile fields the student chooses to save: name, headline, biography, program, optional location, availability, shared skills, and HTTPS professional links.
+GitHub OAuth supplies the student's GitHub numeric account ID and login name. Students enter an Algoma email address and receive a one-time verification code. The application stores the GitHub ID/login, verified Algoma email and verification time, plus the profile fields the student chooses to save: name, headline, biography, program, optional location, availability, shared skills, HTTPS professional links, a fixed theme choice, and About/Project Evidence section order.
 
 The PDF resume is read in the student's browser to propose exact shared-skill matches and text candidates for education, experience, and professional links. The file and extracted resume text are not uploaded or stored by this implementation. Candidates appear as editable, unchecked choices; the student must explicitly select and apply them, then save. Resume text does not fill profile fields on upload.
 
@@ -16,7 +16,7 @@ Verification codes are stored as SHA-256 hashes, expire after a configurable per
 
 ## Student control
 
-Students can review, edit, accept, or reject extracted skills, education, experience, and link candidates before applying them. Import never fills fields automatically and does not overwrite a draft on upload. Students can save a private draft, preview public and hidden fields, publish, and unpublish. Do not upload a real resume for peer testing; use the synthetic course fixtures. Test with a GitHub account and an Algoma address the tester controls.
+Students can review, edit, accept, or reject extracted skills, education, experience, and link candidates before applying them. Import never fills fields automatically and does not overwrite a draft on upload. Students can save a private draft, choose among three fixed themes, reorder About and Project Evidence, preview public and hidden fields, publish, and unpublish. Presentation settings do not alter structured skills or availability. Do not upload a real resume for peer testing; use the synthetic course fixtures. Test with a GitHub account and an Algoma address the tester controls.
 
 ## Before release
 
