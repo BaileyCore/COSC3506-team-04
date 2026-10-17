@@ -52,6 +52,13 @@ CREATE TABLE IF NOT EXISTS r2_verification_challenges (
     attempts INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS r2_verification_limits (
+    github_id TEXT PRIMARY KEY REFERENCES r2_accounts(github_id) ON DELETE CASCADE,
+    window_started_at TIMESTAMPTZ NOT NULL,
+    request_count INTEGER NOT NULL DEFAULT 0,
+    last_requested_at TIMESTAMPTZ NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS r2_profiles (
     github_id TEXT PRIMARY KEY REFERENCES r2_accounts(github_id) ON DELETE CASCADE,
     profile JSONB NOT NULL DEFAULT '{}'::jsonb,
