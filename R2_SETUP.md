@@ -11,7 +11,7 @@ Configure the backend service with:
 - `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`: from a GitHub OAuth App.
 - `GITHUB_CALLBACK_URL`: `https://<backend-host>/api/auth/github/callback`; set the same callback URL in the OAuth App.
 - `R2_SESSION_SECRET`: a long random secret.
-- `ALGOMA_EMAIL_DOMAIN=algomau.ca`.
+- `ALGOMA_EMAIL_DOMAINS=algomau.ca` (comma-separated approved domains; defaults to `algomau.ca`).
 - `RESEND_API_KEY` and `VERIFICATION_FROM_EMAIL`: a verified sender configured with the email service.
 
 Never commit real secrets. Put them in the hosting provider's environment settings.
@@ -24,7 +24,7 @@ The backend applies the additive root `schema.sql` when an R2 API request arrive
 
 1. Open the frontend in a fresh browser session and select **Student? Sign in to manage your profile**.
 2. Complete GitHub OAuth. The application requests only `read:user` from GitHub; Algoma affiliation is verified separately by email challenge.
-3. Request a code for an `@algomau.ca` address and verify it before the 30-minute expiry.
+3. Request a code for an approved-domain address and verify it before the 30-minute expiry. Message requests are limited to one per minute and five per hour per GitHub account; wrong-code attempts are limited to five per challenge.
 4. Create and save a private draft. Confirm it is not present in `/api/students`.
 5. Import one of the supplied resume PDFs. The PDF is parsed in the browser; suggestions are editable and are not saved automatically.
 6. Preview, save, publish, and confirm the profile appears in the directory.
