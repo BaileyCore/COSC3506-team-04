@@ -31,6 +31,10 @@
 <label>Availability</label><div id="availability"></div>
 <label>Shared skills</label><div id="skills"></div>
 <label>Professional links (HTTPS only)</label><div class="columns"><div><label for="portfolio">Portfolio URL</label><input id="portfolio" type="url" placeholder="https://…"></div><div><label for="github">GitHub URL</label><input id="github" type="url" placeholder="https://github.com/…"></div></div>
+<div class="columns">
+<div><label for="theme">Profile style</label><select id="theme"><option value="classic">Classic</option><option value="compact">Compact</option><option value="warm">Warm</option></select></div>
+<div><label for="sectionOrder">Optional section order</label><select id="sectionOrder"><option value="about-projects">About, then Project Evidence</option><option value="projects-about">Project Evidence, then About</option></select></div>
+</div>
 <div class="actions"><button id="save">Save private draft</button><button id="preview" class="secondary">Preview</button><button id="publish">Publish profile</button><button id="unpublish" class="danger">Unpublish</button><button id="logout" class="secondary">Sign out</button></div>
 </div>
 <div id="previewPanel" class="panel" hidden><h2>Preview</h2><div id="previewContent"></div><p class="muted">Only the information shown here is included in your public profile.</p></div>
