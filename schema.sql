@@ -34,3 +34,27 @@ CREATE TABLE IF NOT EXISTS project_contributors (
     role TEXT NOT NULL,
     PRIMARY KEY (project_id, student_id)
 );
+
+CREATE TABLE IF NOT EXISTS r2_accounts (
+    github_id TEXT PRIMARY KEY,
+    github_login TEXT NOT NULL,
+    email TEXT UNIQUE,
+    verified_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS r2_verification_challenges (
+    github_id TEXT PRIMARY KEY REFERENCES r2_accounts(github_id) ON DELETE CASCADE,
+    email TEXT NOT NULL,
+    code_hash TEXT NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL,
+    used_at TIMESTAMPTZ,
+    attempts INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS r2_profiles (
+    github_id TEXT PRIMARY KEY REFERENCES r2_accounts(github_id) ON DELETE CASCADE,
+    profile JSONB NOT NULL DEFAULT '{}'::jsonb,
+    published BOOLEAN NOT NULL DEFAULT FALSE,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
