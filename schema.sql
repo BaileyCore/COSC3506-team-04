@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS project_contributors (
 );
 
 CREATE TABLE IF NOT EXISTS r2_accounts (
+    user_id UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
     github_id TEXT PRIMARY KEY,
     github_login TEXT NOT NULL,
     email TEXT UNIQUE,
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS r2_accounts (
 );
 
 CREATE TABLE IF NOT EXISTS r2_verification_challenges (
-    github_id TEXT PRIMARY KEY REFERENCES r2_accounts(github_id) ON DELETE CASCADE,
+    user_id UUID PRIMARY KEY REFERENCES r2_accounts(user_id) ON DELETE CASCADE,
     email TEXT NOT NULL,
     code_hash TEXT NOT NULL,
     expires_at TIMESTAMPTZ NOT NULL,
@@ -56,14 +57,14 @@ CREATE TABLE IF NOT EXISTS r2_verification_challenges (
 );
 
 CREATE TABLE IF NOT EXISTS r2_verification_limits (
-    github_id TEXT PRIMARY KEY REFERENCES r2_accounts(github_id) ON DELETE CASCADE,
+    user_id UUID PRIMARY KEY REFERENCES r2_accounts(user_id) ON DELETE CASCADE,
     window_started_at TIMESTAMPTZ NOT NULL,
     request_count INTEGER NOT NULL DEFAULT 0,
     last_requested_at TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS r2_profiles (
-    github_id TEXT PRIMARY KEY REFERENCES r2_accounts(github_id) ON DELETE CASCADE,
+    user_id UUID PRIMARY KEY REFERENCES r2_accounts(user_id) ON DELETE CASCADE,
     profile JSONB NOT NULL DEFAULT '{}'::jsonb,
     published BOOLEAN NOT NULL DEFAULT FALSE,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
