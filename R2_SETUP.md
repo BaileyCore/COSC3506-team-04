@@ -12,6 +12,7 @@ Configure the backend service with:
 - `GITHUB_CALLBACK_URL`: `https://<backend-host>/api/auth/github/callback`; set the same callback URL in the OAuth App.
 - `R2_SESSION_SECRET`: a long random secret.
 - `ALGOMA_EMAIL_DOMAINS=algomau.ca` (comma-separated approved domains; defaults to `algomau.ca`).
+- `VERIFICATION_CODE_TTL_MINUTES=30` (configurable from 1 to 30).
 - `RESEND_API_KEY` and `VERIFICATION_FROM_EMAIL`: a verified sender configured with the email service.
 
 Never commit real secrets. Put them in the hosting provider's environment settings.
