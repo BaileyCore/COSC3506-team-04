@@ -74,6 +74,11 @@
     outline-offset: 2px;
     }
 
+    body[data-theme="compact"] main { max-width: 760px; }
+    body[data-theme="compact"] .profile, body[data-theme="compact"] .project-card { padding: .75rem; border-radius: 4px; box-shadow: none; }
+    body[data-theme="warm"] { background: #fff7ed; color: #431407; }
+    body[data-theme="warm"] header { background: #7c2d12; }
+    body[data-theme="warm"] .profile, body[data-theme="warm"] .project-card { border: 1px solid #fed7aa; background: #fffbeb; }
     @media (max-width: 390px) {
     main {
         padding: .75rem;
@@ -101,7 +106,8 @@
     Loading profile...
     </section>
 
-    <section>
+    <section id="aboutSection" class="profile" hidden></section>
+    <section id="projectsSection">
     <h2>Project Evidence</h2>
     <div id="projects"></div>
     </section>
