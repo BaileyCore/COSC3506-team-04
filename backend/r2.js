@@ -143,11 +143,13 @@ module.exports = function createR2Router(pool) {
     const submittedHash = Buffer.from(hash(code));
     const savedHash = Buffer.from(challenge.code_hash);
     if (submittedHash.length !== savedHash.length || !crypto.timingSafeEqual(submittedHash, savedHash)) {
-      await pool.query("UPDATE r2_verification_challenges SET attempts=attempts+1 WHERE github_id=$1", [req.githubId]);
+      const failedAttempt = await pool.query("UPDATE r2_verification_challenges SET attempts=attempts+1 WHERE github_id=$1 AND code_hash=$2 AND used_at IS NULL AND expires_at>NOW() AND attempts<5 RETURNING attempts", [req.githubId, challenge.code_hash]);
+      if (!failedAttempt.rows.length) return res.status(429).json({ error: "Too many attempts or the challenge changed. Request a new code." });
       return res.status(400).json({ error: "That code is incorrect." });
     }
-    await pool.query("UPDATE r2_verification_challenges SET used_at=NOW() WHERE github_id=$1", [req.githubId]);
-    await pool.query("UPDATE r2_accounts SET email=$2, verified_at=NOW() WHERE github_id=$1", [req.githubId, challenge.email]);
+    const consumed = await pool.query("UPDATE r2_verification_challenges SET used_at=NOW() WHERE github_id=$1 AND code_hash=$2 AND used_at IS NULL AND expires_at>NOW() AND attempts<5 RETURNING email", [req.githubId, challenge.code_hash]);
+    if (!consumed.rows.length) return res.status(400).json({ error: "Code expired, changed, or already used. Request a new code." });
+    await pool.query("UPDATE r2_accounts SET email=$2, verified_at=NOW() WHERE github_id=$1", [req.githubId, consumed.rows[0].email]);
     await pool.query("INSERT INTO r2_profiles (github_id, profile) VALUES ($1, '{}'::jsonb) ON CONFLICT (github_id) DO NOTHING", [req.githubId]);
     res.json({ ok: true });
   }));;
