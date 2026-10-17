@@ -6,7 +6,7 @@ This summary describes the R2 student self-service changes on branch `r2/student
 
 GitHub OAuth supplies the student's GitHub numeric account ID and login name. Students enter an Algoma email address and receive a one-time verification code. The application stores the GitHub ID/login, verified Algoma email and verification time, plus the profile fields the student chooses to save: name, headline, program, availability, shared skills, and HTTPS professional links.
 
-The PDF resume is read in the student's browser to identify text matching shared skills. The file and extracted resume text are not uploaded or stored by this implementation. Suggestions are editable and are not saved until the student saves the draft.
+The PDF resume is read in the student's browser to identify exact text matches to shared skills. The file and extracted resume text are not uploaded or stored by this implementation. Matches appear as unchecked choices; the student must explicitly add selected matches to the draft and then save. Resume text does not fill profile fields.
 
 ## Access and visibility
 
