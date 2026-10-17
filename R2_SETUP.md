@@ -19,7 +19,7 @@ Never commit real secrets. Put them in the hosting provider's environment settin
 
 ## Database
 
-The backend applies the additive root `schema.sql` when an R2 API request arrives. The script uses `IF NOT EXISTS` and preserves existing tables. Confirm the hosting database role can create tables; if not, run the updated root `schema.sql` once using the database owner account.
+The backend applies the additive root `schema.sql` when an R2 API request arrives. The script uses `IF NOT EXISTS` and preserves existing tables. Confirm the hosting database role can create tables and alter the existing `students` table; if not, run the updated root `schema.sql` once using the database owner account.
 
 ## Local/deployed check sequence
 
