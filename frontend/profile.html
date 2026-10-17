@@ -21,7 +21,7 @@
 <section id="editor" hidden>
 <div class="panel"><h2>Your profile</h2><p class="muted">This draft is private until you publish it. Changes are saved only when you select Save draft.</p>
 <label for="resume">Import a PDF resume for editable suggestions</label><input id="resume" type="file" accept="application/pdf"><p id="resumeStatus" class="muted">Resume text is processed in this browser. Review every suggestion before saving.</p>
-<div id="resumeSuggestions" class="panel" hidden><h3>Resume skill suggestions</h3><p class="muted">Choose which exact shared-skill matches you want to add. Resume text is untrusted and does not fill profile fields.</p><div id="suggestionSkills"></div><button id="applyResumeSuggestions" type="button">Add selected suggestions to draft</button></div>
+<div id="resumeSuggestions" class="panel" hidden><h3>Resume suggestions</h3><p class="muted">Resume text is untrusted. Edit, select, or reject each candidate. Existing fields are not changed until you select and apply a candidate.</p><div id="suggestionItems"></div><button id="applyResumeSuggestions" type="button">Apply selected suggestions</button></div>
 <div class="columns"><div><label for="name">Name</label><input id="name" maxlength="100"></div><div><label for="program">Program</label><input id="program" maxlength="120"></div></div>
 <label for="headline">Professional headline</label><input id="headline" maxlength="180">
 <label for="biography">About you</label><textarea id="biography" maxlength="2000" rows="5"></textarea>
