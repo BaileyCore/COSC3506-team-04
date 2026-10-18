@@ -231,7 +231,7 @@
       "entry_point": "https://github.com/BaileyCore/COSC3506-team-04",
       "method_or_action": "Resolve the assessed tag and compare its full SHA with release_submission.md and the assessed deployment",
       "role": "reviewer/instructor",
-      "setup": "R2-submission was not found in this repository at the documentation check; confirm the actual Moodle freeze or instructor-approved equivalent before assigning an assessed version.",
+      "setup": "Create R2-submission on d97c6477f680a6a9b7764aa6107ceb31003c0e0c before Moodle Submit. Team reports an instructor extension to October 18 and no earlier R2 submission. Preserve this tag after submission; document later fixes separately.",
       "expected_behavior": "Immutable R2-submission or approved equivalent identifies the original assessed commit; later repairs are recorded separately."
     },
     {
@@ -260,15 +260,17 @@
     }
   ],
   "fixture_setup": "R1: root schema.sql creates/extends the PostgreSQL tables; run `node seed-release1.js` from backend with DATABASE_URL configured to load fixtures/students.json, fixtures/projects.json and fixtures/skills.json. Do not erase or reset existing user profiles. The R1 import was completed on 2026-10-17 through the one-time backend build command, then Build Command was restored to npm install. After a further backend redeployment, API reads confirmed 24 shared skills and 17 published fixture profiles. R2: obtain the four synthetic PDFs from Moodle Release 2 Fixtures (folder 3925); select them locally via /profile.html#resume. This implementation does not upload, preload or store original PDFs. Auth/profile tables are added by backend/r2.js using schema.sql.",
-  "test_access": "Project 1 has public visitors, GitHub-authenticated unverified students and verified students. Reviewers use their own GitHub account and their own approved algomau.ca mailbox; no shared password/token or staff-created account is required. If reviewer-specific setup or repository access is needed, arrange it through the course-approved private channel. No email-verification bypass/test mode is enabled. Instructor and assigned-reviewer repository/issue access must still be confirmed; credentials and real verification codes must never be committed.",
+  "test_access": "Project 1 has public visitors, GitHub-authenticated unverified students and verified students. Reviewers use their own GitHub account and their own approved algomau.ca mailbox; no shared password/token or staff-created account is required. If reviewer-specific setup or repository access is needed, arrange it through the course-approved private channel. No email-verification bypass/test mode is enabled. Repository is public and Issues are enabled; instructor and assigned reviewers must confirm access/issue creation before Submit; credentials and real verification codes must never be committed.",
   "api_base_url": "https://cosc3506-team-04-ey5d.onrender.com",
   "version_status": {
-    "required_tag": "R2-submission",
-    "tag_status": "not found in this repository at the documentation check",
-    "frozen_submission_status": "unconfirmed; do not assume the current QA repair code is the original frozen release",
-    "working_code_commit": "469d38a4f91ce79eddaa24afea7ca7a33cc8db2e",
-    "backend_last_confirmed_deployed_commit": "d97c6477f680a6a9b7764aa6107ceb31003c0e0c",
-    "frontend_last_confirmed_working_code_commit": "469d38a4f91ce79eddaa24afea7ca7a33cc8db2e"
+    "assessed_code_commit": "d97c6477f680a6a9b7764aa6107ceb31003c0e0c",
+    "release_tag": "R2-submission",
+    "tag_creation": "Create once on assessed_code_commit before Moodle Submit; never move an existing frozen tag.",
+    "submission_status": "Team reports no previous R2 submission; instructor extension to October 18 confirmed by the team.",
+    "backend_confirmed_deployed_commit": "d97c6477f680a6a9b7764aa6107ceb31003c0e0c",
+    "frontend_confirmed_working_commit": "469d38a4f91ce79eddaa24afea7ca7a33cc8db2e",
+    "frontend_tree_identical_to_assessed_code": true,
+    "documentation": "Uploaded submission files describe the immutable assessed code; documentation-only branch commits may follow."
   },
   "routes": {
     "sign_in": "https://cosc3506-team-04-ey5d.onrender.com/api/auth/github",
@@ -313,6 +315,8 @@
     "fixture_persistence": "24 shared skills and 17 published fixture profiles confirmed before and after a backend redeployment on Oct 17 Toronto time.",
     "privacy": "Oct 18 unauthenticated detail/directory reads confirmed the published user profile had availability=[] and links={} when both visibility controls were off; no private account/challenge field names were present.",
     "presentation": "Warm/About-first changed to Compact/Project-Evidence-first. Skills and public hidden availability stayed unchanged, and the Accessibility AND Blender filter continued to find the profile.",
-    "limits": "Evidence concerns current QA work, not proof of the original frozen release or all requirements."
-  }
+    "limits": "Evidence describes the current code prepared under the team-reported October 18 extension. It does not establish every requirement passed; remaining checks/known issues are listed in release_submission.md."
+  },
+  "commit_sha": "d97c6477f680a6a9b7764aa6107ceb31003c0e0c",
+  "release_tag": "R2-submission"
 }
