@@ -51,7 +51,12 @@ function cookie(req, name) {
   return (req.headers.cookie || "").split(";").map((part) => part.trim()).find((part) => part.startsWith(name + "="))?.slice(name.length + 1);
 }
 
+function googleMailerConfigured() {
+  return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(process.env.GOOGLE_MAILER_URL || "") &&
+    typeof process.env.GOOGLE_MAILER_SECRET === "string" && process.env.GOOGLE_MAILER_SECRET.length >= 32;
+}
 function emailConfigured() {
+  if (process.env.GOOGLE_MAILER_URL || process.env.GOOGLE_MAILER_SECRET) return googleMailerConfigured();
   const mailjet = process.env.MAILJET_API_KEY && process.env.MAILJET_SECRET_KEY;
   return Boolean(process.env.VERIFICATION_FROM_EMAIL && (mailjet || process.env.RESEND_API_KEY));
 }
@@ -59,6 +64,23 @@ async function sendVerificationEmail(email, code) {
   const subject = "Your Algoma verification code";
   const message = "Your one-time verification code is " + code + ". It expires in " + CODE_TTL_MINUTES + " minutes.";
   try {
+    if (process.env.GOOGLE_MAILER_URL || process.env.GOOGLE_MAILER_SECRET) {
+      if (!googleMailerConfigured()) return false;
+      const payload = JSON.stringify({
+        email, code, ttl_minutes: CODE_TTL_MINUTES,
+        timestamp: Date.now(), request_id: crypto.randomBytes(16).toString("hex")
+      });
+      const signature = crypto.createHmac("sha256", process.env.GOOGLE_MAILER_SECRET)
+        .update(payload).digest("base64url");
+      const sent = await fetch(process.env.GOOGLE_MAILER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ payload, signature }),
+        signal: AbortSignal.timeout(30000)
+      });
+      const result = await sent.json();
+      return sent.ok && result.ok === true;
+    }
     if (process.env.MAILJET_API_KEY && process.env.MAILJET_SECRET_KEY) {
       const sent = await fetch("https://api.mailjet.com/v3.1/send", {
         method: "POST",
