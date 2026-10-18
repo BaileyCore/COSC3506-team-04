@@ -95,7 +95,7 @@
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/skills; https://cosc3506-team-04-ey5d.onrender.com/api/profile",
       "method_or_action": "GET shared skills; PUT profile skills selected from that set; try an unknown skill value",
       "role": "verified student; public visitor",
-      "setup": "Load fixtures/skills.json through backend/seed-release1.js. Production skills were empty at the latest check; fixture loading is pending.",
+      "setup": "Load fixtures/skills.json through backend/seed-release1.js. Production returned the expected 24 shared skills after fixture import and a subsequent backend redeployment.",
       "expected_behavior": "Only shared standardized skills are selectable/public filter values. Unknown values are rejected by the profile API rather than creating duplicates."
     },
     {
@@ -175,7 +175,7 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/; https://cosc3506-team-04-ey5d.onrender.com/api/students",
       "method_or_action": "Publish/unpublish and reload the public directory without redeploying",
       "role": "verified student; public visitor",
-      "setup": "Use an identifiable profile and clear directory filters. R1 fixture import must be completed for the full directory regression.",
+      "setup": "Use an identifiable profile and clear directory filters. R1 fixtures have been imported; the API returned 17 published fixture profiles before republishing the user's separate profile.",
       "expected_behavior": "Published profile becomes discoverable; unpublished profile disappears immediately without a deployment."
     },
     {
@@ -259,7 +259,7 @@
       "expected_behavior": "No skill, employer, date or qualification absent from the PDF is invented; sparse extraction is acceptable."
     }
   ],
-  "fixture_setup": "R1: root schema.sql creates/extends the PostgreSQL tables; run `node seed-release1.js` from backend with DATABASE_URL configured to load fixtures/students.json, fixtures/projects.json and fixtures/skills.json. Do not erase or reset existing user profiles. Live /api/skills and /api/students both returned [] on 2026-10-17; loading is still pending. R2: obtain the four synthetic PDFs from Moodle Release 2 Fixtures (folder 3925); select them locally via /profile.html#resume. This implementation does not upload, preload or store original PDFs. Auth/profile tables are added by backend/r2.js using schema.sql.",
+  "fixture_setup": "R1: root schema.sql creates/extends the PostgreSQL tables; run `node seed-release1.js` from backend with DATABASE_URL configured to load fixtures/students.json, fixtures/projects.json and fixtures/skills.json. Do not erase or reset existing user profiles. The R1 import was completed on 2026-10-17 through the one-time backend build command, then Build Command was restored to npm install. After a further backend redeployment, API reads confirmed 24 shared skills and 17 published fixture profiles. R2: obtain the four synthetic PDFs from Moodle Release 2 Fixtures (folder 3925); select them locally via /profile.html#resume. This implementation does not upload, preload or store original PDFs. Auth/profile tables are added by backend/r2.js using schema.sql.",
   "test_access": "Project 1 has public visitors, GitHub-authenticated unverified students and verified students. Reviewers use their own GitHub account and their own approved algomau.ca mailbox; no shared password/token or staff-created account is required. If reviewer-specific setup or repository access is needed, arrange it through the course-approved private channel. No email-verification bypass/test mode is enabled. Instructor and assigned-reviewer repository/issue access must still be confirmed; credentials and real verification codes must never be committed.",
   "api_base_url": "https://cosc3506-team-04-ey5d.onrender.com",
   "version_status": {
@@ -267,7 +267,7 @@
     "tag_status": "not found in this repository at the documentation check",
     "frozen_submission_status": "unconfirmed; do not assume the current QA repair code is the original frozen release",
     "working_code_commit": "469d38a4f91ce79eddaa24afea7ca7a33cc8db2e",
-    "backend_last_confirmed_deployed_commit": "faded690df48bd7fadad97ee630422e51c155df2",
+    "backend_last_confirmed_deployed_commit": "d97c6477f680a6a9b7764aa6107ceb31003c0e0c",
     "frontend_last_confirmed_working_code_commit": "469d38a4f91ce79eddaa24afea7ca7a33cc8db2e"
   },
   "routes": {
@@ -308,5 +308,11 @@
     "skills": "skill (repeat for AND)",
     "availability": "availability (repeat for OR)",
     "status": "status (repeat for OR)"
+  },
+  "verification_evidence": {
+    "fixture_persistence": "24 shared skills and 17 published fixture profiles confirmed before and after a backend redeployment on Oct 17 Toronto time.",
+    "privacy": "Oct 18 unauthenticated detail/directory reads confirmed the published user profile had availability=[] and links={} when both visibility controls were off; no private account/challenge field names were present.",
+    "presentation": "Warm/About-first changed to Compact/Project-Evidence-first. Skills and public hidden availability stayed unchanged, and the Accessibility AND Blender filter continued to find the profile.",
+    "limits": "Evidence concerns current QA work, not proof of the original frozen release or all requirements."
   }
 }
