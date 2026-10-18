@@ -18,7 +18,8 @@ function signature(value) {
 }
 function setSession(res, userId) {
   const payload = Buffer.from(JSON.stringify({ sub: String(userId), exp: Date.now() + 8 * 60 * 60 * 1000 })).toString("base64url");
-  res.cookie(COOKIE, payload + "." + signature(payload), { httpOnly: true, secure: true, sameSite: "lax", maxAge: 8 * 60 * 60 * 1000, path: "/" });
+  // The frontend and API are separate sites, so fetch needs a cross-site session cookie.
+  res.cookie(COOKIE, payload + "." + signature(payload), { httpOnly: true, secure: true, sameSite: "none", maxAge: 8 * 60 * 60 * 1000, path: "/" });
 }
 function getSession(req) {
   const raw = (req.headers.cookie || "").split(";").map((part) => part.trim()).find((part) => part.startsWith(COOKIE + "="))?.slice(COOKIE.length + 1);
@@ -103,7 +104,7 @@ module.exports = function createR2Router(pool) {
   }));;
 
   router.post("/auth/logout", requireOrigin, (_req, res) => {
-    res.clearCookie(COOKIE, { httpOnly: true, secure: true, sameSite: "lax", path: "/" });
+    res.clearCookie(COOKIE, { httpOnly: true, secure: true, sameSite: "none", path: "/" });
     res.json({ ok: true });
   });
 
