@@ -8,7 +8,7 @@ Repository: https://github.com/BaileyCore/COSC3506-team-04
 Release tag: R2-submission (required; not found in this repository at this check)
 Commit: Original frozen-release SHA unconfirmed. Current working code: 469d38a4f91ce79eddaa24afea7ca7a33cc8db2e
 Adapter: evaluation_adapter.json
-Known issues: R1 fixtures are not yet loaded on the current database; shared skills and public directory APIs currently return empty arrays. Layout-heavy PDF columns can produce mixed review candidates. See open verification items below.
+Known issues: Layout-heavy PDF columns can produce mixed review candidates. The relay domain check and explicit identifier-refusal behavior need follow-up. See open verification items below.
 Test notes: This is a current-work/QA preparation record, not a claim that this version was submitted or frozen by the Oct 16 deadline.
 
 ## Test accounts
@@ -30,7 +30,7 @@ Project 1 roles are public visitor, GitHub-authenticated unverified student, and
 - Backend: https://cosc3506-team-04-ey5d.onrender.com
 - Health: https://cosc3506-team-04-ey5d.onrender.com/api/health
 - Working branch: r2/student-self-service.
-- Last backend deployment confirmed by screenshot: faded690df48bd7fadad97ee630422e51c155df2.
+- Last backend deployment confirmed by screenshot: d97c6477f680a6a9b7764aa6107ceb31003c0e0c (Oct 17, 11:56 p.m. Toronto time).
 - Profile editor fix: 469d38a4f91ce79eddaa24afea7ca7a33cc8db2e. The user confirmed the frontend deployment was Live, then saved and published successfully.
 - No R2-submission ref was found in this repository at this check. Confirm the team's actual Moodle submission and any approved equivalent before identifying an assessed commit.
 - The published deadline is Oct 16, 2026, 11:59 p.m. Toronto time. The checks/repairs described here occurred Oct 17. They must not be represented as evidence that these behaviors passed in the original frozen version.
@@ -44,7 +44,7 @@ Email delivery uses a Google Apps Script relay configured through private hostin
 
 ### Fixtures and setup
 
-- R1: fixtures/students.json, fixtures/projects.json and fixtures/skills.json are in the repository. With the production DATABASE_URL privately configured, run `node seed-release1.js` from backend. The current live skills and directory responses are empty; loading remains pending. Do not reset the database or erase user profiles.
+- R1: fixtures/students.json, fixtures/projects.json and fixtures/skills.json are in the repository. With the production DATABASE_URL privately configured, run `node seed-release1.js` from backend. The fixtures were imported on Oct 17 through a one-time build command. The build command was then restored to npm install. API reads confirmed 24 shared skills and 17 published fixture profiles persisted across the subsequent redeployment. Do not reset the database or erase user profiles.
 - R2: download resume_clean_single_column.pdf, resume_minimal.pdf, resume_layout_stress.pdf and resume_untrusted_text.pdf from Moodle Release 2 Fixtures, folder 3925. Select each locally in the profile editor. These PDFs are not preloaded server-side.
 - The backend applies additive schema.sql to create the account, challenge, limit and draft tables. Initial schema creation needs a database role permitted to create/alter those tables.
 - Node/Express backend, persistent Supabase PostgreSQL and Render static frontend. Required private settings: DATABASE_URL, FRONTEND_ORIGIN, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_CALLBACK_URL, R2_SESSION_SECRET, GOOGLE_MAILER_URL and GOOGLE_MAILER_SECRET. Approved domains are checked by the backend; the current Google relay additionally limits delivery to algomau.ca.
@@ -60,13 +60,15 @@ See R2_PRIVACY_SUMMARY.md. Private drafts and verified email/challenge data are 
 - Screenshots showed public profile access in Incognito after publication and Student not found after unpublication.
 - Local tests using PDF.js 4.4.168 read all four supplied PDFs and the current candidate algorithm. A DOM-stub harness exercised the actual import/review handlers: upload preserved manual fields, candidates started unchecked, edited/selected candidates applied explicitly, and import/apply performed no profile-save or publish request. Malformed PDF produced a recoverable error and preserved existing fields.
 - The minimal fixture produced no skills, work entries or links absent from its source. The untrusted-text fixture remained data; its instruction did not trigger a profile/network action.
+- Deployed public API checks on Oct 18 confirmed the user's published profile was present in the directory, with both hidden fields absent as values: availability=[], links={}. Neither response exposed private account/challenge fields. The two selected standardized skills remained Accessibility and Blender.
+- After changing Warm/About-first to Compact/Project-Evidence-first and republishing, public API data confirmed the new theme/order, unchanged skills and hidden availability, and continued matching of the combined Accessibility AND Blender skill filter. This does not establish every presentation/visibility combination.
 - These local checks are not a claim that every fixture/viewport/security scenario passed in the deployed browser. The adapter describes routes and expected checks, not proof of passing.
 
 ### Known issues / remaining verification
 
-1. Load R1 fixtures: production /api/skills and /api/students returned [] on Oct 17. Without shared skills the structured-skills requirement and meaningful R1 regression checks cannot be completed.
+1. R1 fixture setup is resolved: /api/skills returns 24 standardized skills and /api/students returned 17 fixture profiles after a backend redeployment. The separately maintained student draft was not reset.
 2. Confirm the original frozen Moodle version/tag/full SHA and assigned-reviewer/instructor access to repository and issue creation. The repository has no confirmed R2 tag at this check.
-3. Complete deployed privacy toggles/API checks, 390 CSS-pixel workflow, both-account ownership tampering, repeated sign-in, expiry/reuse/wrong-attempt limits, all themes/orders with unchanged filters, and R1 project/inquiry regression checks.
+3. Complete the 390 CSS-pixel workflow, both-account ownership tampering, repeated sign-in, expiry/reuse/wrong-attempt limits, remaining presentation presets and R1 project/inquiry regression checks. The deployed hidden-field API and one presentation-change/filter comparison passed as described above.
 4. The canonical write routes use session ownership, but currently ignore unrecognized body/query fields. Explicit foreign-identifier refusal needs a focused R2.30 check.
 5. Layout-stress extraction can merge adjacent columns and include headings as candidates. Students must edit/reject candidates before applying. It is a heuristic parser, with a 10 MB limit and only the first eight pages read.
 6. The Google relay's domain check is hardcoded to algomau.ca even though backend approved domains are configurable. Adding a second domain currently requires updating the relay.
