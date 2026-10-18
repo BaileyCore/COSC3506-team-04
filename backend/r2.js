@@ -51,6 +51,44 @@ function cookie(req, name) {
   return (req.headers.cookie || "").split(";").map((part) => part.trim()).find((part) => part.startsWith(name + "="))?.slice(name.length + 1);
 }
 
+function emailConfigured() {
+  const mailjet = process.env.MAILJET_API_KEY && process.env.MAILJET_SECRET_KEY;
+  return Boolean(process.env.VERIFICATION_FROM_EMAIL && (mailjet || process.env.RESEND_API_KEY));
+}
+async function sendVerificationEmail(email, code) {
+  const subject = "Your Algoma verification code";
+  const message = "Your one-time verification code is " + code + ". It expires in " + CODE_TTL_MINUTES + " minutes.";
+  try {
+    if (process.env.MAILJET_API_KEY && process.env.MAILJET_SECRET_KEY) {
+      const sent = await fetch("https://api.mailjet.com/v3.1/send", {
+        method: "POST",
+        headers: {
+          Authorization: "Basic " + Buffer.from(process.env.MAILJET_API_KEY + ":" + process.env.MAILJET_SECRET_KEY).toString("base64"),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ Messages: [{
+          From: { Email: process.env.VERIFICATION_FROM_EMAIL, Name: "Team 04 Talent Directory" },
+          To: [{ Email: email }], Subject: subject, TextPart: message
+        }] }),
+        signal: AbortSignal.timeout(15000)
+      });
+      const result = await sent.json();
+      return sent.ok && result.Messages?.length === 1 && result.Messages[0].Status === "success";
+    }
+    const sent = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + process.env.RESEND_API_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ from: process.env.VERIFICATION_FROM_EMAIL, to: [email], subject, text: message }),
+      signal: AbortSignal.timeout(15000)
+    });
+    return sent.ok;
+  } catch {
+    // Never log verification codes, message bodies, or provider credentials.
+    console.error("Verification email provider request failed.");
+    return false;
+  }
+}
+
 module.exports = function createR2Router(pool) {
   // All statements in the root schema are additive and use IF NOT EXISTS.
   // Applying it here makes the R2 account tables available on a fresh deploy.
@@ -113,7 +151,7 @@ module.exports = function createR2Router(pool) {
     if (!/^[^\s@]+@[^\s@]+$/.test(email) || !DOMAINS.includes(email.slice(email.lastIndexOf("@") + 1))) return res.status(400).json({ error: "Enter your Algoma email address." });
     const existingAccount = await pool.query("SELECT verified_at FROM r2_accounts WHERE user_id=$1", [req.userId]);
     if (existingAccount.rows[0]?.verified_at) return res.status(409).json({ error: "This GitHub account already has a verified Algoma email. Contact support if it needs correction." });
-    if (!process.env.RESEND_API_KEY || !process.env.VERIFICATION_FROM_EMAIL) return res.status(503).json({ error: "Email verification is not configured yet." });
+    if (!emailConfigured()) return res.status(503).json({ error: "Email verification is not configured yet." });
     const rateLimit = await pool.query(`
       INSERT INTO r2_verification_limits (user_id, window_started_at, request_count, last_requested_at)
       VALUES ($1, NOW(), 1, NOW())
@@ -129,8 +167,7 @@ module.exports = function createR2Router(pool) {
     const code = String(crypto.randomInt(0, 1000000)).padStart(6, "0");
     const expiresAt = new Date(Date.now() + CODE_TTL_MINUTES * 60 * 1000);
     await pool.query("INSERT INTO r2_verification_challenges (user_id, email, code_hash, expires_at, attempts) VALUES ($1,$2,$3,$4,0) ON CONFLICT (user_id) DO UPDATE SET email=EXCLUDED.email, code_hash=EXCLUDED.code_hash, expires_at=EXCLUDED.expires_at, attempts=0, used_at=NULL", [req.userId, email, hash(code), expiresAt]);
-    const sent = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: "Bearer " + process.env.RESEND_API_KEY, "Content-Type": "application/json" }, body: JSON.stringify({ from: process.env.VERIFICATION_FROM_EMAIL, to: [email], subject: "Your Algoma verification code", text: "Your one-time verification code is " + code + ". It expires in 30 minutes." }) });
-    if (!sent.ok) return res.status(502).json({ error: "Could not send the verification email." });
+    if (!await sendVerificationEmail(email, code)) return res.status(502).json({ error: "Could not send the verification email." });
     res.json({ ok: true, message: "Check your Algoma email for a verification code." });
   }));;
 
