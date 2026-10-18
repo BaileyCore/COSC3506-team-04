@@ -10,7 +10,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com", credentials: true }));
 app.use(express.json());
 
 const isLocalDatabase = process.env.DATABASE_URL.includes("localhost");
@@ -18,6 +18,9 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: isLocalDatabase ? false : { rejectUnauthorized: false },
 });
+
+const createR2Router = require("./r2");
+app.use("/api", createR2Router(pool));
 
 app.get("/api/health", async (_request, response) => {
   try {
@@ -42,6 +45,10 @@ app.get("/api/students", async (request, response, next) => {
         s.name,
         s.headline,
         s.program,
+        s.biography,
+        s.location,
+        s.theme,
+        s.section_order,
         s.status,
         s.profile_status,
         s.availability,
@@ -138,6 +145,10 @@ app.get("/api/students/:id", async (request, response, next) => {
         s.name,
         s.headline,
         s.program,
+        s.biography,
+        s.location,
+        s.theme,
+        s.section_order,
         s.status,
         s.profile_status,
         s.availability,
