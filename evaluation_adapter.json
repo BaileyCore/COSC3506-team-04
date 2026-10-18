@@ -1,18 +1,312 @@
 {
-  "directory_endpoint": "https://cosc3506-team-04.onrender.com/api/students",
-  "student_detail_endpoint": "https://cosc3506-team-04.onrender.com/api/students/{id}",
-  "project_detail_endpoint": "https://cosc3506-team-04.onrender.com/api/projects/{id}",
-  "student_page_route": "/student.html?id={id}",
-  "project_page_route": "/project.html?id={id}",
-  "query_parameters": {
-    "text": "search",
-    "skill": "skill",
-    "availability": "availability",
-    "status": "status"
+  "release": "R2",
+  "deployment_url": "https://cosc3506-team04-frontend.onrender.com",
+  "checks": [
+    {
+      "requirement_or_scenario": "R2.01",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/auth/github",
+      "method_or_action": "GET; complete GitHub sign-in, sign out, and sign in again",
+      "role": "student with a GitHub account",
+      "setup": "Use the same GitHub account on both sign-ins; retain an identifiable saved draft.",
+      "expected_behavior": "Sign-in returns to /profile.html and later sign-ins recover the same account and draft."
+    },
+    {
+      "requirement_or_scenario": "R2.02",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/profile",
+      "method_or_action": "GET with session; compare maintained profile before and after a GitHub username/display-name change",
+      "role": "verified student",
+      "setup": "Use an account controlled by the reviewer; the account maps GitHub numeric ID to an internal UUID.",
+      "expected_behavior": "Changing a GitHub name does not create a second internal profile or change its ownership."
+    },
+    {
+      "requirement_or_scenario": "R2.03",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/auth/github",
+      "method_or_action": "Inspect the GitHub authorization request and consent screen",
+      "role": "student with a GitHub account",
+      "setup": "Start a fresh sign-in; inspect the scope query parameter.",
+      "expected_behavior": "Only read:user is requested; no repository-write permission is requested."
+    },
+    {
+      "requirement_or_scenario": "R2.04",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#verification",
+      "method_or_action": "Enter an approved Algoma address; select Send verification code; read its mailbox",
+      "role": "GitHub-authenticated, unverified student",
+      "setup": "Reviewer controls an algomau.ca mailbox; production Google mailer URL and matching private secrets configured.",
+      "expected_behavior": "A short-lived challenge is delivered to the signed-in student's approved-domain mailbox. Domain configuration must be reviewed separately; the current relay only accepts algomau.ca."
+    },
+    {
+      "requirement_or_scenario": "R2.05",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/affiliation/request",
+      "method_or_action": "POST JSON {email}; try an outside domain and algomau.ca.example.test",
+      "role": "GitHub-authenticated, unverified student",
+      "setup": "Use the frontend Origin and a session cookie; do not use someone else's mailbox.",
+      "expected_behavior": "Unapproved domain is rejected with HTTP 400 and no affiliation is granted."
+    },
+    {
+      "requirement_or_scenario": "R2.06",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/affiliation/verify",
+      "method_or_action": "POST JSON {code} twice using the same successfully verified code",
+      "role": "GitHub-authenticated student",
+      "setup": "Obtain and use one valid challenge through the normal mailbox flow.",
+      "expected_behavior": "First valid use succeeds; a second use is refused without reusing the challenge."
+    },
+    {
+      "requirement_or_scenario": "R2.07",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/affiliation/verify",
+      "method_or_action": "POST an expired challenge code",
+      "role": "GitHub-authenticated, unverified student",
+      "setup": "Operator may set VERIFICATION_CODE_TTL_MINUTES from 1 to 30; request a new challenge and wait past its configured expiry.",
+      "expected_behavior": "Expired code is refused. Assessed expiry is at most 30 minutes."
+    },
+    {
+      "requirement_or_scenario": "R2.08",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/affiliation/request; https://cosc3506-team-04-ey5d.onrender.com/api/affiliation/verify",
+      "method_or_action": "Repeat POST requests immediately; submit five wrong six-digit codes for a fresh challenge",
+      "role": "GitHub-authenticated, unverified student",
+      "setup": "Use your own mailbox. Failed delivery requests also consume request limits; do not exhaust another reviewer's account.",
+      "expected_behavior": "Server limits message requests to one per minute and five per hour per account, and limits wrong attempts to five per challenge; recovery messages explain waiting or requesting a new challenge."
+    },
+    {
+      "requirement_or_scenario": "R2.09",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html",
+      "method_or_action": "Sign out, then sign in using the already-verified GitHub account",
+      "role": "verified student",
+      "setup": "Complete affiliation verification once, save a draft, then sign out.",
+      "expected_behavior": "Profile editor reopens without requiring another email challenge."
+    },
+    {
+      "requirement_or_scenario": "R2.10",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/profile; https://cosc3506-team-04-ey5d.onrender.com/api/students",
+      "method_or_action": "PUT a draft and GET the public directory without a session",
+      "role": "verified student; public visitor",
+      "setup": "Create an identifiable new draft through /profile.html and save without publishing.",
+      "expected_behavior": "Draft is maintained privately and absent from public directory and public profile responses."
+    },
+    {
+      "requirement_or_scenario": "R2.11",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#editor",
+      "method_or_action": "Edit and save headline, biography, availability, standardized skills, HTTPS professional links, GitHub link and optional location",
+      "role": "verified student",
+      "setup": "Shared R1 skills must first be loaded; save the draft, refresh, and compare fields.",
+      "expected_behavior": "Structured professional fields can be maintained and restored after refresh."
+    },
+    {
+      "requirement_or_scenario": "R2.12",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/skills; https://cosc3506-team-04-ey5d.onrender.com/api/profile",
+      "method_or_action": "GET shared skills; PUT profile skills selected from that set; try an unknown skill value",
+      "role": "verified student; public visitor",
+      "setup": "Load fixtures/skills.json through backend/seed-release1.js. Production skills were empty at the latest check; fixture loading is pending.",
+      "expected_behavior": "Only shared standardized skills are selectable/public filter values. Unknown values are rejected by the profile API rather than creating duplicates."
+    },
+    {
+      "requirement_or_scenario": "R2.13",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#resume",
+      "method_or_action": "Choose each supplied PDF in the profile editor",
+      "role": "verified student",
+      "setup": "Download all four R2 PDFs from Moodle folder 3925; PDFs are selected locally, not preloaded on the server.",
+      "expected_behavior": "PDF import accepts the supplied files and reasonable student PDFs."
+    },
+    {
+      "requirement_or_scenario": "R2.14",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#resumeSuggestions",
+      "method_or_action": "Review extracted skill, education, experience and professional-link candidates",
+      "role": "verified student",
+      "setup": "Use resume_clean_single_column.pdf and resume_layout_stress.pdf; inspect minimal fixture separately.",
+      "expected_behavior": "Editable source-backed candidates are offered where present. Sparse files do not acquire invented entries; mixed column text may need manual correction."
+    },
+    {
+      "requirement_or_scenario": "R2.15",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#resumeSuggestions",
+      "method_or_action": "Edit one candidate; select it; leave another unchecked; choose Apply selected suggestions",
+      "role": "verified student",
+      "setup": "Import a fixture; all candidate checkboxes start unchecked.",
+      "expected_behavior": "Only explicitly selected candidates are applied, using the reviewer's edits. Unchecked candidates can be rejected by leaving them unselected."
+    },
+    {
+      "requirement_or_scenario": "R2.16",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#resume",
+      "method_or_action": "Set identifiable manual fields, import and re-import PDFs without selecting Apply",
+      "role": "verified student",
+      "setup": "Record current field values before each import.",
+      "expected_behavior": "Selecting or re-selecting a PDF alone does not overwrite maintained fields or save/publish the profile."
+    },
+    {
+      "requirement_or_scenario": "R2.17",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#resume",
+      "method_or_action": "Select a malformed PDF or a PDF with no useful extractable text",
+      "role": "verified student",
+      "setup": "Keep identifiable unsaved manual values before the test; current limit is 10 MB and the first eight pages.",
+      "expected_behavior": "Clear recoverable message is shown; manual editing remains possible and existing field values are preserved."
+    },
+    {
+      "requirement_or_scenario": "R2.18",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#showAvailability; https://cosc3506-team04-frontend.onrender.com/profile.html#showLinks",
+      "method_or_action": "Toggle availability and professional-link visibility; publish; inspect public response",
+      "role": "verified student; public visitor",
+      "setup": "Set identifiable values in a private draft. The original PDF is not uploaded or persisted; there is no original-PDF download route.",
+      "expected_behavior": "Student can control availability/links. Discard-original alternative: source PDF is never retained in server storage or made publicly downloadable."
+    },
+    {
+      "requirement_or_scenario": "R2.19",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/students; https://cosc3506-team-04-ey5d.onrender.com/api/students/{id}",
+      "method_or_action": "GET public JSON with no session after publishing hidden availability and links",
+      "role": "public visitor",
+      "setup": "Publish a profile with both visibility controls off; use its U{internal-UUID} public ID.",
+      "expected_behavior": "Private availability and links are not revealed by public JSON; email, codes and draft JSON are not exposed. Current implementation publishes [] and {} for hidden values."
+    },
+    {
+      "requirement_or_scenario": "R2.20",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#preview",
+      "method_or_action": "Select Preview before publishing",
+      "role": "verified student",
+      "setup": "Populate a draft and turn at least one visibility control off.",
+      "expected_behavior": "Public preview distinguishes hidden availability/links from information intended for publication."
+    },
+    {
+      "requirement_or_scenario": "R2.21",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/profile/publish; https://cosc3506-team-04-ey5d.onrender.com/api/profile/unpublish",
+      "method_or_action": "POST publish, then POST unpublish; reopen the maintained profile",
+      "role": "verified student",
+      "setup": "Save required name, headline and program; requests need session and frontend Origin.",
+      "expected_behavior": "Publishing exposes the public snapshot; unpublishing hides it while keeping the maintained draft."
+    },
+    {
+      "requirement_or_scenario": "R2.22",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/; https://cosc3506-team-04-ey5d.onrender.com/api/students",
+      "method_or_action": "Publish/unpublish and reload the public directory without redeploying",
+      "role": "verified student; public visitor",
+      "setup": "Use an identifiable profile and clear directory filters. R1 fixture import must be completed for the full directory regression.",
+      "expected_behavior": "Published profile becomes discoverable; unpublished profile disappears immediately without a deployment."
+    },
+    {
+      "requirement_or_scenario": "R2.23",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#theme; https://cosc3506-team04-frontend.onrender.com/profile.html#sectionOrder",
+      "method_or_action": "Choose Classic, Compact and Warm; choose both optional-section orders; publish and inspect",
+      "role": "verified student; public visitor",
+      "setup": "Use a biography and existing project evidence where available; a default initials avatar is used.",
+      "expected_behavior": "Three controlled presets, About/Project Evidence ordering and default profile media are available."
+    },
+    {
+      "requirement_or_scenario": "R2.24",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/; https://cosc3506-team-04-ey5d.onrender.com/api/students",
+      "method_or_action": "Compare skills, availability and directory filter results before/after only changing theme/order",
+      "role": "verified student; public visitor",
+      "setup": "Select non-empty standardized skills and availability; publish each presentation change.",
+      "expected_behavior": "Presentation changes leave structured search data and matching employer-filter results unchanged."
+    },
+    {
+      "requirement_or_scenario": "R2.25",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html; https://cosc3506-team04-frontend.onrender.com/student.html?id={id}",
+      "method_or_action": "Enter HTML/script-like text in profile fields, preview and publish; try a non-HTTPS link",
+      "role": "verified student; public visitor",
+      "setup": "Use synthetic harmless sentinel markup and the reviewer's own profile.",
+      "expected_behavior": "Custom text is rendered as data and cannot execute; public links saved through the editor API are limited to HTTPS."
+    },
+    {
+      "requirement_or_scenario": "R2.26",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html",
+      "method_or_action": "At a 390 CSS-pixel viewport, complete sign-in, edit, suggestion review, preview and publish/unpublish",
+      "role": "student",
+      "setup": "Use browser responsive mode at 390 CSS pixels; allow required GitHub navigation and mailbox access.",
+      "expected_behavior": "Main self-service workflow remains usable without desktop-only controls. This viewport workflow still needs a deployed manual check."
+    },
+    {
+      "requirement_or_scenario": "R2.27",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html",
+      "method_or_action": "Navigate with keyboard; inspect labels/focus; submit incomplete or invalid fields",
+      "role": "student",
+      "setup": "Test required fields, rejected domains, wrong codes and missing publish fields.",
+      "expected_behavior": "Controls have meaningful labels and visible keyboard focus; errors identify corrections."
+    },
+    {
+      "requirement_or_scenario": "R2.28",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/; https://cosc3506-team04-frontend.onrender.com/student.html?id={id}; https://cosc3506-team04-frontend.onrender.com/project.html?id={id}; https://cosc3506-team04-frontend.onrender.com/inquiry.html",
+      "method_or_action": "Exercise R1 public discovery, filter combinations, project evidence and contextual inquiry",
+      "role": "public visitor",
+      "setup": "Import all R1 JSON fixtures using backend/seed-release1.js. Verify existing legacy fixture IDs and student/project inquiry context.",
+      "expected_behavior": "R1 discovery, stable routes, published-only profile access, project evidence and contextual simulated inquiry remain functional."
+    },
+    {
+      "requirement_or_scenario": "R2.29",
+      "entry_point": "https://github.com/BaileyCore/COSC3506-team-04",
+      "method_or_action": "Resolve the assessed tag and compare its full SHA with release_submission.md and the assessed deployment",
+      "role": "reviewer/instructor",
+      "setup": "R2-submission was not found in this repository at the documentation check; confirm the actual Moodle freeze or instructor-approved equivalent before assigning an assessed version.",
+      "expected_behavior": "Immutable R2-submission or approved equivalent identifies the original assessed commit; later repairs are recorded separately."
+    },
+    {
+      "requirement_or_scenario": "R2.30",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/profile; https://cosc3506-team-04-ey5d.onrender.com/api/profile/publish; https://cosc3506-team-04-ey5d.onrender.com/api/profile/unpublish",
+      "method_or_action": "Attempt writes using a second student's identifier through body/query/path variants",
+      "role": "two students with separate GitHub accounts",
+      "setup": "Both reviewers control their own accounts; save identifiable separate drafts and retain before/after snapshots. Current canonical routes select ownership from the signed session.",
+      "expected_behavior": "Server refuses attempts naming another student's profile; no route can change another student's maintained or public data. Explicit identifier rejection still needs a focused check."
+    },
+    {
+      "requirement_or_scenario": "R2.31",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#resume",
+      "method_or_action": "Import resume_untrusted_text.pdf; review suggestions without applying; inspect network and profile state",
+      "role": "verified student",
+      "setup": "Use the supplied untrusted-text fixture, not a real private resume.",
+      "expected_behavior": "Resume instructions remain ordinary data; import cannot change publication/privacy or trigger a profile write."
+    },
+    {
+      "requirement_or_scenario": "R2.32",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/profile.html#resumeSuggestions",
+      "method_or_action": "Compare suggestions to each original PDF, especially resume_minimal.pdf",
+      "role": "verified student",
+      "setup": "Use all four course PDFs and compare candidate text with the source.",
+      "expected_behavior": "No skill, employer, date or qualification absent from the PDF is invented; sparse extraction is acceptable."
+    }
+  ],
+  "fixture_setup": "R1: root schema.sql creates/extends the PostgreSQL tables; run `node seed-release1.js` from backend with DATABASE_URL configured to load fixtures/students.json, fixtures/projects.json and fixtures/skills.json. Do not erase or reset existing user profiles. Live /api/skills and /api/students both returned [] on 2026-10-17; loading is still pending. R2: obtain the four synthetic PDFs from Moodle Release 2 Fixtures (folder 3925); select them locally via /profile.html#resume. This implementation does not upload, preload or store original PDFs. Auth/profile tables are added by backend/r2.js using schema.sql.",
+  "test_access": "Project 1 has public visitors, GitHub-authenticated unverified students and verified students. Reviewers use their own GitHub account and their own approved algomau.ca mailbox; no shared password/token or staff-created account is required. If reviewer-specific setup or repository access is needed, arrange it through the course-approved private channel. No email-verification bypass/test mode is enabled. Instructor and assigned-reviewer repository/issue access must still be confirmed; credentials and real verification codes must never be committed.",
+  "api_base_url": "https://cosc3506-team-04-ey5d.onrender.com",
+  "version_status": {
+    "required_tag": "R2-submission",
+    "tag_status": "not found in this repository at the documentation check",
+    "frozen_submission_status": "unconfirmed; do not assume the current QA repair code is the original frozen release",
+    "working_code_commit": "469d38a4f91ce79eddaa24afea7ca7a33cc8db2e",
+    "backend_last_confirmed_deployed_commit": "faded690df48bd7fadad97ee630422e51c155df2",
+    "frontend_last_confirmed_working_code_commit": "469d38a4f91ce79eddaa24afea7ca7a33cc8db2e"
   },
-  "directory_results_path": "",
-  "id_field": "id",
-  "skills_field": "skills",
-  "contributors_field": "contributors",
-  "optional_broken_project_id": "P07"
+  "routes": {
+    "sign_in": "https://cosc3506-team-04-ey5d.onrender.com/api/auth/github",
+    "callback": "https://cosc3506-team-04-ey5d.onrender.com/api/auth/github/callback",
+    "session": "https://cosc3506-team-04-ey5d.onrender.com/api/auth/me",
+    "logout": "https://cosc3506-team-04-ey5d.onrender.com/api/auth/logout",
+    "verification_request": "https://cosc3506-team-04-ey5d.onrender.com/api/affiliation/request",
+    "verification_confirm": "https://cosc3506-team-04-ey5d.onrender.com/api/affiliation/verify",
+    "editor": "https://cosc3506-team04-frontend.onrender.com/profile.html",
+    "profile": "https://cosc3506-team-04-ey5d.onrender.com/api/profile",
+    "preview": "https://cosc3506-team04-frontend.onrender.com/profile.html#preview",
+    "publish": "https://cosc3506-team-04-ey5d.onrender.com/api/profile/publish",
+    "unpublish": "https://cosc3506-team-04-ey5d.onrender.com/api/profile/unpublish",
+    "directory": "https://cosc3506-team04-frontend.onrender.com/",
+    "public_directory_api": "https://cosc3506-team-04-ey5d.onrender.com/api/students",
+    "public_profile_api": "https://cosc3506-team-04-ey5d.onrender.com/api/students/{id}",
+    "public_profile": "https://cosc3506-team04-frontend.onrender.com/student.html?id={id}",
+    "public_project_api": "https://cosc3506-team-04-ey5d.onrender.com/api/projects/{id}",
+    "public_project": "https://cosc3506-team04-frontend.onrender.com/project.html?id={id}",
+    "inquiry": "https://cosc3506-team04-frontend.onrender.com/inquiry.html"
+  },
+  "request_setup": {
+    "credentials": "include; signed HttpOnly Secure SameSite=None cookie from the GitHub callback",
+    "origin": "https://cosc3506-team04-frontend.onrender.com",
+    "content_type": "application/json",
+    "profile_identity": "Canonical self-service routes have no client-selected profile ID. Public IDs are U followed by the internal UUID.",
+    "verification_request_body": {
+      "email": "reviewer-owned@algomau.ca"
+    },
+    "verification_confirm_body": {
+      "code": "six digits received through the reviewer's private mailbox"
+    },
+    "publish_unpublish_body": {}
+  },
+  "directory_query_parameters": {
+    "text": "search",
+    "skills": "skill (repeat for AND)",
+    "availability": "availability (repeat for OR)",
+    "status": "status (repeat for OR)"
+  }
 }
