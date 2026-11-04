@@ -22,6 +22,33 @@ const pool = new Pool({
 const createR2Router = require("./r2");
 app.use("/api", createR2Router(pool));
 
+// Release 3: keep the existing R2 signed cookie, GitHub identity, and verified affiliation.
+// Neither client-supplied student IDs nor GitHub usernames determine the acting user.
+const { mountR3 } = require("./r3_routes.cjs");
+app.use('/api/r3', (_req, _res, next) => {
+  createR2Router.schemaReady.then(() => next()).catch(next);
+});
+mountR3(app, {
+  pool,
+  frontendOrigin: process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com",
+  getVerifiedStudentId: async (request) => {
+    const userId = createR2Router.getSession(request);
+    if (!userId) return null;
+    const { rows } = await pool.query(
+      "SELECT user_id FROM r2_accounts WHERE user_id=$1 AND verified_at IS NOT NULL",
+      [userId]
+    );
+    return rows[0]?.user_id || null;
+  },
+  studentExists: async (studentId) => {
+    const { rows } = await pool.query(
+      "SELECT 1 FROM r2_accounts WHERE user_id=$1 AND verified_at IS NOT NULL",
+      [studentId]
+    );
+    return rows.length > 0;
+  }
+});
+
 app.get("/api/health", async (_request, response) => {
   try {
     await pool.query("SELECT 1");

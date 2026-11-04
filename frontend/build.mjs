@@ -15,6 +15,14 @@ const files = [
   "inquiry.js",
   "profile.html",
   "profile.js",
+  "r3-projects.html",
+  "r3-project.html",
+  "r3.js",
+  "r3-public.js",
+  "r3-profile-projects.js",
+  "r3.css",
+  "r3-working-demo.html",
+  "fallback.svg",
 ];
 
 for (const file of files) {
