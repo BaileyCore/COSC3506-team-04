@@ -115,7 +115,7 @@ module.exports = function createR2Router(pool) {
   // All statements in the root schema are additive and use IF NOT EXISTS.
   // Applying it here makes the R2 account tables available on a fresh deploy.
   const schemaSql = fs.readFileSync(path.join(__dirname, "../schema.sql"), "utf8");
-  const schemaReady = pool.query(schemaSql);
+  // Staging may pre-apply schema migrations using an administrator.\n  // The restricted application role can then operate without schema ownership.\n  const schemaReady = process.env.SKIP_SCHEMA_INIT === "1"\n    ? pool.query("SELECT 1")\n    : pool.query(schemaSql);
   // R3 waits for the additive schema to be ready before querying new tables.
   module.exports.schemaReady = schemaReady;
   router.use(["/auth", "/affiliation", "/profile"], (_req, _res, next) => {
