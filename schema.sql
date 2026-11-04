@@ -1,3 +1,11 @@
+-- Legacy Phase 0 items endpoint is still used by regression checks.
+-- Some R2 databases created this table separately; keep fresh R3 staging self-contained.
+CREATE TABLE IF NOT EXISTS items (
+    id BIGSERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 CREATE TABLE IF NOT EXISTS students (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
