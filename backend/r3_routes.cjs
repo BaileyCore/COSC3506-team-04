@@ -211,7 +211,7 @@ function mountR3(app, {pool,getVerifiedStudentId,studentExists,frontendOrigin}) 
       const c=await contributor(db,projectId,userId);
       if(!c || c.state!=='pending') throw fail(409,'No pending invitation');
       const state=accept?'accepted':'declined';
-      await db.query(`UPDATE r3_contributors SET state=$3,joined_at=CASE WHEN $3='accepted' THEN now() ELSE joined_at END,
+      await db.query(`UPDATE r3_contributors SET state=$3::varchar,joined_at=CASE WHEN $3::varchar='accepted' THEN now() ELSE joined_at END,
         changed_at=now() WHERE project_id=$1 AND student_id=$2`,[projectId,userId,state]);
       await audit(db,projectId,userId,`invitation-${state}`,userId);
     });
