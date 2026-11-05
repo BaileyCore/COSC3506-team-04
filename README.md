@@ -1,3 +1,9 @@
+# Team 04 — Release 3 (integrated with Release 2)
+
+**START HERE:** [`RELEASE3_START_HERE.md`](RELEASE3_START_HERE.md). This branch/archive contains the actual Release 2 application with additive Release 3 backend, pages, demo, fallback, role/duplicate fixtures, and local tests. The existing Phase 0 guide remains below for historical reference. **This is not a live deployment or Moodle submission.**
+
+---
+
 # Phase 0 — Setup Guide and Milestone Checks
 
 This is the supported beginner path for COSC 3506 Phase 0:

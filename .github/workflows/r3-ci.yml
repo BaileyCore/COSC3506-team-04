@@ -1,0 +1,35 @@
+name: Release 3 verification
+
+on:
+  push:
+    branches: [r3/shared-projects]
+  pull_request:
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - "tests/**"
+      - "schema.sql"
+      - "package.json"
+      - ".github/workflows/r3-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Syntax, tests, frontend build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm ci
+      - run: npm --prefix backend ci
+      - run: npm --prefix frontend ci
+      - run: npm run check:r3
+      - run: npm run test:r3
+      - run: npm test
+      - run: npm run build

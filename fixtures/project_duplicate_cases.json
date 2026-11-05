@@ -1,0 +1,21 @@
+[
+  {
+    "case": "exact_repository_duplicate",
+    "title": "XR Anatomy Lab",
+    "repository": "https://github.com/example-org/xr-anatomy",
+    "expected": "warn_existing_project"
+  },
+  {
+    "case": "similar_title_different_repository",
+    "title": "XR Anatomy Learning Lab",
+    "repository": "https://github.com/example-org/anatomy-learning",
+    "expected": "warn_if_useful_but_do_not_auto_merge"
+  },
+  {
+    "case": "same_title_different_domain",
+    "title": "XR Anatomy Lab",
+    "repository": "https://github.com/other-org/xr-anatomy-art",
+    "domain": "Art / Visualization",
+    "expected": "allow_distinct_project_do_not_auto_merge"
+  }
+]

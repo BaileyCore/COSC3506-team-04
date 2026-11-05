@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Shared Projects — Team 04</title><link rel="stylesheet" href="r3.css"></head><body>
+<header><a href="/">← Student Directory</a><h1>My shared projects</h1><p>Add Project · GitHub import · invite contributors · publish evidence</p></header>
+<main>
+<div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+<section><h2>Your projects</h2><div id="my-projects">Loading…</div><h3>Invitations to you</h3><div id="invitations"></div></section>
+<section><h2 id="form-title">Add Project</h2><button type="button" id="new-project">+ New Project</button><p>Only the maintainer may edit shared fields. Each accepted contributor edits their own statement.</p>
+<form id="project-form">
+<label>Title <input id="title" maxlength="180" required></label>
+<label>Short description <textarea id="description" rows="3" maxlength="5000"></textarea></label>
+<label>Domain/type <input id="domain" value="Software / XR"></label>
+<label>Technologies (comma-separated) <input id="technologies" placeholder="JavaScript, Node.js, PostgreSQL"></label>
+<label>Start date <input type="date" id="started_on"></label>
+<label>Project status <select id="status"><option>In progress</option><option>Completed</option><option>Planned</option><option>Archived</option></select></label>
+<label>GitHub repository URLs (one per line) <textarea id="repositories" rows="2" placeholder="https://github.com/owner/repo"></textarea></label>
+<div class="actions"><button type="button" id="github-preview">Import suggestions from GitHub</button><button type="button" id="duplicate-check">Check duplicate repositories</button></div>
+<label>Playable demo HTTPS URL <input type="url" id="playable_url" placeholder="https://..."></label>
+<label>Video / recorded demo HTTPS URL <input type="url" id="video_url" placeholder="https://..."></label>
+<label>Fallback image HTTPS URL <input type="url" id="fallback_url" placeholder="https://.../fallback.svg"></label>
+<div class="actions"><button type="submit" id="save">Create project</button><button type="button" id="publish" disabled>Publish</button><button type="button" id="unpublish" disabled>Unpublish</button></div>
+</form></section>
+<section id="members-section" hidden><h2>Shared contributors</h2><div id="members"></div>
+<h3>Invite an existing student</h3><form id="invite-form"><label>Student public ID (U + UUID) <input id="invite-id" required placeholder="U..."></label>
+<label>Role <select id="role"></select></label><button type="submit">Invite teammate</button></form>
+<h3>Join requests</h3><div id="join-requests"></div>
+<h3>Your contribution</h3><form id="contribution-form"><label>Personal role/contribution statement <textarea id="statement" rows="3" maxlength="2500"></textarea></label>
+<label class="check"><input type="checkbox" id="featured" checked> Feature project on my student profile</label><button type="submit">Save my statement</button></form></section>
+<section><h2>QA guidance</h2><p>Use three distinct verified GitHub student accounts. A collaborator must accept an invitation before their relationship is counted. A project cannot become shared evidence just by listing names in its description.</p></section>
+</main><script src="config.js"></script><script src="r3.js"></script></body></html>

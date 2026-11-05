@@ -6,7 +6,8 @@
     "node": ">=20"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test:r3": "node --test ../tests/r3_helpers.test.cjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
