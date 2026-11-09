@@ -82,3 +82,22 @@ CREATE TABLE IF NOT EXISTS student_profile_drafts (
 
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Complete the schema used by the R2 profile and résumé review routes.
+-- Additive and repeatable; existing profile data is preserved.
+ALTER TABLE student_profile_drafts
+  ADD COLUMN IF NOT EXISTS education_details TEXT NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS experience_details TEXT NOT NULL DEFAULT '',
+  ADD COLUMN IF NOT EXISTS field_visibility JSONB NOT NULL DEFAULT '{}'::jsonb;
+
+CREATE TABLE IF NOT EXISTS resume_review_batches (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  account_id UUID NOT NULL REFERENCES student_accounts(id) ON DELETE CASCADE,
+  candidates JSONB NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'applied')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMPTZ NOT NULL DEFAULT (NOW() + INTERVAL '30 minutes'),
+  used_at TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS idx_resume_review_account
+  ON resume_review_batches(account_id);
