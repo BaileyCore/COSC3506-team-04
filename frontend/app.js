@@ -154,10 +154,15 @@ function renderStudents(students) {
             ${escapeHtml(student.status)}
           </p>
 
-          <p>
-            <strong>Project evidence:</strong>
-            ${escapeHtml(student.project_count)}
-          </p>
+
+          ${
+            Number.isInteger(student.project_count)
+              ? `<p>
+                  <strong>Project evidence:</strong>
+                  ${escapeHtml(student.project_count)}
+                </p>`
+              : ""
+          }
 
           <button
             type="button"

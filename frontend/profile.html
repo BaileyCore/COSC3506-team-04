@@ -1,0 +1,647 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Profile | ImmXrsive</title>
+
+    <link rel="stylesheet" href="/profile.css">
+</head>
+
+<body>
+<main>
+
+    <!-- PAGE HEADER -->
+    <h1>Welcome to ImmXrsive</h1>
+    <p>Student Profile Management</p>
+
+    <!-- AUTHENTICATION STATUS -->
+    <p id="auth-status" role="status">
+        Checking your GitHub sign-in...
+    </p>
+
+    <a
+        id="github-login"
+        href="#"
+        hidden
+    >
+        Sign in with GitHub
+    </a>
+
+
+    <!-- ALGOMA EMAIL VERIFICATION -->
+    <section id="verification-section" hidden>
+
+        <h2>Verify your Algoma University email</h2>
+
+        <p>
+            Enter your university email to receive a
+            six-digit verification code.
+        </p>
+
+        <form id="request-code-form">
+
+            <label for="algoma-email">
+                Algoma University Email
+            </label>
+
+            <input
+                type="email"
+                id="algoma-email"
+                name="email"
+                placeholder="student@algomau.ca"
+                autocomplete="email"
+                required
+            >
+
+            <button type="submit">
+                Send Verification Code
+            </button>
+
+        </form>
+
+        <form id="confirm-code-form" hidden>
+
+            <label for="verification-code">
+                Six-Digit Verification Code
+            </label>
+
+            <input
+                type="text"
+                id="verification-code"
+                name="code"
+                inputmode="numeric"
+                pattern="[0-9]{6}"
+                maxlength="6"
+                autocomplete="one-time-code"
+                required
+            >
+
+            <button type="submit">
+                Verify Email
+            </button>
+
+        </form>
+
+        <p
+            id="verification-message"
+            role="status"
+            aria-live="polite"
+        ></p>
+
+    </section>
+
+
+    <!-- STUDENT PROFILE EDITOR -->
+    <section id="profile-editor" hidden>
+
+        <h2>Edit Your Professional Profile</h2>
+
+        <p>
+            Your profile is private until you choose
+            to publish it.
+        </p>
+
+
+        <!-- MAIN PROFILE FORM -->
+        <form id="profile-form">
+
+            <!-- PROFESSIONAL NAME -->
+            <div>
+
+                <label for="display-name">
+                    Professional Name
+                </label>
+
+                <input
+                    type="text"
+                    id="display-name"
+                    name="display_name"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <!-- EMPLOYMENT AVAILABILITY -->
+            <fieldset id="availability-fieldset">
+
+                <legend>Employment Availability</legend>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="availability"
+                        value="internship"
+                    >
+                    Internship
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="availability"
+                        value="co-op"
+                    >
+                    Co-op
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="availability"
+                        value="part-time"
+                    >
+                    Part-time
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="availability"
+                        value="full-time"
+                    >
+                    Full-time
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="availability"
+                        value="contract"
+                    >
+                    Contract
+                </label>
+
+            </fieldset>
+
+
+            <!-- TECHNICAL AND PROFESSIONAL SKILLS -->
+            <fieldset id="skills-fieldset">
+
+                <legend>
+                    Technical &amp; Professional Skills
+                </legend>
+
+                <p>
+                    Select the skills that represent
+                    your experience.
+                </p>
+
+                <div id="skills-options"></div>
+
+            </fieldset>
+
+
+            <!-- PROFESSIONAL HEADLINE -->
+            <div>
+
+                <label for="headline">
+                    Professional Headline
+                </label>
+
+                <input
+                    type="text"
+                    id="headline"
+                    name="headline"
+                    maxlength="200"
+                    placeholder="Computer Science Student | Developer"
+                >
+
+            </div>
+
+
+            <!-- BIOGRAPHY -->
+            <div>
+
+                <label for="biography">
+                    About Me
+                </label>
+
+                <textarea
+                    id="biography"
+                    name="biography"
+                    rows="6"
+                    maxlength="5000"
+                    placeholder="Describe your skills and experience."
+                ></textarea>
+
+            </div>
+
+
+            <!-- ACADEMIC PROGRAM -->
+            <div>
+
+                <label for="program">
+                    Academic Program
+                </label>
+
+                <input
+                    type="text"
+                    id="program"
+                    name="program"
+                    maxlength="200"
+                    placeholder="Bachelor of Computer Science"
+                >
+
+            </div>
+
+
+            <!-- LOCATION -->
+            <div>
+
+                <label for="location-text">
+                    Location
+                </label>
+
+                <input
+                    type="text"
+                    id="location-text"
+                    name="location_text"
+                    maxlength="200"
+                    placeholder="Brampton, Ontario"
+                >
+
+            </div>
+
+
+            <!-- PROFESSIONAL LINKS -->
+            <fieldset id="professional-links">
+
+                <legend>Professional Links</legend>
+
+                <div>
+
+                    <label for="github-url">
+                        GitHub URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="github-url"
+                        placeholder="https://github.com/username"
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="linkedin-url">
+                        LinkedIn URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="linkedin-url"
+                        placeholder="https://www.linkedin.com/in/username"
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="portfolio-url">
+                        Portfolio URL
+                    </label>
+
+                    <input
+                        type="url"
+                        id="portfolio-url"
+                        placeholder="https://yourportfolio.com"
+                    >
+
+                </div>
+
+            </fieldset>
+
+
+            <!-- EDUCATION AND EXPERIENCE -->
+            <section id="profile-background-section">
+
+                <h2>Education &amp; Experience</h2>
+
+                <div>
+
+                    <label for="education-details">
+                        Education
+                    </label>
+
+                    <textarea
+                        id="education-details"
+                        name="education_details"
+                        rows="6"
+                        maxlength="15000"
+                        placeholder="Your degree, university, coursework, and other education details"
+                    ></textarea>
+
+                </div>
+
+                <div>
+
+                    <label for="experience-details">
+                        Experience &amp; Projects
+                    </label>
+
+                    <textarea
+                        id="experience-details"
+                        name="experience_details"
+                        rows="8"
+                        maxlength="15000"
+                        placeholder="Your work experience, internships, and projects"
+                    ></textarea>
+
+                </div>
+
+                <p id="background-details-message">
+                    Add or edit your education and experience,
+                    then click Save Private Draft.
+                </p>
+
+            </section>
+
+
+            <!-- SAVE PRIVATE DRAFT -->
+            <button
+                type="submit"
+                id="save-profile"
+            >
+                Save Private Draft
+            </button>
+
+
+            <!-- PROFILE PRIVACY SETTINGS -->
+            <fieldset id="privacy-fieldset">
+
+                <legend>Profile Privacy Settings</legend>
+
+                <p>
+                    Choose which information can be shown
+                    publicly if you publish your profile.
+                </p>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="display_name"
+                    >
+                    Show professional name
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="headline"
+                    >
+                    Show professional headline
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="biography"
+                    >
+                    Show biography
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="program"
+                    >
+                    Show academic program
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="location_text"
+                    >
+                    Show location
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="availability"
+                    >
+                    Show employment availability
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="skills"
+                    >
+                    Show skills
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="professional_links"
+                    >
+                    Show professional links
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="education_details"
+                    >
+                    Show education
+                </label>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="experience_details"
+                    >
+                    Show experience &amp; projects
+                </label>
+
+            </fieldset>
+
+
+            <!-- SAVE PRIVACY SETTINGS -->
+            <button type="submit" id="save-privacy-settings">
+                Save Privacy Settings
+            </button>
+
+        </form>
+
+
+        <!-- PROFILE SAVE MESSAGE -->
+        <p
+            id="profile-message"
+            role="status"
+            aria-live="polite"
+        ></p>
+
+
+        <!-- RÉSUMÉ UPLOAD -->
+        <section id="resume-section">
+
+            <h2>Import Your Résumé</h2>
+
+            <p>
+                Upload a PDF résumé to help build your
+                professional profile. Existing fields
+                will not be overwritten automatically.
+            </p>
+
+            <form
+                id="resume-upload-form"
+                enctype="multipart/form-data"
+            >
+
+                <label for="resume-file">
+                    Choose a PDF résumé
+                </label>
+
+                <input
+                    type="file"
+                    id="resume-file"
+                    name="resume"
+                    accept=".pdf,application/pdf"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    id="upload-resume"
+                >
+                    Upload Résumé
+                </button>
+
+            </form>
+
+            <p
+                id="resume-message"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+        </section>
+
+
+        <!-- RÉSUMÉ REVIEW -->
+        <section id="resume-review-section" hidden>
+
+            <h2>Review Résumé Suggestions</h2>
+
+            <p>
+                Review the information extracted from your résumé.
+                Nothing will be added to your profile automatically.
+            </p>
+
+            <div id="resume-candidates"></div>
+
+            <button
+                type="button"
+                id="validate-resume-review"
+            >
+                Validate My Selections
+            </button>
+
+            <button
+                type="button"
+                id="apply-resume-review"
+            >
+                Apply Approved Suggestions
+            </button>
+
+            <p
+                id="resume-review-message"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+        </section>
+
+
+        <!-- PUBLIC PROFILE ACTIONS -->
+        <div class="profile-actions">
+
+            <button
+                type="button"
+                id="preview-profile"
+            >
+                Preview Public Profile
+            </button>
+
+            <button
+                type="button"
+                id="publish-profile"
+                hidden
+            >
+                Publish Profile
+            </button>
+
+            <button
+                type="button"
+                id="unpublish-profile"
+                hidden
+            >
+                Unpublish Profile
+            </button>
+
+        </div>
+
+
+        <!-- PUBLIC PROFILE PREVIEW -->
+        <section id="profile-preview" hidden>
+
+            <h2>Employer Profile Preview</h2>
+
+            <p>
+                This is how your saved profile would appear
+                based on your visibility settings.
+            </p>
+
+            <div id="preview-content"></div>
+
+        </section>
+
+
+        <!-- PUBLICATION STATUS -->
+        <div id="publication-controls">
+
+            <p
+                id="publication-status"
+                role="status"
+                aria-live="polite"
+            >
+                Checking publication status...
+            </p>
+
+            <p
+                id="publication-message"
+                role="status"
+                aria-live="polite"
+            ></p>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="/config.js"></script>
+<script src="/profile.js"></script>
+
+</body>
+</html>

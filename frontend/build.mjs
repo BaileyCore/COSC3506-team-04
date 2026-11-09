@@ -5,6 +5,9 @@ await mkdir("dist", { recursive: true });
 
 const files = [
   "index.html",
+  "profile.html",
+  "profile.js",
+  "profile.css",
   "app.js",
   "config.js",
   "student.html",

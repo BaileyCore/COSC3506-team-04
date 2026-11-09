@@ -2,4 +2,3 @@
 // Local development:  http://localhost:3000
 // Deployed:           https://your-api.onrender.com
 window.API_BASE_URL = "https://cosc3506-team-04.onrender.com";
-
