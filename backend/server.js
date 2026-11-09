@@ -29,6 +29,15 @@ app.use(cors({
 
 app.use(express.json());
 
+// Production frontend and API use separate Render sites.
+app.use((request, response, next) => {
+  if (!["GET", "HEAD", "OPTIONS"].includes(request.method) &&
+      request.get("Origin") !== process.env.FRONTEND_ORIGIN) {
+    return response.status(403).json({ error: "Request origin is not allowed." });
+  }
+  next();
+});
+
 
 const isLocalDatabase = process.env.DATABASE_URL.includes("localhost");
 const pool = new Pool({
@@ -58,7 +67,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000,
     },
   })
