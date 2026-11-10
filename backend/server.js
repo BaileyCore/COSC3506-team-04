@@ -391,14 +391,16 @@ const resumeUpload = multer({
 function createPublicProfile(profile) {
   const visibility = profile.field_visibility || {};
 
-  const publicProfile = {
+
+const publicProfile = {
     id: profile.id,
     profile_status: profile.profile_status
-  };
+};
 
 
 const publicFields = [
     "display_name",
+    "student_status",
     "headline",
     "biography",
     "program",
@@ -433,7 +435,8 @@ function createDirectoryStudent(profile) {
 
     program: publicProfile.program || "",
 
-    status: "unspecified",
+status: publicProfile.student_status || "unspecified",
+
 
     profile_status: "published",
 
@@ -478,6 +481,7 @@ app.get("/api/public/profiles", async (_request, response, next) => {
       `SELECT
         id,
         display_name,
+        student_status,
         headline,
         biography,
         program,
@@ -521,6 +525,7 @@ app.get("/api/public/profiles/:id", async (request, response, next) => {
       `SELECT
         id,
         display_name,
+        student_status,
         headline,
         biography,
         program,
@@ -565,6 +570,7 @@ const result = await pool.query(
   `SELECT
     id,
     display_name,
+    student_status,
     headline,
     biography,
     program,
@@ -1507,6 +1513,7 @@ app.get(
         `SELECT
           id,
           display_name,
+          student_status,
           headline,
           biography,
           program,
@@ -1595,6 +1602,7 @@ const experienceDetails =
 
 const allowedFields = new Set([
   "display_name",
+  "student_status",
   "headline",
   "biography",
   "program",
@@ -1641,6 +1649,20 @@ if (
 
 const program = body.program.trim();
 const locationText = body.location_text.trim();
+
+
+const permittedStudentStatuses = new Set([
+  "current",
+  "alumni"
+]);
+
+if (!permittedStudentStatuses.has(body.student_status)) {
+  return response.status(400).json({
+    error: "Select Current Student or Alumni."
+  });
+}
+
+const studentStatus = body.student_status;
 
 
 if (program.length > 200 || locationText.length > 200) {
@@ -1776,6 +1798,7 @@ for (const type of allowedLinkTypes) {
 
 const visibilityFields = [
     "display_name",
+    "student_status",
     "headline",
     "biography",
     "program",
@@ -1808,10 +1831,12 @@ if (
 
 
 // POOL QUERY : POST /api/profile/draft
+
 const result = await pool.query(
   `INSERT INTO student_profile_drafts (
     account_id,
     display_name,
+    student_status,
     headline,
     biography,
     program,
@@ -1824,14 +1849,15 @@ const result = await pool.query(
     experience_details
   )
   VALUES (
-    $1, $2, $3, $4, $5, $6,
-    $7, $8, $9, $10,
-    COALESCE($11::text, ''),
-    COALESCE($12::text, '')
+    $1, $2, $3, $4, $5, $6, $7,
+    $8, $9, $10, $11,
+    COALESCE($12::text, ''),
+    COALESCE($13::text, '')
   )
   ON CONFLICT (account_id)
   DO UPDATE SET
     display_name = EXCLUDED.display_name,
+    student_status = EXCLUDED.student_status,
     headline = EXCLUDED.headline,
     biography = EXCLUDED.biography,
     program = EXCLUDED.program,
@@ -1841,17 +1867,18 @@ const result = await pool.query(
     professional_links = EXCLUDED.professional_links,
     field_visibility = EXCLUDED.field_visibility,
     education_details = COALESCE(
-      $11::text,
+      $12::text,
       student_profile_drafts.education_details
     ),
     experience_details = COALESCE(
-      $12::text,
+      $13::text,
       student_profile_drafts.experience_details
     ),
     updated_at = NOW()
   RETURNING
     id,
     display_name,
+    student_status,
     headline,
     biography,
     program,
@@ -1866,6 +1893,7 @@ const result = await pool.query(
   [
     accountId,
     displayName,
+    studentStatus,
     headline,
     biography,
     program,
@@ -1878,6 +1906,7 @@ const result = await pool.query(
     experienceDetails
   ]
 );
+
 
       response.json({
         message: "Profile draft saved successfully.",

@@ -107,6 +107,18 @@ const result = await response.json();
     document.getElementById("location-text").value =
     result.profile.location_text || "";
 
+// Load saved student status
+    const savedStudentStatus =
+        result.profile.student_status || "current";
+
+    const studentStatusInput = document.querySelector(
+        `input[name="student_status"][value="${savedStudentStatus}"]`
+    );
+
+    if (studentStatusInput) {
+        studentStatusInput.checked = true;
+    }
+
 const savedAvailability = result.profile.availability || [];
 
 document.querySelectorAll(
@@ -308,9 +320,16 @@ profileForm.addEventListener("submit", async (event) => {
 
     try {
 
+
 const profile = {
     display_name: document.getElementById("display-name").value,
+
+    student_status: document.querySelector(
+        'input[name="student_status"]:checked'
+    )?.value || "current",
+
     headline: document.getElementById("headline").value,
+
     biography: document.getElementById("biography").value,
     program: document.getElementById("program").value,
     location_text: document.getElementById("location-text").value,
@@ -403,9 +422,9 @@ document.getElementById("preview-profile").addEventListener(
 
         const profile = result.profile;
 
-
 const fields = [
     ["display_name", "Professional Name"],
+    ["student_status", "Student Status"],
     ["headline", "Headline"],
     ["biography", "About Me"],
     ["program", "Academic Program"],
@@ -416,7 +435,6 @@ const fields = [
     ["education_details", "Education"],
     ["experience_details", "Experience & Projects"]
 ];
-
 
     fields.forEach(([key, title]) => {
         if (!Object.hasOwn(profile, key)) {
@@ -430,6 +448,14 @@ const fields = [
 
         const value = profile[key];
 
+if (key === "student_status") {
+    paragraph.textContent =
+        value === "current" ? "Current Student" :
+        value === "alumni" ? "Alumni" :
+        String(value ?? "");
+    previewContent.append(heading, paragraph);
+    return;
+}
         paragraph.textContent = Array.isArray(value)
             ? value.join(", ")
             : typeof value === "object" && value !== null

@@ -31,7 +31,6 @@
         Sign in with GitHub
     </a>
 
-
     <!-- ALGOMA EMAIL VERIFICATION -->
     <section id="verification-section" hidden>
 
@@ -108,7 +107,6 @@
 
         <!-- MAIN PROFILE FORM -->
         <form id="profile-form">
-
             <!-- PROFESSIONAL NAME -->
             <div>
 
@@ -125,7 +123,6 @@
                 >
 
             </div>
-
 
             <!-- EMPLOYMENT AVAILABILITY -->
             <fieldset id="availability-fieldset">
@@ -178,7 +175,6 @@
                 </label>
 
             </fieldset>
-
 
             <!-- TECHNICAL AND PROFESSIONAL SKILLS -->
             <fieldset id="skills-fieldset">
@@ -251,6 +247,30 @@
             </div>
 
 
+<!-- STUDENT STATUS -->
+<fieldset id="student-status-fieldset">
+    <legend>Student Status</legend>
+
+    <label>
+        <input
+            type="radio"
+            name="student_status"
+            value="current"
+            checked
+        >
+        Current Student
+    </label>
+
+    <label>
+        <input
+            type="radio"
+            name="student_status"
+            value="alumni"
+        >
+        Alumni
+    </label>
+</fieldset>
+
             <!-- LOCATION -->
             <div>
 
@@ -267,7 +287,6 @@
                 >
 
             </div>
-
 
             <!-- PROFESSIONAL LINKS -->
             <fieldset id="professional-links">
@@ -318,7 +337,6 @@
 
             </fieldset>
 
-
             <!-- EDUCATION AND EXPERIENCE -->
             <section id="profile-background-section">
 
@@ -363,7 +381,6 @@
 
             </section>
 
-
             <!-- SAVE PRIVATE DRAFT -->
             <button
                 type="submit"
@@ -390,6 +407,16 @@
                         value="display_name"
                     >
                     Show professional name
+                </label>
+
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="visibility"
+                        value="student_status"
+>
+                Show student status (Current Student / Alumni)
                 </label>
 
                 <label>
@@ -424,7 +451,7 @@
                         type="checkbox"
                         name="visibility"
                         value="location_text"
-                    >
+>
                     Show location
                 </label>
 
@@ -475,7 +502,6 @@
 
             </fieldset>
 
-
             <!-- SAVE PRIVACY SETTINGS -->
             <button type="submit" id="save-privacy-settings">
                 Save Privacy Settings
@@ -483,14 +509,12 @@
 
         </form>
 
-
         <!-- PROFILE SAVE MESSAGE -->
         <p
             id="profile-message"
             role="status"
             aria-live="polite"
         ></p>
-
 
         <!-- RÉSUMÉ UPLOAD -->
         <section id="resume-section">
@@ -537,7 +561,6 @@
 
         </section>
 
-
         <!-- RÉSUMÉ REVIEW -->
         <section id="resume-review-section" hidden>
 
@@ -572,7 +595,6 @@
 
         </section>
 
-
         <!-- PUBLIC PROFILE ACTIONS -->
         <div class="profile-actions">
 
@@ -601,7 +623,6 @@
 
         </div>
 
-
         <!-- PUBLIC PROFILE PREVIEW -->
         <section id="profile-preview" hidden>
 
@@ -615,7 +636,6 @@
             <div id="preview-content"></div>
 
         </section>
-
 
         <!-- PUBLICATION STATUS -->
         <div id="publication-controls">

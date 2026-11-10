@@ -268,3 +268,30 @@ fieldset label {
     margin-top: 24px;
     margin-bottom: 8px;
 }
+
+/* Student Status radio buttons */
+#student-status-fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#student-status-fieldset label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 0;
+    cursor: pointer;
+}
+
+#student-status-fieldset input[type="radio"] {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    margin: 0;
+    padding: 0;
+    accent-color: var(--navy);
+    flex: 0 0 18px;
+}
