@@ -2288,6 +2288,7 @@ const result = await pool.query(
       `SELECT
         id,
         display_name,
+        student_status,
         headline,
         biography,
         program,
@@ -2393,6 +2394,7 @@ if (uuidPattern.test(id)) {
     `SELECT
       id,
       display_name,
+      student_status,
       headline,
       biography,
       program,
