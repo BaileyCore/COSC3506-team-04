@@ -1,0 +1,212 @@
+{
+  "commit": "1fa1a232e2c2d3566ab12d9d182ded80595a34f9",
+  "started": "2026-11-16T02:12:42.957Z",
+  "authentication": "Mock verified maintainer resolver; no GitHub OAuth or cookie verification",
+  "api": "Real Express R3 handlers and SQL against disposable in-memory PGlite",
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invitees?q=liC",
+      "body": {},
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invitees?q=Alice%20M",
+      "body": {},
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+      "body": {
+        "student_id": "U00000000-0000-4000-8000-000000000003",
+        "role": "QA/Tester"
+      },
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+      "body": {
+        "student_id": "U00000000-0000-4000-8000-000000000004",
+        "role": "Backend Developer"
+      },
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invitees?q=liC",
+      "body": {},
+      "status": 304
+    },
+    {
+      "method": "GET",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invitees?q=Alice%20M",
+      "body": {},
+      "status": 304
+    },
+    {
+      "method": "POST",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+      "body": {
+        "student_id": "U00000000-0000-4000-8000-000000000003",
+        "role": "QA/Tester"
+      },
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+      "body": {
+        "student_id": "U00000000-0000-4000-8000-000000000004",
+        "role": "Backend Developer"
+      },
+      "status": 201
+    }
+  ],
+  "checks": [
+    {
+      "width": 1280,
+      "name": "Partial name produces published matches",
+      "result": "PASS",
+      "details": {
+        "query": "liC",
+        "labels": [
+          "Alice Morgan — Computing · Disposable test profile",
+          "Alice Morgan — Business · Disposable test profile"
+        ],
+        "noAutomaticSelection": true
+      }
+    },
+    {
+      "width": 1280,
+      "name": "Editing a selected name clears selection",
+      "result": "PASS",
+      "details": {
+        "inviteDisabledAfterEdit": true
+      }
+    },
+    {
+      "width": 1280,
+      "name": "Selected namesake and role reach invite endpoint",
+      "result": "PASS",
+      "details": {
+        "request": {
+          "method": "POST",
+          "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+          "body": {
+            "student_id": "U00000000-0000-4000-8000-000000000003",
+            "role": "QA/Tester"
+          },
+          "status": 201
+        },
+        "persisted": [
+          {
+            "student_id": "00000000-0000-4000-8000-000000000003",
+            "role": "QA/Tester",
+            "state": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "name": "Public ID fallback invites unpublished verified test account",
+      "result": "PASS",
+      "details": {
+        "request": {
+          "method": "POST",
+          "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+          "body": {
+            "student_id": "U00000000-0000-4000-8000-000000000004",
+            "role": "Backend Developer"
+          },
+          "status": 201
+        },
+        "persisted": {
+          "role": "Backend Developer",
+          "state": "pending"
+        }
+      }
+    },
+    {
+      "width": 1280,
+      "name": "No horizontal overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "name": "Partial name produces published matches",
+      "result": "PASS",
+      "details": {
+        "query": "liC",
+        "labels": [
+          "Alice Morgan — Computing · Disposable test profile",
+          "Alice Morgan — Business · Disposable test profile"
+        ],
+        "noAutomaticSelection": true
+      }
+    },
+    {
+      "width": 390,
+      "name": "Editing a selected name clears selection",
+      "result": "PASS",
+      "details": {
+        "inviteDisabledAfterEdit": true
+      }
+    },
+    {
+      "width": 390,
+      "name": "Selected namesake and role reach invite endpoint",
+      "result": "PASS",
+      "details": {
+        "request": {
+          "method": "POST",
+          "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+          "body": {
+            "student_id": "U00000000-0000-4000-8000-000000000003",
+            "role": "QA/Tester"
+          },
+          "status": 201
+        },
+        "persisted": [
+          {
+            "student_id": "00000000-0000-4000-8000-000000000003",
+            "role": "QA/Tester",
+            "state": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "name": "Public ID fallback invites unpublished verified test account",
+      "result": "PASS",
+      "details": {
+        "request": {
+          "method": "POST",
+          "path": "/api/r3/projects/00000000-0000-4000-8000-000000000100/invite",
+          "body": {
+            "student_id": "U00000000-0000-4000-8000-000000000004",
+            "role": "Backend Developer"
+          },
+          "status": 201
+        },
+        "persisted": {
+          "role": "Backend Developer",
+          "state": "pending"
+        }
+      }
+    },
+    {
+      "width": 390,
+      "name": "No horizontal overflow",
+      "result": "PASS"
+    }
+  ],
+  "browserErrors": [],
+  "blockedRemoteRequests": [],
+  "browser": "Chrome/157.0.8103.51",
+  "finished": "2026-11-16T02:12:47.069Z"
+}
