@@ -30,6 +30,69 @@
     return data;
   };
   const go=fn=>async(...args)=>{try{feedback('');await fn(...args);}catch(e){feedback(e.message||'Request failed');}};
+  // Each edit invalidates both the selection and any pending lookup, even before
+  // the next debounce fires. A response for another project can never be applied.
+  let inviteSelection=null, inviteRevision=0, inviteTimer;
+  const inviteStatus=message=>{$('invite-status').textContent=message;};
+  function updateInviteControls(){
+    const enabled=!!state.project&&state.canEdit, byId=$('invite-by-id').checked;
+    $('invite-by-id').disabled=!enabled;
+    $('invite-name').disabled=!enabled||byId;
+    $('invite-name-panel').hidden=byId;
+    $('invite-id-panel').hidden=!byId;
+    $('invite-id').disabled=!enabled||!byId;
+    $('invite-id').required=byId;
+    $('role').disabled=!enabled;
+    $('invite-submit').disabled=!enabled||!(byId?$('invite-id').value.trim():inviteSelection);
+  }
+  function clearInviteSelection(){
+    clearTimeout(inviteTimer);inviteRevision++;inviteSelection=null;
+    $('invite-results').replaceChildren();updateInviteControls();
+  }
+  function resetInvitePicker(){
+    $('invite-name').value='';$('invite-id').value='';$('invite-by-id').checked=false;
+    clearInviteSelection();inviteStatus('Type at least two characters of a student name.');
+  }
+  $('invite-name').addEventListener('input',()=>{
+    clearInviteSelection();
+    const query=$('invite-name').value.trim(), revision=inviteRevision, projectId=state.project?.id;
+    if(!state.canEdit||!projectId)return;
+    if(query.length<2){inviteStatus('Type at least two characters of a student name.');return;}
+    inviteStatus('Searching students…');
+    inviteTimer=setTimeout(async()=>{
+      try{
+        const {students}=await get(`/api/r3/projects/${encodeURIComponent(projectId)}/invitees?q=${encodeURIComponent(query)}`);
+        if(revision!==inviteRevision)return;
+        if(!students.length){inviteStatus('No matches. Try another name, or choose Enter public ID instead for a verified student whose profile is not published.');return;}
+        inviteStatus(`${students.length} matching students. Select the intended person before inviting. Up to eight results are shown; type more to narrow the list.`);
+        for(const student of students){
+          const item=el('li');
+          const details=[student.program,student.headline].filter(Boolean).join(' · ');
+          const choose=btn(student.name+(details?' — '+details:''),()=>{
+            clearInviteSelection();inviteSelection=student;
+            $('invite-name').value=student.name;
+            inviteStatus('Selected '+student.name+(details?' — '+details:'')+'. Choose a role and invite.');
+            updateInviteControls();$('invite-name').focus();
+          });
+          item.append(choose);$('invite-results').append(item);
+        }
+      }catch(e){if(revision===inviteRevision)inviteStatus('Could not search students. Try typing again or use Enter public ID instead. '+e.message);}
+    },250);
+  });
+  $('invite-name').addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'){
+      const first=$('invite-results').querySelector('button');
+      if(first){e.preventDefault();first.focus();}
+    }
+    if(e.key==='Escape'){clearInviteSelection();inviteStatus('Search cleared. Type a name again to search.');}
+  });
+  $('invite-by-id').addEventListener('change',()=>{
+    clearInviteSelection();
+    inviteStatus($('invite-by-id').checked?'Enter the student’s public platform ID.':'Type at least two characters of a student name.');
+    $('invite-name').value='';$('invite-id').value='';updateInviteControls();
+    ($('invite-by-id').checked?$('invite-id'):$('invite-name')).focus();
+  });
+  $('invite-id').addEventListener('input',updateInviteControls);
   const repos=()=> $('repositories').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
   const readForm=()=>({title:$('title').value,description:$('description').value,domain:$('domain').value,
     status:$('status').value,technologies:$('technologies').value.split(',').map(s=>s.trim()).filter(Boolean),
@@ -60,6 +123,7 @@
   }
   async function load(id){
     const result=await get(`/api/r3/projects/${encodeURIComponent(id)}`);state.project=result.project;state.canEdit=result.can_edit_shared;
+    resetInvitePicker();
     fillForm(state.project);$('form-title').textContent=`Project: ${state.project.title}`;
     $('save').textContent='Save changes';
     for(const element of $('project-form').querySelectorAll('input,textarea,select'))element.disabled=!state.canEdit;
@@ -91,7 +155,7 @@
       })));
       box.append(div);
     }
-    $('invite-form').querySelectorAll('input,select,button').forEach(n=>{n.disabled=!state.canEdit;});
+    updateInviteControls();
   }
   async function loadJoinRequests(){
     const box=$('join-requests');box.replaceChildren();
@@ -110,6 +174,7 @@
   }
   $('new-project').addEventListener('click',()=>{
     state.project=null;state.canEdit=true;fillForm({});$('domain').value='Software / XR';
+    resetInvitePicker();
     $('status').value='In progress';$('form-title').textContent='Add Project';
     $('save').textContent='Create project';
     for(const element of $('project-form').querySelectorAll('input,textarea,select'))element.disabled=false;
@@ -147,7 +212,10 @@
     await post(`/api/r3/projects/${state.project.id}/unpublish`);await load(state.project.id);await refreshLists();feedback('Project unpublished.');
   }));
   $('invite-form').addEventListener('submit',go(async(e)=>{e.preventDefault();if(!state.project)throw Error('Choose a project first.');
-    await post(`/api/r3/projects/${state.project.id}/invite`,'POST',{student_id:$('invite-id').value,role:$('role').value});
+    if(!state.canEdit)throw Error('Only the current maintainer can invite students.');
+    const studentId=$('invite-by-id').checked?$('invite-id').value.trim():inviteSelection?.id;
+    if(!studentId)throw Error('Select a matching student or enter their public ID first.');
+    await post(`/api/r3/projects/${state.project.id}/invite`,'POST',{student_id:studentId,role:$('role').value});
     await load(state.project.id);feedback('Invitation sent. The student must sign in and accept.');
   }));
   $('contribution-form').addEventListener('submit',go(async(e)=>{e.preventDefault();if(!state.project)throw Error('Choose a project first.');

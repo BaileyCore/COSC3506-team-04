@@ -20,8 +20,17 @@
 <div class="actions"><button type="submit" id="save">Create project</button><button type="button" id="publish" disabled>Publish</button><button type="button" id="unpublish" disabled>Unpublish</button></div>
 </form></section>
 <section id="members-section" hidden><h2>Shared contributors</h2><div id="members"></div>
-<h3>Invite an existing student</h3><form id="invite-form"><label>Student public ID (U + UUID) <input id="invite-id" required placeholder="U..."></label>
-<label>Role <select id="role"></select></label><button type="submit">Invite teammate</button></form>
+<h3>Invite an existing student</h3><form id="invite-form">
+<div id="invite-name-panel"><label for="invite-name">Student name</label>
+<input id="invite-name" type="search" maxlength="100" autocomplete="off" aria-describedby="invite-help invite-status" aria-controls="invite-results">
+<p id="invite-help" class="muted">Type at least two characters, then select a student. Use Tab to reach results and Enter or Space to select.</p>
+<ul id="invite-results" class="invite-results" aria-label="Matching students"></ul></div>
+<p id="invite-status" role="status" aria-live="polite">Type at least two characters of a student name.</p>
+<label class="check"><input type="checkbox" id="invite-by-id"> Enter public ID instead</label>
+<div id="invite-id-panel" hidden><label for="invite-id">Student public ID (U + UUID)</label>
+<input id="invite-id" disabled placeholder="U..." aria-describedby="invite-id-help">
+<p id="invite-id-help" class="muted">Ask the student for their platform public ID, not a university student number. They must have a verified account; their profile may be unpublished.</p></div>
+<label>Role <select id="role" required></select></label><button id="invite-submit" type="submit" disabled>Invite teammate</button></form>
 <h3>Join requests</h3><div id="join-requests"></div>
 <h3>Your contribution</h3><form id="contribution-form"><label>Personal role/contribution statement <textarea id="statement" rows="3" maxlength="2500"></textarea></label>
 <label class="check"><input type="checkbox" id="featured" checked> Feature project on my student profile</label><button type="submit">Save my statement</button></form></section>
