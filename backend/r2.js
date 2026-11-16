@@ -154,7 +154,9 @@ module.exports = function createR2Router(pool) {
       if (!user.id) return res.status(401).send("Could not confirm the GitHub account.");
       const account = await pool.query("INSERT INTO r2_accounts (github_id, github_login) VALUES ($1, $2) ON CONFLICT (github_id) DO UPDATE SET github_login = EXCLUDED.github_login RETURNING user_id", [String(user.id), user.login || ""]);
       setSession(res, account.rows[0].user_id);
-      res.redirect((process.env.FRONTEND_ORIGIN || "/") + "/profile.html");
+      // This marker only lets the UI report a missing session after OAuth.
+      // Authentication still requires the signed cookie and account lookup.
+      res.redirect((process.env.FRONTEND_ORIGIN || "/") + "/profile.html?auth=github");
     } catch (error) {
       console.error("GitHub sign-in failed:", error.message);
       res.status(500).send("Sign-in failed. Please try again.");
