@@ -187,6 +187,22 @@ function mountR3(app, {pool,getVerifiedStudentId,studentExists,frontendOrigin}) 
     });
     res.json({published:false});
   }));
+  app.get('/api/r3/projects/:id/invitees', safe(async(req,res)=>{
+    const userId=await me(req), projectId=id(req);
+    const p=await getProject(pool,projectId); requireMaintainer(p,userId);
+    const query=typeof req.query.q==='string'?req.query.q.trim():'';
+    if(query.length<2 || query.length>100) throw fail(400,'Enter between 2 and 100 characters of a student name');
+    // Search the published snapshot, never private R2 draft JSON or account emails.
+    // POSITION treats %, _ and backslashes literally rather than as LIKE wildcards.
+    const {rows}=await pool.query(`SELECT s.id,s.name,s.program,s.headline
+      FROM students s JOIN r2_accounts a ON s.id=('U'||a.user_id::text)
+      WHERE s.profile_status='published' AND a.verified_at IS NOT NULL
+        AND a.user_id<>$3::uuid AND position(lower($2::text) in lower(s.name))>0
+        AND NOT EXISTS (SELECT 1 FROM r3_contributors c
+          WHERE c.project_id=$1 AND c.student_id=a.user_id AND c.state='accepted')
+      ORDER BY lower(s.name),s.id LIMIT 8`,[projectId,query,userId]);
+    res.json({students:rows});
+  }));
   app.post('/api/r3/projects/:id/invite', safe(async(req,res)=>{
     const userId=await me(req), projectId=id(req);
     const target=publicStudentId(req.body?.student_id), role=req.body?.role;

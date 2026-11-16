@@ -3,13 +3,37 @@ const $=(id)=>document.getElementById(id);
 const note=(message,error=false)=>{$("notice").textContent=message;$("notice").className="status"+(error?" error":"");};
 const choices=[["internship","Internship"],["full-time","Full-time"],["contract","Contract"]];
 $("availability").innerHTML=choices.map(([v,l])=>'<label class="choice"><input type="checkbox" name="availability" value="'+v+'">'+l+'</label>').join("");
-async function call(path,options={}){const response=await fetch(API+"/api"+path,{credentials:"include",...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});let data={};try{data=await response.json()}catch{}if(!response.ok)throw new Error(data.error||"Request failed ("+response.status+")");return data}
+async function call(path,options={}){const response=await fetch(API+"/api"+path,{credentials:"include",...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});let data={};try{data=await response.json()}catch{}if(!response.ok)throw Object.assign(new Error(data.error||"Request failed ("+response.status+")"),{status:response.status});return data}
 function readProfile(){return {name:$("name").value.trim(),headline:$("headline").value.trim(),program:$("program").value.trim(),biography:$("biography").value.trim(),location:$("location").value.trim(),theme:$("theme").value,section_order:$("sectionOrder").value,show_availability:$("showAvailability").checked,show_links:$("showLinks").checked,availability:[...document.querySelectorAll('input[name="availability"]:checked')].map(x=>x.value),skills:[...document.querySelectorAll('input[name="skill"]:checked')].map(x=>x.value),links:{Portfolio:$("portfolio").value.trim(),GitHub:$("github").value.trim()}}}
 function fillProfile(p={}){for(const key of ["name","headline","program","biography","location"])$(key).value=p[key]||"";$("showAvailability").checked=p.show_availability!==false;$("showLinks").checked=p.show_links!==false;$("theme").value=p.theme||"classic";$("sectionOrder").value=p.section_order||"about-projects";for(const input of document.querySelectorAll('input[name="availability"]'))input.checked=(p.availability||[]).includes(input.value);for(const input of document.querySelectorAll('input[name="skill"]'))input.checked=(p.skills||[]).includes(input.value);$("portfolio").value=p.links?.Portfolio||"";$("github").value=p.links?.GitHub||""}
 function containsSkill(text,skill){const escaped=skill.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return new RegExp("(^|[^a-z0-9])"+escaped+"(?=$|[^a-z0-9])","i").test(text)}
 function escapeHTML(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 async function loadSkills(){const response=await fetch(API+"/api/skills");if(!response.ok)throw new Error("Could not load shared skills");const skills=await response.json();$("skills").innerHTML=skills.map(s=>'<label class="choice"><input type="checkbox" name="skill" value="'+escapeHTML(s)+'">'+escapeHTML(s)+'</label>').join("")}
-async function start(){const signIn=$("signedOut"),verify=$("verification"),editor=$("editor");$("signIn").href=API+"/api/auth/github";try{const me=await call("/auth/me");signIn.hidden=true;if(!me.verified){verify.hidden=false;editor.hidden=true;note("Signed in as @"+me.github_login+". Verify your Algoma email to continue.");return}verify.hidden=true;editor.hidden=false;await loadSkills();const p=await call("/profile");fillProfile(p.profile);note("Signed in and verified as "+me.email+". Your profile is "+(p.published?"published":"private")+"." );$("unpublish").hidden=!p.published}catch(e){if(e.message.includes("Sign in")||e.message.includes("401")){signIn.hidden=false;verify.hidden=true;editor.hidden=true;note("Sign in with GitHub to manage your profile.")}else{signIn.hidden=true;note(e.message,true)}}}
+async function start(){
+  const signIn=$("signedOut"),verify=$("verification"),editor=$("editor");
+  $("signIn").href=API+"/api/auth/github";
+  signIn.hidden=true;verify.hidden=true;editor.hidden=true;
+  let me;
+  try{me=await call("/auth/me")}catch(e){
+    signIn.hidden=false;
+    if(e.status===401){
+      const returnedFromGitHub=new URLSearchParams(location.search).get("auth")==="github";
+      note(returnedFromGitHub
+        ? "GitHub returned, but the app could not establish your session. Try signing in again. If this repeats, report the time and browser cookie warnings to the team."
+        : "Sign in with GitHub to manage your profile.",returnedFromGitHub);
+    }else{
+      note(e.status?e.message:"Could not reach the sign-in service. Check your connection and try signing in again. If this repeats, report the time and browser error to the team.",true);
+    }
+    return;
+  }
+  if(!me.verified){verify.hidden=false;note("Signed in as @"+me.github_login+". Verify your Algoma email to continue.");return}
+  try{
+    await loadSkills();const p=await call("/profile");fillProfile(p.profile);
+    editor.hidden=false;
+    note("Signed in and verified as "+me.email+". Your profile is "+(p.published?"published":"private")+".");
+    $("unpublish").hidden=!p.published;
+  }catch(e){note(e.message,true)}
+}
 $("sendCode").onclick=async()=>{try{const data=await call("/affiliation/request",{method:"POST",body:JSON.stringify({email:$("email").value})});$("codePanel").hidden=false;note(data.message)}catch(e){note(e.message,true)}};
 $("verifyCode").onclick=async()=>{try{await call("/affiliation/verify",{method:"POST",body:JSON.stringify({code:$("code").value})});note("Email verified. Loading your private profile…");await start()}catch(e){note(e.message,true)}};
 $("save").onclick=async()=>{try{await call("/profile",{method:"PUT",body:JSON.stringify(readProfile())});note("Private draft saved.")}catch(e){note(e.message,true)}};
