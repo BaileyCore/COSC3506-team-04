@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Projects | ImmXrsive</title>
+</head>
+<body>
+    <main>
+    <a href="./profile.html">Back to My Profile</a>
+    <h1>My Projects</h1>
+    <h2>Add Project</h2>
+
+    <form id="project-form">
+        <p>
+        <label for="title">Project title</label><br>
+        <input id="title" name="title" required maxlength="150">
+        </p>
+        <p>
+        <label for="short-description">Short description</label><br>
+        <textarea id="short-description" name="short_description"
+            maxlength="500" rows="4"></textarea>
+    </p>
+    <button type="submit">Save Draft</button>
+    </form>
+
+    <p id="project-feedback" role="status"></p>
+
+    <h2>Saved Projects</h2>
+<p id="projects-status" role="status"></p>
+<ul id="saved-projects"></ul>
+</main>
+
+<script src="./config.js"></script>
+<script src="./my-projects.js"></script>
+</body>
+</html>

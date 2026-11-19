@@ -342,6 +342,54 @@ async function requireVerifiedStudent(request, response, next) {
       });
     }
 
+    app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
+  try {
+    const body = request.body ?? {};
+    const title = typeof body.title === "string" ? body.title.trim() : "";
+    const description = body.short_description ?? "";
+
+    if (!title || title.length > 150) {
+      return response.status(400).json({
+        error: "Enter a project title between 1 and 150 characters.",
+      });
+    }
+
+    if (typeof description !== "string" || description.length > 500) {
+      return response.status(400).json({
+        error: "The short description must be 500 characters or fewer.",
+      });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO public.r3_projects
+          (maintainer_account_id, title, short_description)
+      VALUES ($1, $2, $3)
+      RETURNING id, title, short_description, is_published, version`,
+      [request.session.accountId, title, description.trim()]
+    );
+
+    return response.status(201).json({ project: result.rows[0] });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
+  try {
+    const result = await pool.query(
+      `SELECT id, title, short_description, is_published, version
+      FROM public.r3_projects
+      WHERE maintainer_account_id = $1
+      ORDER BY created_at DESC, id DESC`,
+      [request.session.accountId]
+    );
+
+    return response.json({ projects: result.rows });
+  } catch (error) {
+    next(error);
+  }
+});
+
     const result = await pool.query(
       `SELECT id, email_verified_at
         FROM student_accounts
