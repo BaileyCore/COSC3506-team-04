@@ -331,18 +331,42 @@ function createEmailTransporter() {
   });
 }
 
-
 async function requireVerifiedStudent(request, response, next) {
   try {
     const accountId = request.session?.accountId;
 
     if (!accountId) {
       return response.status(401).json({
-        error: "Please sign in with GitHub."
+        error: "Please sign in with GitHub.",
       });
     }
 
-    app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
+    const result = await pool.query(
+      `SELECT id, email_verified_at
+      FROM student_accounts
+      WHERE id = $1`,
+      [accountId]
+    );
+
+    if (result.rows.length === 0) {
+      return response.status(401).json({
+        error: "Student account not found.",
+      });
+    }
+
+    if (!result.rows[0].email_verified_at) {
+      return response.status(403).json({
+        error: "Verify your Algoma email first.",
+      });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
   try {
     const body = request.body ?? {};
     const title = typeof body.title === "string" ? body.title.trim() : "";
@@ -390,30 +414,70 @@ app.get("/api/r3/projects", requireVerifiedStudent, async (request, response, ne
   }
 });
 
+app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    const body = request.body ?? {};
+    const title = typeof body.title === "string" ? body.title.trim() : "";
+    const description = body.short_description ?? "";
+    const { version } = body;
+
+    const uuidPattern = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+
+    if (!uuidPattern.test(id)) {
+      return response.status(400).json({ error: "Invalid project ID." });
+    }
+
+    if (!title || title.length > 150) {
+      return response.status(400).json({
+        error: "Enter a project title between 1 and 150 characters.",
+      });
+    }
+
+    if (typeof description !== "string" || description.length > 500) {
+      return response.status(400).json({
+        error: "The short description must be 500 characters or fewer.",
+      });
+    }
+
+    if (!Number.isInteger(version) || version < 1 || version > 2147483647) {
+      return response.status(400).json({ error: "Invalid project version." });
+    }
+
+    const accountId = request.session.accountId;
     const result = await pool.query(
-      `SELECT id, email_verified_at
-        FROM student_accounts
-        WHERE id = $1`,
-      [accountId]
+      `UPDATE public.r3_projects
+      SET title = $1, short_description = $2, version = version + 1
+      WHERE id = $3
+        AND maintainer_account_id = $4
+        AND is_published = FALSE
+        AND version = $5
+      RETURNING id, title, short_description, is_published, version`,
+      [title, description.trim(), id, accountId, version]
     );
 
-    if (result.rows.length === 0) {
-      return response.status(401).json({
-        error: "Student account not found."
-      });
+    if (result.rows.length > 0) {
+      return response.json({ project: result.rows[0] });
     }
 
-    if (!result.rows[0].email_verified_at) {
-      return response.status(403).json({
-        error: "Verify your Algoma email first."
-      });
+    const draft = await pool.query(
+      `SELECT id
+      FROM public.r3_projects
+      WHERE id = $1 AND maintainer_account_id = $2 AND is_published = FALSE`,
+      [id, accountId]
+    );
+
+    if (draft.rows.length === 0) {
+      return response.status(404).json({ error: "Draft not found." });
     }
 
-    next();
+    return response.status(409).json({
+      error: "This draft changed since you opened it. Reload it before saving again.",
+    });
   } catch (error) {
     next(error);
   }
-}
+});
 
 //
 const resumeUpload = multer({
@@ -445,7 +509,7 @@ const publicProfile = {
     profile_status: profile.profile_status
 };
 
-
+// PUBLIC FIELDS
 const publicFields = [
     "display_name",
     "student_status",
