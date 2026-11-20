@@ -73,6 +73,7 @@ form.addEventListener("submit", async (event) => {
     }
 });
 
+let savedProjects = null;
 async function loadProjects() {
     const list = document.getElementById("saved-projects");
     const status = document.getElementById("projects-status");
@@ -90,6 +91,8 @@ async function loadProjects() {
         return;
     }
 
+    savedProjects = result.projects;
+    list.replaceChildren();
     list.replaceChildren();
 
     for (const project of result.projects) {
@@ -246,6 +249,23 @@ item.append(" ", unpublishButton);
 }
 }
 
+function githubRepositoryKey(value) {
+    if (typeof value !== "string") return null;
+
+    const match = value.trim().match(
+    /^https:\/\/github\.com\/([a-z0-9-]+)\/([a-z0-9_.-]+)\/?(?:[?#].*)?$/i
+    );
+
+    if (!match) return null;
+
+    const [, owner, repository] = match;
+    const repo = repository.replace(/\.git$/i, "");
+
+    if (!repo || repo === "." || repo === "..") return null;
+
+    return `${owner}/${repo}`.toLowerCase();
+}
+
 const githubImportButton = document.getElementById("import-github");
 const githubImportStatus = document.getElementById("github-import-status");
 
@@ -305,6 +325,25 @@ githubImportStatus.textContent = "Loading repository details…";
         "Import canceled because you opened a draft for editing.";
     return;
     }
+
+    if (savedProjects === null) {
+        githubImportStatus.textContent =
+            "Your saved projects could not be checked. Refresh My Projects and try again.";
+        return;
+}
+
+const importedRepoKey = githubRepositoryKey(data.html_url);
+const duplicate = savedProjects.find(
+    (project) =>
+        importedRepoKey !== null &&
+        githubRepositoryKey(project.source_url) === importedRepoKey
+);
+
+    if (duplicate) {
+        githubImportStatus.textContent =
+            `You already have a project for this repository: ${duplicate.title}.`;
+    return;
+}
 
     const { elements } = githubImportButton.form;
     elements.namedItem("title").value = data.name.slice(0, 150);
