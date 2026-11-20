@@ -718,6 +718,128 @@ app.delete("/api/r3/projects/:id", requireVerifiedStudent, async (request, respo
   }
 });
 
+app.post(
+  "/api/r3/projects/:id/invitations",
+  requireVerifiedStudent,
+  async (request, response, next) => {
+    try {
+      const { id } = request.params;
+      const accountId = request.session.accountId;
+      const username = request.body?.github_username;
+
+      if (!/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(id)) {
+        return response.status(400).json({ error: "Invalid project ID." });
+      }
+
+      if (typeof username !== "string" || !/^[a-z0-9-]{1,39}$/i.test(username.trim())) {
+        return response.status(400).json({ error: "Enter a valid GitHub username." });
+      }
+
+      const owner = await pool.query(
+        `SELECT id FROM public.r3_projects
+        WHERE id = $1 AND maintainer_account_id = $2`,
+        [id, accountId]
+      );
+
+      if (owner.rowCount === 0) {
+        return response.status(404).json({ error: "Project not found." });
+      }
+
+      const invitee = await pool.query(
+        `SELECT id FROM public.student_accounts
+        WHERE lower(github_username) = lower($1)
+          AND email_verified_at IS NOT NULL`,
+        [username.trim()]
+      );
+
+      if (invitee.rowCount === 0) {
+        return response.status(404).json({ error: "Verified student not found." });
+      }
+
+      const inviteeId = invitee.rows[0].id;
+      if (inviteeId === accountId) {
+        return response.status(400).json({ error: "You cannot invite yourself." });
+      }
+
+      const result = await pool.query(
+        `INSERT INTO public.r3_project_invitations (project_id, invitee_account_id)
+        VALUES ($1, $2)
+        ON CONFLICT (project_id, invitee_account_id) DO NOTHING
+        RETURNING project_id, status, created_at`,
+        [id, inviteeId]
+      );
+
+      if (result.rowCount === 0) {
+        return response.status(409).json({
+          error: "This student already has an invitation record for this project.",
+        });
+      }
+
+      return response.status(201).json({ invitation: result.rows[0] });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+app.get(
+  "/api/r3/invitations",
+  requireVerifiedStudent,
+  async (request, response, next) => {
+    try {
+      const result = await pool.query(
+        `SELECT i.project_id, p.title AS project_title, i.status, i.created_at
+        FROM public.r3_project_invitations AS i
+        JOIN public.r3_projects AS p ON p.id = i.project_id
+        WHERE i.invitee_account_id = $1 AND i.status = 'pending'
+        ORDER BY i.created_at DESC`,
+        [request.session.accountId]
+      );
+
+      return response.json({ invitations: result.rows });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+app.patch(
+  "/api/r3/invitations/:projectId",
+  requireVerifiedStudent,
+  async (request, response, next) => {
+    try {
+      const { projectId } = request.params;
+      const status = request.body?.status;
+
+      if (!/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(projectId)) {
+        return response.status(400).json({ error: "Invalid project ID." });
+      }
+
+      if (status !== "accepted" && status !== "declined") {
+        return response.status(400).json({ error: "Choose accepted or declined." });
+      }
+
+      const result = await pool.query(
+        `UPDATE public.r3_project_invitations
+        SET status = $1, responded_at = now()
+        WHERE project_id = $2
+          AND invitee_account_id = $3
+          AND status = 'pending'
+        RETURNING project_id, status, responded_at`,
+        [status, projectId, request.session.accountId]
+      );
+
+      if (result.rowCount === 0) {
+        return response.status(404).json({ error: "Pending invitation not found." });
+      }
+
+      return response.json({ invitation: result.rows[0] });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 //RESUME UPLOAD
 const resumeUpload = multer({
   storage: multer.memoryStorage(),

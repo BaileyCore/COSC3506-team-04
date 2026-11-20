@@ -240,6 +240,34 @@ if (project.is_published) {
 
 item.append(" ", unpublishButton);
 }
+//
+const inviteButton = document.createElement("button");
+inviteButton.type = "button";
+inviteButton.textContent = "Invite Contributor";
+inviteButton.setAttribute("aria-label", `Invite a contributor to ${project.title}`);
+
+inviteButton.addEventListener("click", async () => {
+    const username = window.prompt("Enter the contributor’s GitHub username.");
+    if (!username?.trim()) return;
+
+    inviteButton.disabled = true;
+
+    try {
+        await invitationRequest(
+        `/api/r3/projects/${encodeURIComponent(project.id)}/invitations`,
+        "POST",
+        { github_username: username.trim() }
+    );
+    feedback.textContent = `Invitation sent to ${username.trim()}.`;
+} catch (error) {
+    feedback.textContent = error.message;
+} finally {
+    inviteButton.disabled = false;
+    }
+});
+
+    item.append(" ", inviteButton);
+
     list.append(item);
     }
 
@@ -362,3 +390,87 @@ const duplicate = savedProjects.find(
 });
 
 loadProjects();
+
+async function invitationRequest(path, method = "GET", body) {
+    const options = { method, credentials: "include" };
+
+    if (body !== undefined) {
+        options.headers = { "Content-Type": "application/json" };
+        options.body = JSON.stringify(body);
+    }
+
+    let response;
+    try {
+        response = await fetch(`${window.API_BASE_URL}${path}`, options);
+    } catch {
+        throw new Error("Could not reach the server. Try again.");
+}
+
+    const result = await response.json().catch(() => null);
+
+    if (!response.ok || !result) {
+        throw new Error(result?.error || `Invitation request failed (${response.status}).`);
+    }
+
+    return result;
+}
+
+async function loadInvitations(message = "") {
+    const list = document.getElementById("pending-invitations");
+    const status = document.getElementById("invitations-status");
+        status.textContent = "Loading invitations…";
+
+    try {
+        const { invitations } = await invitationRequest("/api/r3/invitations");
+            list.replaceChildren();
+
+    for (const invitation of invitations) {
+        const item = document.createElement("li");
+            item.textContent = invitation.project_title;
+
+        const accept = document.createElement("button");
+        accept.type = "button";
+        accept.textContent = "Accept";
+
+        const decline = document.createElement("button");
+        decline.type = "button";
+        decline.textContent = "Decline";
+
+    async function respond(decision) {
+        accept.disabled = true;
+        decline.disabled = true;
+
+        try {
+            await invitationRequest(
+                `/api/r3/invitations/${encodeURIComponent(invitation.project_id)}`,
+                "PATCH",
+            { status: decision }
+        );
+        } catch (error) {
+            status.textContent = error.message;
+            accept.disabled = false;
+            decline.disabled = false;
+        return;
+        }
+
+        item.remove();
+        const action = decision === "accepted" ? "Accepted" : "Declined";
+        await loadInvitations(`${action} the invitation to “${invitation.project_title}”.`);
+    }
+
+        accept.addEventListener("click", () => respond("accepted"));
+        decline.addEventListener("click", () => respond("declined"));
+        item.append(" ", accept, " ", decline);
+        list.append(item);
+    }
+
+    status.textContent = [
+        message,
+        invitations.length === 0 ? "No pending invitations." : "",
+    ].filter(Boolean).join(" ");
+} catch (error) {
+    status.textContent = [message, error.message].filter(Boolean).join(" ");
+    }
+}
+
+loadInvitations();
