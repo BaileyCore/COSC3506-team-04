@@ -29,8 +29,20 @@
         <label for="technologies">Technologies (comma-separated)</label><br>
         <input id="technologies" name="technologies" maxlength="300"
         placeholder="e.g., JavaScript, Express, PostgreSQL">
+    </p>
+        <p>
+    <label for="project-date">Project Date</label><br>
+    <input type="date" id="project-date" name="project_date">
+    </p>
+    <p>
+    <label for="project-status">Project Status</label><br>
+    <select id="project-status" name="project_status">
+        <option value="">Select a status</option>
+        <option value="planned">Planned</option>
+        <option value="in_progress">In progress</option>
+        <option value="completed">Completed</option>
+    </select>
 </p>
-        </p>
         <button type="submit">Save Draft</button>
         <button id="cancel-edit" type="button" hidden>Cancel Edit</button>
         </form>

@@ -366,48 +366,106 @@ async function requireVerifiedStudent(request, response, next) {
   }
 }
 
-app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
-  try {
-    const body = request.body ?? {};
-    const title = typeof body.title === "string" ? body.title.trim() : "";
-    const description = body.short_description ?? "";
-    const domain = body.domain ?? "";
-    const technologies = body.technologies ?? [];
+function readProjectFields(body) {
+  const title = typeof body.title === "string" ? body.title.trim() : "";
+  const description = body.short_description ?? "";
+  const domain = body.domain ?? "";
+  const technologies = body.technologies ?? [];
+  const projectDate = body.project_date ?? null;
+  const projectStatus = body.project_status ?? null;
 
-    if (typeof domain !== "string" || domain.trim().length > 100) {
-      return response.status(400).json({ error: "Domain / Type must be 100 characters or fewer." });
+  if (!title || title.length > 150) {
+    return { error: "Enter a project title between 1 and 150 characters." };
   }
 
-if (!Array.isArray(technologies) || technologies.length > 20 ||
-    technologies.some((name) => typeof name !== "string" || !name.trim() || name.trim().length > 50)) {
-  return response.status(400).json({
-    error: "Enter up to 20 technologies, each 50 characters or fewer.",
-  });
+  if (typeof description !== "string" || description.length > 500) {
+    return { error: "The short description must be 500 characters or fewer." };
+  }
+
+  if (typeof domain !== "string" || domain.trim().length > 100) {
+    return { error: "Domain / Type must be 100 characters or fewer." };
+  }
+
+  if (
+    !Array.isArray(technologies) ||
+    technologies.length > 20 ||
+    technologies.some(
+      (name) =>
+        typeof name !== "string" ||
+        !name.trim() ||
+        name.trim().length > 50
+    )
+  ) {
+    return { error: "Enter up to 20 technologies, each 50 characters or fewer." };
+  }
+
+  if (projectDate !== null) {
+    if (
+      typeof projectDate !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(projectDate) ||
+      projectDate.startsWith("0000-")
+    ) {
+      return { error: "Enter a valid project date." };
+    }
+
+    const date = new Date(`${projectDate}T00:00:00Z`);
+    if (
+      Number.isNaN(date.getTime()) ||
+      date.toISOString().slice(0, 10) !== projectDate
+    ) {
+      return { error: "Enter a valid project date." };
+    }
+  }
+
+  if (
+    projectStatus !== null &&
+    !["planned", "in_progress", "completed"].includes(projectStatus)
+  ) {
+    return { error: "Select a valid project status." };
+  }
+
+  return {
+    title,
+    description: description.trim(),
+    domain: domain.trim() || null,
+    technologies: technologies.map((name) => name.trim()),
+    projectDate,
+    projectStatus,
+  };
 }
 
-const projectDomain = domain.trim() || null;
-const projectTechnologies = technologies.map((name) => name.trim());
+// Use the same response fields when creating, listing, and editing projects.
+const r3ProjectFields = `
+  id, title, short_description, domain, technologies,
+  to_char(project_date, 'YYYY-MM-DD') AS project_date,
+  project_status, is_published, version
+`;
 
-    if (!title || title.length > 150) {
-      return response.status(400).json({
-        error: "Enter a project title between 1 and 150 characters.",
-      });
+app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
+  try {
+    const fields = readProjectFields(request.body ?? {});
+    if (fields.error) {
+      return response.status(400).json({ error: fields.error });
     }
 
-    if (typeof description !== "string" || description.length > 500) {
-      return response.status(400).json({
-        error: "The short description must be 500 characters or fewer.",
-      });
-    }
-
-        const result = await pool.query(
-      `INSERT INTO public.r3_projects
-          (maintainer_account_id, title, short_description, domain, technologies)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, title, short_description, domain, technologies,
-              is_published, version`,
-      [request.session.accountId, title, description.trim(), projectDomain, projectTechnologies]
+    const result = await pool.query(
+      `INSERT INTO public.r3_projects (
+          maintainer_account_id, title, short_description, domain,
+          technologies, project_date, project_status
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING ${r3ProjectFields}`,
+      [
+        request.session.accountId,
+        fields.title,
+        fields.description,
+        fields.domain,
+        fields.technologies,
+        fields.projectDate,
+        fields.projectStatus,
+      ]
     );
+
     return response.status(201).json({ project: result.rows[0] });
   } catch (error) {
     next(error);
@@ -417,7 +475,7 @@ const projectTechnologies = technologies.map((name) => name.trim());
 app.get("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
   try {
     const result = await pool.query(
-      `SELECT id, title, short_description, domain, technologies, is_published, version
+      `SELECT ${r3ProjectFields}
       FROM public.r3_projects
       WHERE maintainer_account_id = $1
       ORDER BY created_at DESC, id DESC`,
@@ -434,65 +492,48 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
   try {
     const { id } = request.params;
     const body = request.body ?? {};
-    const title = typeof body.title === "string" ? body.title.trim() : "";
-    const description = body.short_description ?? "";
-    const domain = body.domain ?? "";
-    const technologies = body.technologies ?? [];
-
-if (typeof domain !== "string" || domain.trim().length > 100) {
-  return response.status(400).json({ error: "Domain / Type must be 100 characters or fewer." });
-}
-
-if (!Array.isArray(technologies) || technologies.length > 20 ||
-    technologies.some((name) => typeof name !== "string" || !name.trim() || name.trim().length > 50)) {
-  return response.status(400).json({
-    error: "Enter up to 20 technologies, each 50 characters or fewer.",
-  });
-}
-
-const projectDomain = domain.trim() || null;
-const projectTechnologies = technologies.map((name) => name.trim());
-
     const { version } = body;
-
     const uuidPattern = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
 
     if (!uuidPattern.test(id)) {
       return response.status(400).json({ error: "Invalid project ID." });
     }
 
-    if (!title || title.length > 150) {
-      return response.status(400).json({
-        error: "Enter a project title between 1 and 150 characters.",
-      });
-    }
-
-    if (typeof description !== "string" || description.length > 500) {
-      return response.status(400).json({
-        error: "The short description must be 500 characters or fewer.",
-      });
-    }
-
     if (!Number.isInteger(version) || version < 1 || version > 2147483647) {
       return response.status(400).json({ error: "Invalid project version." });
     }
 
-    const accountId = request.session.accountId;
+    const fields = readProjectFields(body);
+    if (fields.error) {
+      return response.status(400).json({ error: fields.error });
+    }
 
+    const accountId = request.session.accountId;
     const result = await pool.query(
       `UPDATE public.r3_projects
         SET title = $1,
             short_description = $2,
-            domain = $6,
-            technologies = $7,
+            domain = $3,
+            technologies = $4,
+            project_date = $5,
+            project_status = $6,
             version = version + 1
-        WHERE id = $3
-          AND maintainer_account_id = $4
+        WHERE id = $7
+          AND maintainer_account_id = $8
           AND is_published = FALSE
-          AND version = $5
-        RETURNING id, title, short_description, domain, technologies,
-                  is_published, version`,
-      [title, description.trim(), id, accountId, version, projectDomain, projectTechnologies]
+          AND version = $9
+      RETURNING ${r3ProjectFields}`,
+      [
+        fields.title,
+        fields.description,
+        fields.domain,
+        fields.technologies,
+        fields.projectDate,
+        fields.projectStatus,
+        id,
+        accountId,
+        version,
+      ]
     );
 
     if (result.rows.length > 0) {
@@ -502,7 +543,9 @@ const projectTechnologies = technologies.map((name) => name.trim());
     const draft = await pool.query(
       `SELECT id
       FROM public.r3_projects
-      WHERE id = $1 AND maintainer_account_id = $2 AND is_published = FALSE`,
+      WHERE id = $1
+        AND maintainer_account_id = $2
+        AND is_published = FALSE`,
       [id, accountId]
     );
 
