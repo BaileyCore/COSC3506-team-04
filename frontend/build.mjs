@@ -16,6 +16,10 @@ const files = [
   "project.js",
   "inquiry.html",
   "inquiry.js",
+  "my-projects.html",
+  "my-projects.js",
+  "r3-project.html",
+  "r3-project.js",
 ];
 
 for (const file of files) {
