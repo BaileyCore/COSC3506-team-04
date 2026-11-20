@@ -66,8 +66,10 @@ deploy SHA and public fixture partner URL need verification before submission.
 ## Local verification
 
 Run `npm ci`, `npm --prefix backend ci`, `npm run check:r3`, `npm run check:r4`,
-`npm run test:r3`, `npm test`, and `npm run build` from the repository root.
+`npm run test:r3`, `npm run test:r4`, `npm test`, and `npm run build` from the repository root.
 The R4 integration suite exercises the real Express handlers and PostgreSQL SQL
 against disposable PGlite data with mocked sessions and fixture fetches.
-The live OAuth/authorization, hosted URL fixture imports, and manual 390px
-browser walkthrough are separate and must still be checked.
+The headless browser walkthrough passed locally at desktop and 390 CSS pixels
+on November 20, 2026. See [local verification in the submission draft](release_submission.md#local-verification).
+Repeat the public mobile flow, real GitHub sign-in and staff authorization, and
+hosted HTTPS fixture imports on Render before recording production evidence.

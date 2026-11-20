@@ -39,6 +39,14 @@ See docs/r4/README.md for the student, staff and anonymous walkthrough. No claim
 
 ## Local verification
 
-54 R3 tests, 4 original regression tests and 2 new R4 tests passed. The R4 tests include the fixture parser
-and staff, student, and public HTTP routes using PGlite. The browser smoke attempt could not launch
-Chromium in this environment, so no new R4 mobile or end-to-end browser pass is claimed.
+On November 20, 2026, the moved checkout at `5879468` passed both syntax checks,
+54 R3 tests, both R4 tests, all six tests in the combined original and R4 suite,
+and the frontend build.
+
+Headless Chrome passed the staff queue, draft import and publication, student
+verification and partner requests, staff decisions, and the R4.19 public API
+privacy checks. The public partner page and contextual inquiry simulation passed
+at 1280 and 390 CSS pixels without horizontal overflow. The walkthrough served
+the built frontend and real R3/R4 handlers on loopback, used disposable PGlite data,
+and supplied test sessions and fixture HTML through the test harness. Production
+OAuth, hosted HTTPS imports, staff access and public evidence remain pending.
