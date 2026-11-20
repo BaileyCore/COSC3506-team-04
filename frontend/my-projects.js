@@ -161,6 +161,79 @@ publishButton.addEventListener("click", async () => {
 });
 
 item.append(" ", publishButton);
+
+const deleteButton = document.createElement("button");
+deleteButton.type = "button";
+deleteButton.textContent = "Delete Draft";
+deleteButton.setAttribute("aria-label", `Delete draft ${project.title}`);
+
+deleteButton.addEventListener("click", async () => {
+    if (editingProject?.id === project.id) {
+        feedback.textContent = "Save or cancel your edits before deleting this draft.";
+    return;
+    }
+
+    if (!window.confirm(`Permanently delete “${project.title}”?`)) return;
+
+    deleteButton.disabled = true;
+    try {
+        const response = await fetch(
+        `${window.API_BASE_URL}/api/r3/projects/${encodeURIComponent(project.id)}`,
+        { method: "DELETE", credentials: "include" }
+    );
+
+    if (!response.ok) {
+        feedback.textContent = "Could not delete this draft. Refresh and try again.";
+    return;
+    }
+
+    feedback.textContent = `Deleted “${project.title}”.`;
+    await loadProjects();
+    } catch {
+    feedback.textContent = "Could not reach the server. Refresh to check the draft.";
+    } finally {
+    deleteButton.disabled = false;
+    }
+});
+
+item.append(" ", deleteButton);
+}
+if (project.is_published) {
+    const publicLink = document.createElement("a");
+    publicLink.href = `./r3-project.html?id=${encodeURIComponent(project.id)}`;
+    publicLink.textContent = "View Public Project";
+    item.append(" ", publicLink);
+
+    const unpublishButton = document.createElement("button");
+    unpublishButton.type = "button";
+    unpublishButton.textContent = "Unpublish";
+    unpublishButton.setAttribute("aria-label", `Unpublish ${project.title}`);
+
+    unpublishButton.addEventListener("click", async () => {
+    unpublishButton.disabled = true;
+
+    try {
+        const response = await fetch(
+            `${window.API_BASE_URL}/api/r3/projects/${encodeURIComponent(project.id)}/unpublish`,
+        { method: "POST", credentials: "include" }
+    );
+    const result = await response.json();
+
+    if (!response.ok) {
+        feedback.textContent = result.error || "Could not unpublish this project.";
+    return;
+    }
+
+    feedback.textContent = `Moved “${result.project.title}” back to Draft.`;
+    await loadProjects();
+    } catch {
+    feedback.textContent = "Could not unpublish this project. Try refreshing.";
+    } finally {
+    unpublishButton.disabled = false;
+    }
+});
+
+item.append(" ", unpublishButton);
 }
     list.append(item);
     }

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project | ImmXrsive</title>
+<style>
+    :root {
+    color-scheme: light;
+    --navy: #163566;
+    --navy-dark: #10264a;
+    --text: #25354d;
+    --muted: #52637b;
+    --background: #f2f5fa;
+    --border: #dce4ef;
+    }
+
+  * { box-sizing: border-box; }
+
+    body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font: 1rem/1.6 system-ui, sans-serif;
+    }
+
+    .site-header {
+    background: var(--navy-dark);
+    color: #fff;
+    padding: .9rem max(1rem, calc((100% - 48rem) / 2));
+    font-weight: 700;
+    }
+
+    main {
+    width: min(48rem, calc(100% - 2rem));
+    margin: clamp(1rem, 5vw, 3rem) auto;
+    }
+
+    #public-project {
+    overflow-wrap: anywhere;
+    padding: clamp(1.25rem, 5vw, 3rem);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--navy);
+    border-radius: 1rem;
+    box-shadow: 0 12px 36px rgb(16 38 74 / 9%);
+    }
+
+    #project-title {
+    margin: 0 0 .75rem;
+    color: var(--navy-dark);
+    font-size: clamp(1.8rem, 5vw, 2.75rem);
+    line-height: 1.15;
+    }
+
+    #project-description {
+    max-width: 65ch;
+    margin: 0 0 1.5rem;
+    white-space: pre-wrap;
+    }
+
+    #project-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    gap: .75rem;
+    margin: 0 0 1.5rem;
+    } 
+
+    .project-detail {
+    padding: .75rem 1rem;
+    background: var(--background);
+    border-radius: .65rem;
+    }
+
+    .project-detail dt {
+    color: var(--muted);
+    font-size: .875rem;
+    font-weight: 600;
+    }
+
+    .project-detail dd {
+    margin: .2rem 0 0;
+    font-weight: 600;
+    }
+
+    #project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    }
+
+    #project-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: .55rem .9rem;
+    border: 1px solid var(--border);
+    border-radius: .6rem;
+    color: var(--navy);
+    font-weight: 650;
+    text-decoration: none;
+    }
+
+    #project-links a:hover { background: var(--background); }
+
+    #project-links a.primary-action {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #fff;
+    }
+
+    #project-links a.primary-action:hover { background: var(--navy-dark); }
+
+    #project-links a:focus-visible {
+    outline: 3px solid #3273cc;
+    outline-offset: 3px;
+    }
+
+    #project-message { color: var(--muted); }
+
+    #project-description:empty,
+    #project-details:empty,
+    #project-links:empty,
+    #project-message:empty {
+    display: none;
+    }
+</style>
+</head>
+<body>
+    <header class="site-header">ImmXrsive</header>
+    <main>
+        <p id="project-message" role="status">Loading project…</p>
+        <article id="public-project" hidden>
+            <h1 id="project-title"></h1>
+            <p id="project-description"></p>
+            <dl id="project-details"></dl>
+            <ul id="project-links"></ul>
+        </article>
+    </main>
+<script src="./config.js"></script>
+<script src="./r3-project.js"></script>
+</body>
+</html>
