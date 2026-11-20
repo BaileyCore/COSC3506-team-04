@@ -32,6 +32,7 @@ form.addEventListener("submit", async (event) => {
         source_url: fields.get("source_url") || null,
         demo_url: fields.get("demo_url") || null,
         fallback_url: fields.get("fallback_url") || null,
+        video_url: fields.get("video_url") || null,
     };
 
     let url = `${window.API_BASE_URL}/api/r3/projects`;
@@ -115,6 +116,7 @@ async function loadProjects() {
     form.elements.namedItem("source_url").value = project.source_url ?? "";
     form.elements.namedItem("demo_url").value = project.demo_url ?? "";
     form.elements.namedItem("fallback_url").value = project.fallback_url ?? "";
+    form.elements.namedItem("video_url").value = project.video_url ?? "";
     saveButton.textContent = "Save Changes";
     cancelEditButton.hidden = false;
     feedback.textContent = `Editing “${project.title}”.`;

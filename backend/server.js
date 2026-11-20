@@ -430,6 +430,7 @@ function readProjectFields(body) {
     ["source_url", "Source URL"],
     ["demo_url", "Playable Demo URL"],
     ["fallback_url", "Fallback Evidence URL"],
+    ["video_url", "Video Demo URL"],
   ]) {
     const value = body[key] ?? "";
     if (typeof value !== "string" || value.length > 2048) {
@@ -469,7 +470,7 @@ function readProjectFields(body) {
 const r3ProjectFields = `
   id, title, short_description, domain, technologies,
   to_char(project_date, 'YYYY-MM-DD') AS project_date,
-  project_status, source_url, demo_url, fallback_url,
+  project_status, source_url, demo_url, fallback_url, video_url,
   is_published, version
 `;
 
@@ -483,9 +484,9 @@ app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, n
     const result = await pool.query(
   `INSERT INTO public.r3_projects (
       maintainer_account_id, title, short_description, domain, technologies,
-      project_date, project_status, source_url, demo_url, fallback_url
+      project_date, project_status, source_url, demo_url, fallback_url, video_url
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
     RETURNING ${r3ProjectFields}`,
   [
     request.session.accountId,
@@ -498,6 +499,7 @@ app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, n
     fields.source_url,
     fields.demo_url,
     fields.fallback_url,
+    fields.video_url,
   ]
 );
 
@@ -555,6 +557,7 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
             source_url = $10,
             demo_url = $11,
             fallback_url = $12,
+            video_url = $13,
             version = version + 1
         WHERE id = $7
           AND maintainer_account_id = $8
@@ -574,6 +577,7 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
         fields.source_url,
         fields.demo_url,
         fields.fallback_url,
+        fields.video_url,
       ]
     );
 

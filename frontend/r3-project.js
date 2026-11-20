@@ -52,6 +52,7 @@ async function showPublicProject() {
         ["Play Demo", project.demo_url],
         ["View Source", project.source_url],
         ["Fallback Evidence", project.fallback_url],
+        ["Watch Demo", project.video_url],
     ]) {
         if (typeof value !== "string" || !/^https:\/\//i.test(value)) continue;
 
