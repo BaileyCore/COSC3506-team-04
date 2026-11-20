@@ -1,0 +1,29 @@
+[
+  {
+    "id": "COL01",
+    "company": "North Shore Simulations",
+    "title": "Industrial Safety Training Prototype",
+    "year": 2025,
+    "status": "past",
+    "visibility": "public",
+    "project_id": "P01"
+  },
+  {
+    "id": "COL02",
+    "company": "North Shore Simulations",
+    "title": "XR Maintenance Training Study",
+    "year": 2026,
+    "status": "current",
+    "visibility": "public",
+    "project_id": "P04"
+  },
+  {
+    "id": "COL03",
+    "company": "Superior Immersive Labs",
+    "title": "Confidential Spatial Prototype",
+    "year": 2026,
+    "status": "current",
+    "visibility": "private",
+    "project_id": null
+  }
+]

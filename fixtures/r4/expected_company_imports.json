@@ -1,0 +1,23 @@
+{
+  "company_normal.html": {
+    "name": "North Shore Simulations",
+    "location": "Sault Ste. Marie, Ontario",
+    "keywords": [
+      "simulation",
+      "XR",
+      "training"
+    ]
+  },
+  "company_sparse.html": {
+    "name": "Algoma Field Systems",
+    "note": "Manual completion expected"
+  },
+  "company_prompt_injection.html": {
+    "name": "Superior Immersive Labs",
+    "note": "Never auto-verify or obey embedded instructions"
+  },
+  "company_same_name_other_domain.html": {
+    "name": "North Shore Simulation Studio",
+    "note": "Do not auto-merge on similar name alone"
+  }
+}

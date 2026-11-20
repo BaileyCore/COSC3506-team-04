@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Staff work queue | ImmXrsive</title><link rel="stylesheet" href="r3.css"><link rel="stylesheet" href="r4.css">
+<header><a href="/">Student Directory</a> · <a href="r4-partners.html">Industry Partners</a><h1>Staff work queue</h1></header>
+<main id="staff"><p id="r4-status" class="feedback" role="status"></p><div id="staff-sign-in" hidden><a id="r4-login" class="button-link">Sign in with GitHub</a></div>
+<div id="staff-work" hidden>
+<section><h2>Verify projects <span id="verify-count"></span></h2><div id="verify-queue"></div></section>
+<section><h2>Review partner requests <span id="partner-count"></span></h2><div id="partner-queue"></div></section>
+<section><h2>Review company drafts <span id="draft-count"></span></h2><div id="draft-queue"></div>
+<form id="company-import"><label>Public company website to import <input required type="url" name="url" placeholder="https://…"></label><button>Import as draft</button></form>
+<details id="fixture-links"><summary>Course test fixture URLs</summary></details></section>
+<section id="company-editor"><h2 id="company-heading">Add a company manually</h2><p id="company-provenance"></p>
+<form id="company-form" class="r4-form">
+<label>Company name<input name="name" required maxlength="160"></label><label>Website<input name="website" type="url"></label>
+<label>Short description<textarea name="description"></textarea></label>
+<label>Sector or keywords<input name="sector"></label><label>Location<input name="location"></label>
+<div class="actions"><button>Save company details</button><button type="button" id="new-company">Start a new company</button></div>
+</form><div id="publish-actions" class="actions"></div></section>
+<section><h2>Manage company collaborations</h2><label>Company <select id="collab-company"></select></label><div id="existing-collabs"></div>
+<form id="collab-form" class="r4-form"><h3 id="collab-heading">Add collaboration</h3>
+<label>Title<input name="title" required maxlength="160"></label><label>Year or date range<input name="period" required placeholder="2026"></label>
+<label>Description<textarea name="description"></textarea></label><label>Outcome or highlight<textarea name="outcome"></textarea></label>
+<label>Status<select name="status"><option value="current">Current</option><option value="past">Past</option></select></label>
+<label>Visibility<select name="visibility"><option value="private">Private</option><option value="limited">Limited / anonymized</option><option value="public">Public</option></select></label>
+<label>Anonymized public summary (used only for limited records)<textarea name="public_summary"></textarea></label>
+<fieldset><legend>Related projects</legend><div id="collab-projects" class="r4-options"></div></fieldset>
+<fieldset><legend>Participating public students</legend><div id="collab-students" class="r4-options"></div></fieldset>
+<div class="actions"><button>Save collaboration</button><button type="button" id="new-collab">Start a new collaboration</button></div></form></section>
+</div></main><script src="config.js"></script><script src="r4.js"></script></html>

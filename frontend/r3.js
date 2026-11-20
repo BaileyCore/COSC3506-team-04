@@ -122,7 +122,7 @@
     }
   }
   async function load(id){
-    const result=await get(`/api/r3/projects/${encodeURIComponent(id)}`);state.project=result.project;state.canEdit=result.can_edit_shared;
+    const result=await get(`/api/r3/projects/${encodeURIComponent(id)}`);state.project=result.project;state.canEdit=result.can_edit_shared;window.r4SelectProject?.(id,state.canEdit);
     resetInvitePicker();
     fillForm(state.project);$('form-title').textContent=`Project: ${state.project.title}`;
     $('save').textContent='Save changes';
@@ -173,7 +173,7 @@
     }
   }
   $('new-project').addEventListener('click',()=>{
-    state.project=null;state.canEdit=true;fillForm({});$('domain').value='Software / XR';
+    state.project=null;state.canEdit=true;window.r4SelectProject?.(null,false);fillForm({});$('domain').value='Software / XR';
     resetInvitePicker();
     $('status').value='In progress';$('form-title').textContent='Add Project';
     $('save').textContent='Create project';

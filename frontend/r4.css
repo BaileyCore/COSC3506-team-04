@@ -1,0 +1,7 @@
+#staff-work,#partner-content{display:grid;gap:1rem}
+.r4-form{max-width:48rem}.r4-form fieldset{margin:1rem 0;border:1px solid #8fa0b2;border-radius:.5rem;min-width:0}
+.r4-options{max-height:13rem;overflow:auto}.r4-options label{margin:.45rem 0;font-weight:400}
+#partner-content, #staff-work, #r4-requests{overflow-wrap:anywhere}
+#r4-status{margin:0}
+#r4-status:empty{display:none}
+.r4-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1rem}

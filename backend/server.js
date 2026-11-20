@@ -49,6 +49,15 @@ mountR3(app, {
   }
 });
 
+// Release 4 staff privileges use GitHub's stable account IDs, never a client role.
+require("./r4_routes.cjs").mountR4(app, {
+  pool,
+  ready: createR2Router.schemaReady,
+  getSession: createR2Router.getSession,
+  origin: process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com",
+  staffGithubIds: process.env.R4_STAFF_GITHUB_IDS
+});
+
 app.get("/api/health", async (_request, response) => {
   try {
     await pool.query("SELECT 1");

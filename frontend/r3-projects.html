@@ -34,5 +34,12 @@
 <h3>Join requests</h3><div id="join-requests"></div>
 <h3>Your contribution</h3><form id="contribution-form"><label>Personal role/contribution statement <textarea id="statement" rows="3" maxlength="2500"></textarea></label>
 <label class="check"><input type="checkbox" id="featured" checked> Feature project on my student profile</label><button type="submit">Save my statement</button></form></section>
+<section id="r4-requests" hidden>
+<h2>Staff review requests</h2><div id="r4-request-list"></div>
+<form id="r4-request-form"><label>Request type <select name="kind"><option value="verification">Official project verification</option><option value="partner">Add an industry partner</option></select></label>
+<div id="r4-partner-fields" hidden><label>Existing industry partner <select name="partner_id"></select></label>
+<label>Or suggest a company <input name="suggested_company" maxlength="160" placeholder="Company name"></label></div>
+<label>Supporting note or relationship explanation <textarea name="note" required maxlength="2200"></textarea></label>
+<button type="submit">Send for staff review</button></form><p id="r4-request-status" role="status"></p></section>
 <section><h2>QA guidance</h2><p>Use three distinct verified GitHub student accounts. A collaborator must accept an invitation before their relationship is counted. A project cannot become shared evidence just by listing names in its description.</p></section>
-</main><script src="config.js"></script><script src="r3.js"></script></body></html>
+</main><script src="config.js"></script><script src="r4.js"></script><script src="r3.js"></script></body></html>

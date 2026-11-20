@@ -23,10 +23,19 @@ const files = [
   "r3.css",
   "r3-working-demo.html",
   "fallback.svg",
+  "r4-staff.html",
+  "r4-partners.html",
+  "r4.js",
+  "r4.css",
 ];
 
 for (const file of files) {
   await cp(file, `dist/${file}`);
+}
+
+for (const name of ["normal", "sparse", "prompt_injection", "same_name_other_domain"]) {
+  const file = `company_${name}.html`;
+  await cp(new URL(`../fixtures/r4/${file}`, import.meta.url), `dist/r4-fixtures/${file}`);
 }
 
 console.log("Built static frontend in frontend/dist");
