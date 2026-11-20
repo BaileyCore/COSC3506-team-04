@@ -371,6 +371,22 @@ app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, n
     const body = request.body ?? {};
     const title = typeof body.title === "string" ? body.title.trim() : "";
     const description = body.short_description ?? "";
+    const domain = body.domain ?? "";
+    const technologies = body.technologies ?? [];
+
+    if (typeof domain !== "string" || domain.trim().length > 100) {
+      return response.status(400).json({ error: "Domain / Type must be 100 characters or fewer." });
+  }
+
+if (!Array.isArray(technologies) || technologies.length > 20 ||
+    technologies.some((name) => typeof name !== "string" || !name.trim() || name.trim().length > 50)) {
+  return response.status(400).json({
+    error: "Enter up to 20 technologies, each 50 characters or fewer.",
+  });
+}
+
+const projectDomain = domain.trim() || null;
+const projectTechnologies = technologies.map((name) => name.trim());
 
     if (!title || title.length > 150) {
       return response.status(400).json({
@@ -384,14 +400,14 @@ app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, n
       });
     }
 
-    const result = await pool.query(
+        const result = await pool.query(
       `INSERT INTO public.r3_projects
-          (maintainer_account_id, title, short_description)
-      VALUES ($1, $2, $3)
-      RETURNING id, title, short_description, is_published, version`,
-      [request.session.accountId, title, description.trim()]
+          (maintainer_account_id, title, short_description, domain, technologies)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, title, short_description, domain, technologies,
+              is_published, version`,
+      [request.session.accountId, title, description.trim(), projectDomain, projectTechnologies]
     );
-
     return response.status(201).json({ project: result.rows[0] });
   } catch (error) {
     next(error);
@@ -401,7 +417,7 @@ app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, n
 app.get("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
   try {
     const result = await pool.query(
-      `SELECT id, title, short_description, is_published, version
+      `SELECT id, title, short_description, domain, technologies, is_published, version
       FROM public.r3_projects
       WHERE maintainer_account_id = $1
       ORDER BY created_at DESC, id DESC`,
@@ -420,6 +436,23 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
     const body = request.body ?? {};
     const title = typeof body.title === "string" ? body.title.trim() : "";
     const description = body.short_description ?? "";
+    const domain = body.domain ?? "";
+    const technologies = body.technologies ?? [];
+
+if (typeof domain !== "string" || domain.trim().length > 100) {
+  return response.status(400).json({ error: "Domain / Type must be 100 characters or fewer." });
+}
+
+if (!Array.isArray(technologies) || technologies.length > 20 ||
+    technologies.some((name) => typeof name !== "string" || !name.trim() || name.trim().length > 50)) {
+  return response.status(400).json({
+    error: "Enter up to 20 technologies, each 50 characters or fewer.",
+  });
+}
+
+const projectDomain = domain.trim() || null;
+const projectTechnologies = technologies.map((name) => name.trim());
+
     const { version } = body;
 
     const uuidPattern = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
@@ -445,15 +478,21 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
     }
 
     const accountId = request.session.accountId;
+
     const result = await pool.query(
       `UPDATE public.r3_projects
-      SET title = $1, short_description = $2, version = version + 1
-      WHERE id = $3
-        AND maintainer_account_id = $4
-        AND is_published = FALSE
-        AND version = $5
-      RETURNING id, title, short_description, is_published, version`,
-      [title, description.trim(), id, accountId, version]
+        SET title = $1,
+            short_description = $2,
+            domain = $6,
+            technologies = $7,
+            version = version + 1
+        WHERE id = $3
+          AND maintainer_account_id = $4
+          AND is_published = FALSE
+          AND version = $5
+        RETURNING id, title, short_description, domain, technologies,
+                  is_published, version`,
+      [title, description.trim(), id, accountId, version, projectDomain, projectTechnologies]
     );
 
     if (result.rows.length > 0) {
@@ -2698,7 +2737,6 @@ app.use((error, _request, response, _next) => {
     error: "unexpected server error"
   });
 });
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", () => {

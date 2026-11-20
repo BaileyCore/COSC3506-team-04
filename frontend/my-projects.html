@@ -20,10 +20,20 @@
         <label for="short-description">Short description</label><br>
         <textarea id="short-description" name="short_description"
             maxlength="500" rows="4"></textarea>
+    
+        <p>
+        <label for="domain">Domain / Type</label><br>
+        <input id="domain" name="domain" maxlength="100" placeholder="e.g., Web application">
     </p>
-    <button type="submit">Save Draft</button>
-    <button id="cancel-edit" type="button" hidden>Cancel Edit</button>
-    </form>
+    <p>
+        <label for="technologies">Technologies (comma-separated)</label><br>
+        <input id="technologies" name="technologies" maxlength="300"
+        placeholder="e.g., JavaScript, Express, PostgreSQL">
+</p>
+        </p>
+        <button type="submit">Save Draft</button>
+        <button id="cancel-edit" type="button" hidden>Cancel Edit</button>
+        </form>
 
     <p id="project-feedback" role="status"></p>
 

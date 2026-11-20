@@ -25,6 +25,8 @@ form.addEventListener("submit", async (event) => {
     const body = {
         title: fields.get("title"),
         short_description: fields.get("short_description"),
+        domain: fields.get("domain"),
+        technologies: fields.get("technologies").split(",").map((name) => name.trim()).filter(Boolean),
     };
 
     let url = `${window.API_BASE_URL}/api/r3/projects`;
@@ -101,6 +103,8 @@ async function loadProjects() {
     form.elements.namedItem("title").value = project.title;
     form.elements.namedItem("short_description").value =
         project.short_description ?? "";
+    form.elements.namedItem("domain").value = project.domain ?? "";
+    form.elements.namedItem("technologies").value = (project.technologies ?? []).join(", ");
     saveButton.textContent = "Save Changes";
     cancelEditButton.hidden = false;
     feedback.textContent = `Editing “${project.title}”.`;
