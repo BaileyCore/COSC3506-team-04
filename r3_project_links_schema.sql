@@ -1,0 +1,8 @@
+BEGIN;
+
+ALTER TABLE public.r3_projects
+    ADD COLUMN IF NOT EXISTS source_url TEXT,
+    ADD COLUMN IF NOT EXISTS demo_url TEXT,
+    ADD COLUMN IF NOT EXISTS fallback_url TEXT;
+
+COMMIT;

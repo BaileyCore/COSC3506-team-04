@@ -42,10 +42,22 @@
         <option value="in_progress">In progress</option>
         <option value="completed">Completed</option>
     </select>
-</p>
+    </p>
+    <p>
+        <label for="source-url">Source URL</label><br>
+        <input type="url" id="source-url" name="source_url" maxlength="2048">
+    </p>
+    <p>
+        <label for="demo-url">Playable Demo URL</label><br>
+        <input type="url" id="demo-url" name="demo_url" maxlength="2048">
+    </p>
+    <p>
+        <label for="fallback-url">Fallback Evidence URL</label><br>
+        <input type="url" id="fallback-url" name="fallback_url" maxlength="2048">
+    </p>
         <button type="submit">Save Draft</button>
         <button id="cancel-edit" type="button" hidden>Cancel Edit</button>
-        </form>
+    </form>
 
     <p id="project-feedback" role="status"></p>
 

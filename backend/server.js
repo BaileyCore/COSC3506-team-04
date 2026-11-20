@@ -423,7 +423,37 @@ function readProjectFields(body) {
   ) {
     return { error: "Select a valid project status." };
   }
+  //LINKS TO URL
+  const links = {};
 
+  for (const [key, label] of [
+    ["source_url", "Source URL"],
+    ["demo_url", "Playable Demo URL"],
+    ["fallback_url", "Fallback Evidence URL"],
+  ]) {
+    const value = body[key] ?? "";
+    if (typeof value !== "string" || value.length > 2048) {
+      return { error: `${label} must be a valid HTTPS URL.` };
+    }
+
+    const url = value.trim();
+    if (!url) {
+      links[key] = null;
+      continue;
+    }
+
+    try {
+      const parsed = new URL(url);
+      if (!/^https:\/\//i.test(url) || parsed.username || parsed.password) {
+        return { error: `${label} must be a valid HTTPS URL.` };
+      }
+      links[key] = parsed.href;
+    } catch {
+      return { error: `${label} must be a valid HTTPS URL.` };
+    }
+  }
+  
+  //RETURN TITLE DESCRIPTIONS
   return {
     title,
     description: description.trim(),
@@ -431,6 +461,7 @@ function readProjectFields(body) {
     technologies: technologies.map((name) => name.trim()),
     projectDate,
     projectStatus,
+    ...links,
   };
 }
 
@@ -438,7 +469,8 @@ function readProjectFields(body) {
 const r3ProjectFields = `
   id, title, short_description, domain, technologies,
   to_char(project_date, 'YYYY-MM-DD') AS project_date,
-  project_status, is_published, version
+  project_status, source_url, demo_url, fallback_url,
+  is_published, version
 `;
 
 app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, next) => {
@@ -449,22 +481,25 @@ app.post("/api/r3/projects", requireVerifiedStudent, async (request, response, n
     }
 
     const result = await pool.query(
-      `INSERT INTO public.r3_projects (
-          maintainer_account_id, title, short_description, domain,
-          technologies, project_date, project_status
-        )
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING ${r3ProjectFields}`,
-      [
-        request.session.accountId,
-        fields.title,
-        fields.description,
-        fields.domain,
-        fields.technologies,
-        fields.projectDate,
-        fields.projectStatus,
-      ]
-    );
+  `INSERT INTO public.r3_projects (
+      maintainer_account_id, title, short_description, domain, technologies,
+      project_date, project_status, source_url, demo_url, fallback_url
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    RETURNING ${r3ProjectFields}`,
+  [
+    request.session.accountId,
+    fields.title,
+    fields.description,
+    fields.domain,
+    fields.technologies,
+    fields.projectDate,
+    fields.projectStatus,
+    fields.source_url,
+    fields.demo_url,
+    fields.fallback_url,
+  ]
+);
 
     return response.status(201).json({ project: result.rows[0] });
   } catch (error) {
@@ -517,12 +552,15 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
             technologies = $4,
             project_date = $5,
             project_status = $6,
+            source_url = $10,
+            demo_url = $11,
+            fallback_url = $12,
             version = version + 1
         WHERE id = $7
           AND maintainer_account_id = $8
           AND is_published = FALSE
           AND version = $9
-      RETURNING ${r3ProjectFields}`,
+        RETURNING ${r3ProjectFields}`,
       [
         fields.title,
         fields.description,
@@ -533,6 +571,9 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
         id,
         accountId,
         version,
+        fields.source_url,
+        fields.demo_url,
+        fields.fallback_url,
       ]
     );
 
