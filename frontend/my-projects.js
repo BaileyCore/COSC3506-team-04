@@ -122,6 +122,45 @@ async function loadProjects() {
     });
 
     item.append(" ", editButton);
+    
+    const publishButton = document.createElement("button");
+publishButton.type = "button";
+publishButton.textContent = "Publish";
+publishButton.setAttribute("aria-label", `Publish ${project.title}`);
+
+publishButton.addEventListener("click", async () => {
+    if (editingProject?.id === project.id) {
+    feedback.textContent = "Save or cancel your edits before publishing.";
+    return;
+    }
+
+    if (!window.confirm(`Make “${project.title}” and its saved links public?`)) {
+    return;
+    }
+
+    publishButton.disabled = true;
+    try {
+        const response = await fetch(
+        `${window.API_BASE_URL}/api/r3/projects/${encodeURIComponent(project.id)}/publish`,
+        { method: "POST", credentials: "include" }
+    );
+    const result = await response.json();
+
+    if (!response.ok) {
+        feedback.textContent = result.error || "Could not publish this draft.";
+        return;
+    }
+
+    feedback.textContent = `Published “${result.project.title}”.`;
+    await loadProjects();
+    } catch {
+    feedback.textContent = "Could not publish this draft. Try refreshing My Projects.";
+    } finally {
+    publishButton.disabled = false;
+    }
+});
+
+item.append(" ", publishButton);
 }
     list.append(item);
     }

@@ -602,6 +602,61 @@ app.patch("/api/r3/projects/:id", requireVerifiedStudent, async (request, respon
   }
 });
 
+app.get("/api/r3/public/projects/:id", async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    const uuidPattern = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+
+    if (!uuidPattern.test(id)) {
+      return response.status(400).json({ error: "Invalid project ID." });
+    }
+
+    const result = await pool.query(
+      `SELECT ${r3ProjectFields}
+      FROM public.r3_projects
+      WHERE id = $1 AND is_published = TRUE`,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return response.status(404).json({ error: "Project not found." });
+    }
+
+    return response.json({ project: result.rows[0] });
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/r3/projects/:id/publish", requireVerifiedStudent, async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    const uuidPattern = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
+
+    if (!uuidPattern.test(id)) {
+      return response.status(400).json({ error: "Invalid project ID." });
+    }
+
+    const result = await pool.query(
+      `UPDATE public.r3_projects
+      SET is_published = TRUE, version = version + 1
+      WHERE id = $1
+        AND maintainer_account_id = $2
+        AND is_published = FALSE
+      RETURNING ${r3ProjectFields}`,
+      [id, request.session.accountId]
+    );
+
+    if (result.rows.length === 0) {
+      return response.status(404).json({ error: "Draft not found." });
+    }
+
+    return response.json({ project: result.rows[0] });
+  } catch (error) {
+    next(error);
+  }
+});
+
 //
 const resumeUpload = multer({
   storage: multer.memoryStorage(),
@@ -622,7 +677,7 @@ const resumeUpload = multer({
   }
 });
 
-//
+// Patch: createPublicProfile
 function createPublicProfile(profile) {
   const visibility = profile.field_visibility || {};
 
