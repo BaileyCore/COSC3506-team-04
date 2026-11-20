@@ -246,4 +246,80 @@ item.append(" ", unpublishButton);
 }
 }
 
+const githubImportButton = document.getElementById("import-github");
+const githubImportStatus = document.getElementById("github-import-status");
+
+githubImportButton.addEventListener("click", async () => {
+    if (!document.getElementById("cancel-edit").hidden) {
+        githubImportStatus.textContent =
+            "Finish editing or click Cancel Edit before importing a new project.";
+    return;
+    }
+
+const input = window.prompt("Paste a public GitHub repository URL.");
+    if (input === null) return;
+
+const match = input.trim().match(
+    /^https:\/\/github\.com\/([a-z0-9-]+)\/([a-z0-9_.-]+)\/?$/i
+);
+
+    if (!match) {
+        githubImportStatus.textContent =
+            "Enter a repository URL in the format https://github.com/owner/repo.";
+    return;
+    }
+
+const [, owner, repository] = match;
+const repo = repository.replace(/\.git$/i, "");
+
+if (!repo || repo === "." || repo === "..") {
+    githubImportStatus.textContent = "Enter a valid repository name.";
+    return;
+}
+
+githubImportButton.disabled = true;
+githubImportStatus.textContent = "Loading repository details…";
+
+    try {
+        const response = await fetch(
+        `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
+        { headers: { Accept: "application/vnd.github+json" } }
+    );
+
+    if (response.status === 404) {
+        githubImportStatus.textContent =
+            "Repository unavailable. Check the URL and make sure the repository is public.";
+    return;
+    }
+
+    if (!response.ok) {
+        githubImportStatus.textContent =
+            `GitHub returned an error (${response.status}). Try again later.`;
+    return;
+    }
+
+    const data = await response.json();
+
+    if (!document.getElementById("cancel-edit").hidden) {
+        githubImportStatus.textContent =
+        "Import canceled because you opened a draft for editing.";
+    return;
+    }
+
+    const { elements } = githubImportButton.form;
+    elements.namedItem("title").value = data.name.slice(0, 150);
+    elements.namedItem("short_description").value =
+        (data.description ?? "").slice(0, 500);
+    elements.namedItem("source_url").value = data.html_url;
+
+    githubImportStatus.textContent =
+        "Repository details loaded. Review them, then click Save Draft.";
+} catch {
+    githubImportStatus.textContent =
+        "Could not import the repository. Check your connection and try again.";
+} finally {
+    githubImportButton.disabled = false;
+}
+});
+
 loadProjects();
