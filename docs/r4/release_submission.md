@@ -1,6 +1,6 @@
 Chosen challenge: R4.19 - Server-Side Collaboration Privacy
 
-# Release 4 deployment for team review
+# Release 4 product submission
 
 - Team 04
 - Project Option 1 - ImmXrsive Talent and Industry Platform
@@ -9,8 +9,12 @@ Chosen challenge: R4.19 - Server-Side Collaboration Privacy
 - Repository https://github.com/BaileyCore/COSC3506-team-04
 - Working branch r4/production-sign-in
 - Deployed application commit 9c4ac4760f4c832e31c7ba919481edf53729c61a
-- Required assessed tag R4-submission is pending team review and freeze.
-- Moodle submission and the final assessed full SHA are pending the team's submission decision.
+- Assessed tag R4-submission
+- Assessed full commit SHA 9c4ac4760f4c832e31c7ba919481edf53729c61a
+- Release https://github.com/BaileyCore/COSC3506-team-04/releases/tag/R4-submission
+- The published tag was checked through GitHub and resolves to the deployed application commit above. Keep this tag unchanged.
+- Moodle submission must be completed separately. Publishing the GitHub release does not submit on Moodle.
+- This evidence document was finalized after tag creation. Later documentation commits do not change the assessed application revision.
 
 ## Release notes
 
@@ -33,6 +37,15 @@ account pages. Exact frontend and backend origins are accepted for authenticated
 - Staff use an approved GitHub account listed by its stable numeric ID in the backend's R4_STAFF_GITHUB_IDS setting, then open https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html.
 - The deployment owner account was explicitly approved and used for staff verification. A designated reviewer/instructor account must still be arranged privately before assessment. Staff passwords and verification codes are not shared in these files.
 - Independent ordinary-student authorization and multi-student invitation acceptance still need a live retest with separate consenting accounts.
+
+## Test setup
+
+1. Open the public deployment in a fresh browser session. No account is required for public discovery, partner pages or simulated inquiries.
+2. Student reviewers sign in through the account application with their own GitHub account and verify their own Algoma email when required. Use a disposable project to test requests and invitations.
+3. Designated staff reviewer access is not yet provisioned. The team is awaiting the reviewer GitHub identity so its stable numeric ID can be allowlisted privately. The owner's authenticated session is not a shared test account. Staff-dependent checks are blocked for a reviewer until this is completed.
+4. The published partner and demonstration project below provide existing public evidence. New pending verification/association requests can be created by a verified maintainer through My Projects; imported unpublished company drafts appear in the staff queue. Completed requests no longer appear as pending.
+5. Use the unchanged normal and sparse hosted fixtures for Core import checks. Challenge R4.19 uses the public, limited and private collaboration records on the published partner below.
+6. Use synthetic inquiry details such as qa@example.test. The inquiry is a simulation, not a delivered email.
 
 ## Fixture source URLs
 
@@ -71,8 +84,10 @@ Verified on November 20, 2026, Toronto time, against the deployed application co
 
 ## Remaining checks and known limitations
 
+- Designated staff and student reviewer access, and issue creation by the assigned reviewers/instructor, still require confirmation. A public repository alone does not establish that assigned reviewers can complete all assessment actions.
+
 - The live 390-CSS-pixel check covered the public partner-to-inquiry journey. Other mobile journeys were not fully repeated in this live check.
-- Live authorization with a separate ordinary student and a designated staff reviewer is pending. Automated integration tests exercise these authorization boundaries.
+- A separate ordinary-student live denial response has not been captured in this evidence record. Automated integration tests exercise that boundary; anonymous staff reads and writes were denied live. Designated staff reviewer access is still pending.
 - Email delivery was not re-requested during this check because the test owner already had a verified Algoma account.
 - R4.10, R4.13 and R4.14 are not chosen. Scenarios D, E and F should be marked Not chosen.
 - Import accepts bounded ordinary HTTPS HTML and requires the final URL for redirects. Sparse sites can require manual completion.

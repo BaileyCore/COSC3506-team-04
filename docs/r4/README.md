@@ -16,7 +16,9 @@ The live public partner-to-inquiry journey was also checked with Chrome DevTools
 390 CSS pixels on November 20. Synthetic submission retained the partner identity and
 source URL. Staff collaboration controls fit in the supplied mobile screenshots.
 Other mobile journeys were not fully repeated during this live check.
-The R4 assessed tag and Moodle freeze are pending team review.
+The published R4-submission tag resolves to 9c4ac4760f4c832e31c7ba919481edf53729c61a.
+Do not move it. Moodle submission is separate and has not been verified.
+Designated staff reviewer provisioning and repository issue-creation checks remain outstanding.
 
 ## Deploy and provision
 
@@ -38,7 +40,7 @@ The R4 assessed tag and Moodle freeze are pending team review.
    student and staff sign-ins. Run the workflow below before claiming a pass or freezing.
 6. Once deployed and verified, create `R4-submission` at the actual assessed commit.
    Complete the official Moodle templates with the SHA, evidence URLs and staff access
-   instructions. The drafts here are starting points, not completed production evidence.
+   instructions. The current root release record contains the confirmed production evidence and explicitly lists outstanding access checks.
 
 ## Live workflow
 
@@ -74,8 +76,8 @@ redirects, and a pinned public IPv4 address. Use the final URL for sites that re
 Text is read as data and displayed as text. Sparse or JS-only websites can require
 manual completion. Inquiry submission uses the existing simulation. Challenge credit
 is claimed only for the explicit server-side privacy policy, not the three unselected
-challenge scenarios. Real OAuth, production fixture fetching, private staff setup,
-deploy SHA and public fixture partner URL need verification before submission.
+challenge scenarios. Real OAuth, hosted fixture imports, deployment SHA and public
+fixture evidence were checked. Designated staff reviewer provisioning remains outstanding.
 
 ## Local verification
 
@@ -84,6 +86,6 @@ Run `npm ci`, `npm --prefix backend ci`, `npm run check:r3`, `npm run check:r4`,
 The R4 integration suite exercises the real Express handlers and PostgreSQL SQL
 against disposable PGlite data with mocked sessions and fixture fetches.
 The headless browser walkthrough passed locally at desktop and 390 CSS pixels
-on November 20, 2026. See [local verification in the submission draft](release_submission.md#local-verification).
+on November 20, 2026. See [automated checks in the current release record](release_submission.md#automated-checks).
 Repeat the public mobile flow, real GitHub sign-in and staff authorization, and
 hosted HTTPS fixture imports on Render before recording production evidence.
