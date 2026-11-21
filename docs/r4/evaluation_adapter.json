@@ -16,7 +16,7 @@
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/staff/queue",
       "method_or_action": "GET as public and ordinary student. Also attempt a staff action.",
       "role": "visitor or verified student",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
+      "setup": "Teammate screenshots show a signed-in non-staff session denied access to /r4-staff.html and /api/r4/staff/queue with \"Staff access is required.\" Algoma verification state is not shown. A non-staff staff-action write attempt still requires live evidence. Anonymous reads and writes were denied in prior live checks.",
       "expected_behavior": "401 signed out or 403 for ordinary students, with no mutation."
     },
     {

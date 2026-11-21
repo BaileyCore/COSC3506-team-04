@@ -36,7 +36,7 @@ account pages. Exact frontend and backend origins are accepted for authenticated
 - Students use their own GitHub account and verified Algoma email through https://cosc3506-team-04-ey5d.onrender.com/profile.html.
 - Staff use an approved GitHub account listed by its stable numeric ID in the backend's R4_STAFF_GITHUB_IDS setting, then open https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html.
 - The deployment owner account was explicitly approved and used for staff verification. A designated reviewer/instructor account must still be arranged privately before assessment. Staff passwords and verification codes are not shared in these files.
-- Independent ordinary-student authorization and multi-student invitation acceptance still need a live retest with separate consenting accounts.
+- Supplied teammate screenshots show a signed-in non-staff account denied access to both the staff page and staff queue API with "Staff access is required." The account's Algoma verification state is not shown. A non-staff write attempt and multi-student invitation acceptance still need live evidence.
 
 ## Test setup
 
@@ -77,6 +77,7 @@ Verified on November 20, 2026, Toronto time, against the deployed application co
 - Public API responses contain only the anonymized summary for the limited record and omit the private record and its marker text. Unpublished company drafts are absent.
 - Student requests were pending with no official public relationship before review. Staff approval produced public verification and the partner relationship; rejection was recorded for the suggested company.
 - Anonymous staff queue reads and staff writes return 401.
+- Teammate-provided screenshots show the staff page and staff queue API returning "Staff access is required." for a signed-in non-staff session. This confirms the read-access boundary; it does not establish a tested non-staff write denial.
 - R1 case-insensitive search, combined skill/availability/status filters, stable profile navigation and browser Back preserved the expected single result.
 - R2's existing verified profile opens. R3 project creation/publication, public demo evidence and student-name lookup passed.
 
@@ -87,7 +88,7 @@ Verified on November 20, 2026, Toronto time, against the deployed application co
 - Designated staff and student reviewer access, and issue creation by the assigned reviewers/instructor, still require confirmation. A public repository alone does not establish that assigned reviewers can complete all assessment actions.
 
 - The live 390-CSS-pixel check covered the public partner-to-inquiry journey. Other mobile journeys were not fully repeated in this live check.
-- A separate ordinary-student live denial response has not been captured in this evidence record. Automated integration tests exercise that boundary; anonymous staff reads and writes were denied live. Designated staff reviewer access is still pending.
+- Supplied teammate screenshots capture the signed-in non-staff read denial on both /r4-staff.html and /api/r4/staff/queue. A non-staff staff-action write attempt has not been captured. Anonymous staff reads and writes were denied live; automated integration tests also cover authorization. Designated staff reviewer access is still pending.
 - Email delivery was not re-requested during this check because the test owner already had a verified Algoma account.
 - R4.10, R4.13 and R4.14 are not chosen. Scenarios D, E and F should be marked Not chosen.
 - Import accepts bounded ordinary HTTPS HTML and requires the final URL for redirects. Sparse sites can require manual completion.
