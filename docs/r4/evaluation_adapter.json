@@ -184,7 +184,7 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
       "method_or_action": "Set browser viewport to 390 CSS px; open partner and inquiry",
       "role": "visitor",
-      "setup": "Live 390-CSS-pixel retest is pending. Run this check before final freeze.",
+      "setup": "User-assisted live Chrome DevTools check on November 20, 2026 (Toronto), at 390 CSS pixels opened North Shore Simulations, followed the inquiry and submitted synthetic details. The simulation retained the correct partner identity and source URL. This evidence covers that public journey.",
       "expected_behavior": "Public content remains readable and usable."
     },
     {

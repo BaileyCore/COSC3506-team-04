@@ -11,7 +11,11 @@ commit 9c4ac4760f4c832e31c7ba919481edf53729c61a, on November 20, 2026 (Toronto).
 The account pages are hosted on the API hostname to keep authentication first-party.
 Use https://cosc3506-team-04-ey5d.onrender.com/profile.html and https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html.
 See [the current release record](../../release_submission.md) for the live evidence,
-backup and rollback record, completed checks and remaining reviewer/mobile checks.
+backup and rollback record, completed checks and remaining reviewer access and authorization checks.
+The live public partner-to-inquiry journey was also checked with Chrome DevTools at
+390 CSS pixels on November 20. Synthetic submission retained the partner identity and
+source URL. Staff collaboration controls fit in the supplied mobile screenshots.
+Other mobile journeys were not fully repeated during this live check.
 The R4 assessed tag and Moodle freeze are pending team review.
 
 ## Deploy and provision

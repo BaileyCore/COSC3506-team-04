@@ -67,9 +67,11 @@ Verified on November 20, 2026, Toronto time, against the deployed application co
 - R1 case-insensitive search, combined skill/availability/status filters, stable profile navigation and browser Back preserved the expected single result.
 - R2's existing verified profile opens. R3 project creation/publication, public demo evidence and student-name lookup passed.
 
+- User-assisted Chrome DevTools testing at a 390-CSS-pixel viewport opened North Shore Simulations, followed its collaboration inquiry, and submitted synthetic details. The simulation console retained the correct partner type, ID, name and source URL. Staff collaboration controls were also visible within the viewport in screenshots; this was a visual check of those controls.
+
 ## Remaining checks and known limitations
 
-- A live 390-CSS-pixel viewport retest is pending. The branch author's earlier local mobile test is documented in docs/r4/README.md; it is not counted as a new live mobile pass here.
+- The live 390-CSS-pixel check covered the public partner-to-inquiry journey. Other mobile journeys were not fully repeated in this live check.
 - Live authorization with a separate ordinary student and a designated staff reviewer is pending. Automated integration tests exercise these authorization boundaries.
 - Email delivery was not re-requested during this check because the test owner already had a verified Algoma account.
 - R4.10, R4.13 and R4.14 are not chosen. Scenarios D, E and F should be marked Not chosen.
