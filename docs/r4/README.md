@@ -4,6 +4,16 @@ The official Project 1 chapter is https://moodle.dilab.ca/mod/book/view.php?id=3
 This branch carries the reviewed R3 invite-by-name work in PR #8. Keep the frozen R3 tag unchanged.
 Chosen challenge: R4.19 - Server-Side Collaboration Privacy. The other three are not selected.
 
+## Current production review
+
+The public site and backend were deployed from r4/production-sign-in, application
+commit 9c4ac4760f4c832e31c7ba919481edf53729c61a, on November 20, 2026 (Toronto).
+The account pages are hosted on the API hostname to keep authentication first-party.
+Use https://cosc3506-team-04-ey5d.onrender.com/profile.html and https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html.
+See [the current release record](../../release_submission.md) for the live evidence,
+backup and rollback record, completed checks and remaining reviewer/mobile checks.
+The R4 assessed tag and Moodle freeze are pending team review.
+
 ## Deploy and provision
 
 1. The production Render workspace owner must review the branch and configure the

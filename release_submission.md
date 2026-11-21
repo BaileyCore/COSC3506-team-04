@@ -1,73 +1,98 @@
-# Release Submission
+Chosen challenge: R4.19 - Server-Side Collaboration Privacy
 
-Release: R2
-Team: team-04
-Project Option: Project 1 — Public Talent Directory
-Deployment: https://cosc3506-team04-frontend.onrender.com
-Repository: https://github.com/BaileyCore/COSC3506-team-04
-Release tag: R2-submission (required; not found in this repository at this check)
-Commit: Original frozen-release SHA unconfirmed. Current working code: 469d38a4f91ce79eddaa24afea7ca7a33cc8db2e
-Adapter: evaluation_adapter.json
-Known issues: R1 fixtures are not yet loaded on the current database; shared skills and public directory APIs currently return empty arrays. Layout-heavy PDF columns can produce mixed review candidates. See open verification items below.
-Test notes: This is a current-work/QA preparation record, not a claim that this version was submitted or frozen by the Oct 16 deadline.
+# Release 4 deployment for team review
 
-## Test accounts
+- Team 04
+- Project Option 1 - ImmXrsive Talent and Industry Platform
+- Public deployment https://cosc3506-team04-frontend.onrender.com
+- Account and staff application https://cosc3506-team-04-ey5d.onrender.com
+- Repository https://github.com/BaileyCore/COSC3506-team-04
+- Working branch r4/production-sign-in
+- Deployed application commit 9c4ac4760f4c832e31c7ba919481edf53729c61a
+- Required assessed tag R4-submission is pending team review and freeze.
+- Moodle submission and the final assessed full SHA are pending the team's submission decision.
 
-Project 1 roles are public visitor, GitHub-authenticated unverified student, and verified student. No staff/admin or pre-shared course password is required.
+## Release notes
 
-1. Open https://cosc3506-team04-frontend.onrender.com/profile.html in a fresh browser session and select Continue with GitHub.
-2. Sign in with your own GitHub account. The app requests only read:user; its internal UUID is associated with the stable GitHub numeric ID.
-3. Enter an algomau.ca address you control, select Send verification code, read your private Algoma inbox and select Verify email.
-4. Codes expire within the configured 1–30 minute interval (default 30), are single-use, and allow five wrong attempts per challenge. Email requests allow one per minute and five per hour per GitHub account, including failed delivery requests.
-5. Save a draft; preview it before publishing. A later GitHub sign-in uses the saved affiliation and draft.
-6. Use two separate accounts/mailboxes for ownership checks. Arrange any reviewer-specific access or setup through the approved private course channel. Do not commit passwords, tokens, codes or real private resume content.
+R4 adds staff queues, institutional project verification, partner association requests,
+reviewed company website imports, public Industry Partners pages, contextual inquiries,
+and current/past collaborations with public, anonymized and private visibility.
+The selected Challenge is R4.19. Challenges R4.10, R4.13 and R4.14 are not chosen.
 
-## Release-specific evidence
+This deployment builds on the team's r4/staff-industry commit
+6360a6e5dcfb7b51553866691f10fd858db1d8eb and includes its invitation name picker.
+A production session failure was reproduced and corrected. Signed-in profile, shared
+project and staff pages now run on the backend hostname, where the session cookie
+works directly. Opening their existing static-frontend links redirects to these
+account pages. Exact frontend and backend origins are accepted for authenticated writes.
 
-### Current deployment and version record
+## Live access and roles
 
-- Frontend: https://cosc3506-team04-frontend.onrender.com
-- Backend: https://cosc3506-team-04-ey5d.onrender.com
-- Health: https://cosc3506-team-04-ey5d.onrender.com/api/health
-- Working branch: r2/student-self-service.
-- Last backend deployment confirmed by screenshot: faded690df48bd7fadad97ee630422e51c155df2.
-- Profile editor fix: 469d38a4f91ce79eddaa24afea7ca7a33cc8db2e. The user confirmed the frontend deployment was Live, then saved and published successfully.
-- No R2-submission ref was found in this repository at this check. Confirm the team's actual Moodle submission and any approved equivalent before identifying an assessed commit.
-- The published deadline is Oct 16, 2026, 11:59 p.m. Toronto time. The checks/repairs described here occurred Oct 17. They must not be represented as evidence that these behaviors passed in the original frozen version.
-- Preserve any original assessed tag/SHA. Later repairs must be linked to project issues and recorded with their later deployed commit; do not move a frozen tag.
+- Public visitors can open the directory, partner pages, profiles, projects and inquiry without an account.
+- Students use their own GitHub account and verified Algoma email through https://cosc3506-team-04-ey5d.onrender.com/profile.html.
+- Staff use an approved GitHub account listed by its stable numeric ID in the backend's R4_STAFF_GITHUB_IDS setting, then open https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html.
+- The deployment owner account was explicitly approved and used for staff verification. A designated reviewer/instructor account must still be arranged privately before assessment. Staff passwords and verification codes are not shared in these files.
+- Independent ordinary-student authorization and multi-student invitation acceptance still need a live retest with separate consenting accounts.
 
-### Release notes
+## Fixture source URLs
 
-Adds GitHub sign-in, Algoma email verification, private profile drafts, structured fields, shared-skill selection, local PDF import with editable unchecked suggestions, public/private controls for availability and professional links, preview, publish/unpublish, three controlled themes, About/Project Evidence section order, and a default initials avatar. R1 public routes remain present.
+All four hosted HTML files were byte-compared with the checked-in fixtures and matched.
 
-Email delivery uses a Google Apps Script relay configured through private hosting settings. A mismatched relay secret was corrected. The user subsequently reached the verified profile editor. The frontend profile-loading bug (invalid ID lookups for visibility/style fields) was corrected in commit 469d38a4f91ce79eddaa24afea7ca7a33cc8db2e.
+- company_normal.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_normal.html
+- company_sparse.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_sparse.html
+- company_prompt_injection.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_prompt_injection.html
+- company_same_name_other_domain.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_same_name_other_domain.html
 
-### Fixtures and setup
+## Published evidence
 
-- R1: fixtures/students.json, fixtures/projects.json and fixtures/skills.json are in the repository. With the production DATABASE_URL privately configured, run `node seed-release1.js` from backend. The current live skills and directory responses are empty; loading remains pending. Do not reset the database or erase user profiles.
-- R2: download resume_clean_single_column.pdf, resume_minimal.pdf, resume_layout_stress.pdf and resume_untrusted_text.pdf from Moodle Release 2 Fixtures, folder 3925. Select each locally in the profile editor. These PDFs are not preloaded server-side.
-- The backend applies additive schema.sql to create the account, challenge, limit and draft tables. Initial schema creation needs a database role permitted to create/alter those tables.
-- Node/Express backend, persistent Supabase PostgreSQL and Render static frontend. Required private settings: DATABASE_URL, FRONTEND_ORIGIN, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_CALLBACK_URL, R2_SESSION_SECRET, GOOGLE_MAILER_URL and GOOGLE_MAILER_SECRET. Approved domains are checked by the backend; the current Google relay additionally limits delivery to algomau.ca.
-- Browser must allow the cross-site HTTPS session cookie and reach GitHub and the pinned PDF.js CDN. Manual editing remains available when PDF parsing fails. Free hosting may need time to wake.
+- Reviewed fixture company https://cosc3506-team04-frontend.onrender.com/r4-partners.html?id=c53a2828-5ce6-40f1-a700-547e2d55d4d0
+- Published demonstration project https://cosc3506-team04-frontend.onrender.com/r3-project.html?id=bc26639f-3835-47c0-9218-cf2c25e1b17e
+- The company has public current (2026) and past (2025) collaborations, related public projects/students, an anonymized highlight and a private QA record.
+- Algoma Field Systems remains an unpublished, manually completed sparse fixture draft for staff review.
+- The demonstration project has approved verification and a staff-approved North Shore Simulations association. A separate synthetic company suggestion was rejected.
+- Inquiry uses the existing local simulation. Its successful submission retained the partner identity and source context.
 
-### Privacy/visibility summary
+## Observed production verification
 
-See R2_PRIVACY_SUMMARY.md. Private drafts and verified email/challenge data are not normal public API responses. Public reads select published student records. At publication, hidden availability becomes [] and hidden professional links become {} in the public snapshot; maintained private values remain in the owner-only draft. Unpublishing removes the public profile without deleting the maintained draft. The PDF and full extracted resume text are processed only in browser memory; neither is uploaded/persisted or offered through a public download endpoint. Candidate selection/application is explicit and does not itself save or publish.
+Verified on November 20, 2026, Toronto time, against the deployed application commit above.
 
-### Checks completed and limits
+- Both Render services show Live at the same full commit; /api/health returns 200 with a reachable database.
+- GitHub sign-in succeeds after signing out of the application, and the approved staff account reaches the work queue.
+- Normal company import, editing, draft saving and explicit publication passed using the hosted fixture URL.
+- Sparse import and manual completion passed. An unavailable import left unsaved draft text intact.
+- Two public collaborations in different years show under Current and Past with project/student links.
+- Public API responses contain only the anonymized summary for the limited record and omit the private record and its marker text. Unpublished company drafts are absent.
+- Student requests were pending with no official public relationship before review. Staff approval produced public verification and the partner relationship; rejection was recorded for the suggested company.
+- Anonymous staff queue reads and staff writes return 401.
+- R1 case-insensitive search, combined skill/availability/status filters, stable profile navigation and browser Back preserved the expected single result.
+- R2's existing verified profile opens. R3 project creation/publication, public demo evidence and student-name lookup passed.
 
-- User confirmed GitHub sign-in, arrival in the verified editor, saving after frontend repair, preview, publish and unpublish.
-- Screenshots showed public profile access in Incognito after publication and Student not found after unpublication.
-- Local tests using PDF.js 4.4.168 read all four supplied PDFs and the current candidate algorithm. A DOM-stub harness exercised the actual import/review handlers: upload preserved manual fields, candidates started unchecked, edited/selected candidates applied explicitly, and import/apply performed no profile-save or publish request. Malformed PDF produced a recoverable error and preserved existing fields.
-- The minimal fixture produced no skills, work entries or links absent from its source. The untrusted-text fixture remained data; its instruction did not trigger a profile/network action.
-- These local checks are not a claim that every fixture/viewport/security scenario passed in the deployed browser. The adapter describes routes and expected checks, not proof of passing.
+## Remaining checks and known limitations
 
-### Known issues / remaining verification
+- A live 390-CSS-pixel viewport retest is pending. The branch author's earlier local mobile test is documented in docs/r4/README.md; it is not counted as a new live mobile pass here.
+- Live authorization with a separate ordinary student and a designated staff reviewer is pending. Automated integration tests exercise these authorization boundaries.
+- Email delivery was not re-requested during this check because the test owner already had a verified Algoma account.
+- R4.10, R4.13 and R4.14 are not chosen. Scenarios D, E and F should be marked Not chosen.
+- Import accepts bounded ordinary HTTPS HTML and requires the final URL for redirects. Sparse sites can require manual completion.
+- Supplied synthetic company website links use reserved example.test hosts.
+- Free Render instances can require a cold start after inactivity.
+- Full requirements compliance and assessment readiness remain subject to the outstanding live checks and team review.
 
-1. Load R1 fixtures: production /api/skills and /api/students returned [] on Oct 17. Without shared skills the structured-skills requirement and meaningful R1 regression checks cannot be completed.
-2. Confirm the original frozen Moodle version/tag/full SHA and assigned-reviewer/instructor access to repository and issue creation. The repository has no confirmed R2 tag at this check.
-3. Complete deployed privacy toggles/API checks, 390 CSS-pixel workflow, both-account ownership tampering, repeated sign-in, expiry/reuse/wrong-attempt limits, all themes/orders with unchanged filters, and R1 project/inquiry regression checks.
-4. The canonical write routes use session ownership, but currently ignore unrecognized body/query fields. Explicit foreign-identifier refusal needs a focused R2.30 check.
-5. Layout-stress extraction can merge adjacent columns and include headings as candidates. Students must edit/reject candidates before applying. It is a heuristic parser, with a 10 MB limit and only the first eight pages read.
-6. The Google relay's domain check is hardcoded to algomau.ca even though backend approved domains are configurable. Adding a second domain currently requires updating the relay.
-7. PDF.js depends on CDN availability; delivery depends on the configured sender and its daily quota. No instructor-approved alternative delivery mode is asserted.
+## Automated checks
+
+62 automated tests passed locally, both syntax checks passed, and the frontend build passed.
+GitHub CI passed at 9c4ac4760f4c832e31c7ba919481edf53729c61a.
+https://github.com/BaileyCore/COSC3506-team-04/actions/runs/44842124782
+
+## Deployment and recovery
+
+The application uses Node/Express, Render's static frontend and web backend, and
+persistent Supabase PostgreSQL. A private export captured all 18 existing public-schema
+application tables (236 rows) with column, constraint, index, policy and sequence metadata
+before the R4 migration. The export is retained privately; it is not stored in Git.
+The three additive R4 tables were created and their row-level security verified.
+
+Previous backend commit e2b3b2a014bc365f85d6efd4bac37408251512d8.
+Previous frontend commit 692e2dcafdc7d132a0a1abc2118e045cf557068a.
+Both services previously tracked r3/shared-projects and now track r4/production-sign-in.
+The existing OAuth app, mail configuration and database were retained.

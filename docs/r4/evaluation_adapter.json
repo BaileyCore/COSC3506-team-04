@@ -5,10 +5,10 @@
   "checks": [
     {
       "requirement_or_scenario": "R4.01",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Open staff queue after GitHub sign-in",
       "role": "configured staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Queue is available only to separately allowlisted staff."
     },
     {
@@ -16,31 +16,31 @@
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/staff/queue",
       "method_or_action": "GET as public and ordinary student. Also attempt a staff action.",
       "role": "visitor or verified student",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "401 signed out or 403 for ordinary students, with no mutation."
     },
     {
       "requirement_or_scenario": "R4.03",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Inspect the work queue",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Pending verification requests, partner requests and company drafts have separate sections."
     },
     {
       "requirement_or_scenario": "R4.04",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r3-projects.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r3-projects.html",
       "method_or_action": "Open a maintained project and send a verification request with evidence",
       "role": "verified maintainer",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "A pending request appears for staff review."
     },
     {
       "requirement_or_scenario": "R4.05",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Inspect project, contributors and notes then approve or reject",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Staff can make a decision based on the project and request context."
     },
     {
@@ -48,23 +48,23 @@
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/projects/{projectId}",
       "method_or_action": "Compare public verification before and after staff approval",
       "role": "visitor and staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Student edits do not create or change the institutional verification marker."
     },
     {
       "requirement_or_scenario": "R4.07",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Add a company manually",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Name and optional website, description, sector and location are editable. Saves a draft."
     },
     {
       "requirement_or_scenario": "R4.08",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Import the four fixture URLs",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Name and available metadata appear for review. Sparse data needs manual completion."
     },
     {
@@ -72,31 +72,31 @@
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/partners",
       "method_or_action": "Inspect before staff publishes the imported draft",
       "role": "visitor and staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Imported draft is not public and does not confer project verification."
     },
     {
       "requirement_or_scenario": "R4.11",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Try an unreachable website while editing a draft",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Import fails with guidance and does not replace the existing draft."
     },
     {
       "requirement_or_scenario": "R4.12",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Review an imported draft",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Source URL and import time are visible."
     },
     {
       "requirement_or_scenario": "R4.15",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Choose a company and add a collaboration",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Title, period, summary, outcome, status, project and student choices can be saved."
     },
     {
@@ -104,23 +104,23 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
       "method_or_action": "Open company after staff adds records from two years",
       "role": "visitor",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "The same company page shows separate current and past collaborations."
     },
     {
       "requirement_or_scenario": "R4.17",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Select multiple projects for a collaboration and approve two partner requests for one project",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Many related projects and multiple approved partners are supported."
     },
     {
       "requirement_or_scenario": "R4.18",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Set public, limited and private visibility on test records",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Public shows details, limited shows the intended summary only, private is hidden."
     },
     {
@@ -128,15 +128,15 @@
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/partners/{partnerId}",
       "method_or_action": "Inspect raw anonymous partner data for all three visibility states",
       "role": "visitor",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Private fields and IDs are absent. Limited records have only public_summary."
     },
     {
       "requirement_or_scenario": "R4.20",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r3-projects.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r3-projects.html",
       "method_or_action": "Choose Add an industry partner; select existing partner or suggest one and explain",
       "role": "verified maintainer",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Pending request appears in the staff queue."
     },
     {
@@ -144,7 +144,7 @@
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/projects/{projectId}",
       "method_or_action": "Compare pending and approved partner requests",
       "role": "visitor and staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Only staff-approved partner requests appear as official relationships."
     },
     {
@@ -152,7 +152,7 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
       "method_or_action": "Open published company and inspect current/past projects, students, website and inquiry",
       "role": "visitor",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Company relationships are presented in plain language."
     },
     {
@@ -160,7 +160,7 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
       "method_or_action": "Review current and past groups",
       "role": "visitor",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Historical cooperation remains visible under Past."
     },
     {
@@ -168,15 +168,15 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
       "method_or_action": "Use Start a collaboration inquiry on a public partner and a public collaboration",
       "role": "visitor",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "The existing inquiry simulation receives the link context."
     },
     {
       "requirement_or_scenario": "R4.25",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-staff.html",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
       "method_or_action": "Import, review, publish and add collaboration through the visible UI",
       "role": "staff",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Task workflow is usable without database tools."
     },
     {
@@ -184,7 +184,7 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
       "method_or_action": "Set browser viewport to 390 CSS px; open partner and inquiry",
       "role": "visitor",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "Live 390-CSS-pixel retest is pending. Run this check before final freeze.",
       "expected_behavior": "Public content remains readable and usable."
     },
     {
@@ -192,7 +192,7 @@
       "entry_point": "https://cosc3506-team04-frontend.onrender.com",
       "method_or_action": "Run R1-R3 regression checks plus invite-by-name on a disposable project",
       "role": "all applicable roles",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "See release_submission.md for published evidence, unchanged fixture source URLs, and privately arranged staff/student access.",
       "expected_behavior": "Earlier directory, self-service, sharing and demo/fallback flows still work."
     },
     {
@@ -200,7 +200,7 @@
       "entry_point": "https://github.com/BaileyCore/COSC3506-team-04",
       "method_or_action": "Verify R4-submission after production retest",
       "role": "release coordinator",
-      "setup": "See docs/r4/README.md for production staff, fixture and disposable project setup.",
+      "setup": "R4-submission is pending team review and freeze. Deployed application commit 9c4ac4760f4c832e31c7ba919481edf53729c61a.",
       "expected_behavior": "Tag resolves to the assessed, deployed revision."
     }
   ]
