@@ -17,7 +17,7 @@ function mountR4(app,{pool,getSession,ready,origin,staffGithubIds,readHtml=fetch
     app[method]('/api/r4'+path,async (req,res,next)=>{
       try {
         await ready;
-        if(method!=='get' && req.get('origin')!==origin) throw fail(403,'Request origin is not allowed.');
+        if(method!=='get' && ![origin].flat().includes(req.get('origin'))) throw fail(403,'Request origin is not allowed.');
         let actor=null;
         if(access!=='public'){
           const id=getSession(req);

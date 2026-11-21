@@ -11,7 +11,7 @@ function mountR3(app, {pool,getVerifiedStudentId,studentExists,frontendOrigin}) 
     throw new Error('R3 requires Express app, PostgreSQL pool, R2 verified-session resolver, existing-student lookup, and frontendOrigin');
   }
   app.use('/api/r3', (req,res,next) => {
-    if (!['GET','HEAD','OPTIONS'].includes(req.method) && req.headers.origin !== frontendOrigin)
+    if (!['GET','HEAD','OPTIONS'].includes(req.method) && ![frontendOrigin].flat().includes(req.headers.origin))
       return res.status(403).json({error:'Request origin is not allowed'});
     next();
   });

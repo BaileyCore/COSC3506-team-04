@@ -82,7 +82,7 @@ test('R3 reuses the OAuth session and keeps affiliation and profile guards', asy
   await t.test('callback sets the signed session and redirects with a reporting marker', async () => {
     const {state, cookie} = await begin();
     const res = await request('get', '/auth/github/callback', {query: {state, code: 'test-code'}, cookie});
-    assert.equal(res.location, origin + '/profile.html?auth=github');
+    assert.equal(res.location, new URL(settings.GITHUB_CALLBACK_URL).origin + '/profile.html?auth=github');
     const issued = res.cookies.find(c => c.name === 'r2_session');
     assert.deepEqual(issued.options, {httpOnly: true, secure: true, sameSite: 'none', maxAge: 28800000, path: '/'});
     session = 'r2_session=' + issued.value;

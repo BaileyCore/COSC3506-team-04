@@ -41,7 +41,10 @@ function requireSession(req, res, next) {
 }
 function requireOrigin(req, res, next) {
   const allowed = process.env.FRONTEND_ORIGIN;
-  if (!allowed || req.get("origin") !== allowed) return res.status(403).json({ error: "Request origin is not allowed." });
+  const accountOrigin = process.env.GITHUB_CALLBACK_URL
+    ? new URL(process.env.GITHUB_CALLBACK_URL).origin
+    : allowed;
+  if (!allowed || ![allowed, accountOrigin].includes(req.get("origin"))) return res.status(403).json({ error: "Request origin is not allowed." });
   next();
 }
 function text(value, max) {
@@ -156,7 +159,7 @@ module.exports = function createR2Router(pool) {
       setSession(res, account.rows[0].user_id);
       // This marker only lets the UI report a missing session after OAuth.
       // Authentication still requires the signed cookie and account lookup.
-      res.redirect((process.env.FRONTEND_ORIGIN || "/") + "/profile.html?auth=github");
+      res.redirect(new URL(process.env.GITHUB_CALLBACK_URL).origin + "/profile.html?auth=github");
     } catch (error) {
       console.error("GitHub sign-in failed:", error.message);
       res.status(500).send("Sign-in failed. Please try again.");

@@ -3,6 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const { Pool } = require("pg");
+const path = require("node:path");
 
 if (!process.env.DATABASE_URL) {
   console.error("DATABASE_URL is required. Copy backend/.env.example to backend/.env and set it.");
@@ -10,7 +11,12 @@ if (!process.env.DATABASE_URL) {
 }
 
 const app = express();
-app.use(cors({ origin: process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com", credentials: true }));
+const frontendOrigin = process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com";
+const accountOrigin = process.env.GITHUB_CALLBACK_URL
+  ? new URL(process.env.GITHUB_CALLBACK_URL).origin
+  : frontendOrigin;
+const allowedOrigins = [...new Set([frontendOrigin, accountOrigin])];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
 const isLocalDatabase = process.env.DATABASE_URL.includes("localhost");
@@ -30,7 +36,7 @@ app.use('/api/r3', (_req, _res, next) => {
 });
 mountR3(app, {
   pool,
-  frontendOrigin: process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com",
+  frontendOrigin: allowedOrigins,
   getVerifiedStudentId: async (request) => {
     const userId = createR2Router.getSession(request);
     if (!userId) return null;
@@ -54,7 +60,7 @@ require("./r4_routes.cjs").mountR4(app, {
   pool,
   ready: createR2Router.schemaReady,
   getSession: createR2Router.getSession,
-  origin: process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com",
+  origin: allowedOrigins,
   staffGithubIds: process.env.R4_STAFF_GITHUB_IDS
 });
 
@@ -320,6 +326,10 @@ app.post("/api/items", async (request, response, next) => {
     next(error);
   }
 });
+
+// Account pages share the API hostname so the signed session is first-party.
+app.use("/r4-fixtures", express.static(path.join(__dirname, "../fixtures/r4")));
+app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.use((error, _request, response, _next) => {
   console.error("Unexpected API error:", error.message);
