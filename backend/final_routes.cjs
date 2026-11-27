@@ -1,6 +1,7 @@
 'use strict';
 const { importLegacyExport, normalizeEmail } = require('./final_migration.cjs');
 const { logDiagnostic } = require('./diagnostics.cjs');
+const { profileTarget } = require('./profile_ownership.cjs');
 
 const UUID = /^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i;
 const STALE_DAYS = 365;
@@ -216,34 +217,41 @@ function mountFinal(app, { pool, getSession, ready, origin, staffGithubIds }) {
   });
 
   // --- F.14 & F.15/F.16: Reconfirm Availability & Retire/Archive Profile ---
-  route('post', '/profile/reconfirm-availability', 'student', async (_req, actor) => {
+  route('post', '/profile/reconfirm-availability', 'student', async (req, actor) => {
     const ownId = 'U' + String(actor.user_id);
+    const target = req.body?.student_id ? await profileTarget(pool, actor.user_id, req.body.student_id) : null;
     const updated = await rows(
       `UPDATE students
        SET availability_confirmed_at = NOW(), availability_state = 'active'
-       WHERE id = $1 OR claimed_by_user_id = $2
+       WHERE (id = $1 OR claimed_by_user_id = $2) AND ($3::text IS NULL OR id=$3)
        RETURNING id, availability_state, availability_confirmed_at`,
-      [ownId, actor.user_id]
+      [ownId, actor.user_id, target?.id || null]
+    );
+    if (!target?.imported) await q(
+      `UPDATE r2_profiles
+       SET profile = jsonb_set(jsonb_set(profile, '{availability_confirmed_at}', to_jsonb(NOW()::text), true), '{availability_state}', '"active"'::jsonb, true),
+           updated_at = NOW()
+       WHERE user_id = $1`, [actor.user_id]
     );
     await q(
-      `UPDATE r2_profiles
-       SET profile = jsonb_set(profile, '{availability_confirmed_at}', to_jsonb(NOW()::text), true),
-           updated_at = NOW()
-       WHERE user_id = $1`,
-      [actor.user_id]
+      `UPDATE final_profile_drafts
+       SET profile = jsonb_set(jsonb_set(profile, '{availability_confirmed_at}', to_jsonb(NOW()::text), true), '{availability_state}', '"active"'::jsonb, true), updated_at=NOW()
+       WHERE user_id=$1 AND ($2::text IS NULL OR student_id=$2)`,
+      [actor.user_id, target?.id || null]
     );
     return { ok: true, confirmed_at: new Date().toISOString(), updated_profiles: updated.map((r) => r.id) };
   });
 
-  route('post', '/profile/retire', 'student', async (_req, actor) => {
+  route('post', '/profile/retire', 'student', async (req, actor) => {
     const ownId = 'U' + String(actor.user_id);
+    const target = req.body?.student_id ? await profileTarget(pool, actor.user_id, req.body.student_id) : null;
     await q(
       `UPDATE students
        SET profile_status = 'retired'
-       WHERE id = $1 OR claimed_by_user_id = $2`,
-      [ownId, actor.user_id]
+       WHERE (id = $1 OR claimed_by_user_id = $2) AND ($3::text IS NULL OR id=$3)`,
+      [ownId, actor.user_id, target?.id || null]
     );
-    await q('UPDATE r2_profiles SET published = FALSE, updated_at = NOW() WHERE user_id = $1', [actor.user_id]);
+    if (!target?.imported) await q('UPDATE r2_profiles SET published = FALSE, updated_at = NOW() WHERE user_id = $1', [actor.user_id]);
     return { ok: true, profile_status: 'retired', shared_history_preserved: true };
   });
 

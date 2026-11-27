@@ -20,6 +20,7 @@ The Final Release hardens the cumulative R1–R4 platform for production readine
    - Full validation report (`docs/final/migration_report.md`) matching `legacy_expected_results.json` (6 students, 3 projects, 3 companies, 4 collaborations; detects duplicate student `LS04`→`LS01`, duplicate company `LC02`→`LC01`, broken contributor ref `LP02`→`LS99`, unclaimed profiles `LS02`/`LS05`/`LS06`; second run creates 0 duplicates).
 2. **Legacy Profile Claim & Recovery (F.07–F.10):**
    - Unclaimed imported profiles exist before account creation (`GET /api/final/claimable` omits `legacy_email`).
+   - Approved imported portfolios can be selected in the existing profile editor. Private drafts are kept per portfolio and author; publish/unpublish retains the original student ID, URL, and project links. Staff reassignment revokes the previous owner's access without transferring private draft content. See `docs/final/claim_editor_review.md`.
    - Exact verified Algoma email match auto-approves (`POST /api/final/claims`); any other claim (name similarity, different email, missing email) enters staff review (`GET /api/final/staff/claims`, `POST /api/final/staff/claims/:id/review`, `POST /api/final/staff/profiles/:id/reassign`).
 3. **Alumni, Availability, 365-Day Staleness & Retirement (F.11–F.16):**
    - Students can switch `status` (`current`/`alumni`) without expiring verified Algoma affiliation (`r2_accounts.verified_at`).
@@ -50,7 +51,7 @@ The Final Release hardens the cumulative R1–R4 platform for production readine
 
 ## Known Issues, Operational Assumptions & Remaining Risks (F.40)
 
-- **Production deployment & DB migration pending team merge:** All 66 automated tests, syntax checks, frontend build, legacy migration, and scale tests passed locally against PGlite on `final/launch-candidate`. Before freezing `FINAL-submission`, apply additive `backend/final_schema.sql` to Supabase PostgreSQL, deploy to Render, and run live smoke checks.
+- **Production deployment & DB migration pending team merge:** All 73 automated tests, syntax checks, frontend build, legacy migration, and scale tests passed locally against PGlite on `final/launch-candidate`. Before freezing `FINAL-submission`, apply additive `backend/final_schema.sql` to Supabase PostgreSQL, deploy to Render, and run live smoke checks.
 - **Render free-tier cold start:** Backend may take ~10–30 seconds to wake after inactivity.
 - **Simulated employer inquiry:** `inquiry.html` logs verified inquiries in-browser as a simulation (no outbound employer email).
 - **Synthetic fixture domains:** Supplied course fixtures use reserved `.example` / `.example.test` domains.
@@ -58,7 +59,7 @@ The Final Release hardens the cumulative R1–R4 platform for production readine
 
 ## Automated Verification Summary (Local Baseline on `final/launch-candidate`)
 
-- `npm run check:r3` & `npm run check:r4` + Final JS/CJS/MJS syntax checks: **PASS**
-- `npm run test:r3`: **56 / 56 PASS**
-- `npm test` (R4 + Phase 0 + Final migration, features, scale, QA): **10 / 10 PASS** (**66 / 66 total**)
+- `npm run check:r3`, `npm run check:r4`, and `npm run check:final-release`: **PASS**
+- `npm run test:r3`: **57 / 57 PASS**
+- `npm test` (R4 + Phase 0 + Final migration, features, scale, QA): **16 / 16 PASS** (**73 / 73 total**)
 - `npm run build`: **PASS** (`frontend/dist`)

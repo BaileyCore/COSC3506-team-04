@@ -2,9 +2,15 @@ const crypto = require("node:crypto");
 const fs = require("node:fs");
 const path = require("node:path");
 const express = require("express");
+const { profileTarget, editorProfile, saveEditorProfile } = require("./profile_ownership.cjs");
 
 const router = express.Router();
-const asyncHandler = (handler) => (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
+const asyncHandler = (handler) => (req, res, next) => Promise.resolve(handler(req, res, next)).catch((error) => {
+  if (Number.isInteger(error.status) && error.status >= 400 && error.status < 500) {
+    return res.status(error.status).json({ error: error.message });
+  }
+  next(error);
+});
 const pendingStates = new Map();
 const DOMAINS = (process.env.ALGOMA_EMAIL_DOMAINS || process.env.ALGOMA_EMAIL_DOMAIN || "algomau.ca").split(",").map((domain) => domain.trim().toLowerCase()).filter(Boolean);
 const CODE_TTL_MINUTES = Math.min(30, Math.max(1, Number.parseInt(process.env.VERIFICATION_CODE_TTL_MINUTES || "30", 10) || 30));
@@ -228,13 +234,19 @@ module.exports = function createR2Router(pool) {
   router.get("/profile", requireSession, asyncHandler(async (req, res) => {
     const account = await pool.query("SELECT verified_at FROM r2_accounts WHERE user_id=$1", [req.userId]);
     if (!account.rows[0]?.verified_at) return res.status(403).json({ error: "Verify your Algoma email first." });
-    const result = await pool.query("SELECT profile, published FROM r2_profiles WHERE user_id=$1", [req.userId]);
-    res.json(result.rows[0] || { profile: {}, published: false });
+    const target = await profileTarget(pool, req.userId, req.query.student_id);
+    const result = await editorProfile(pool, req.userId, target);
+    const owned = await pool.query(
+      "SELECT id,name FROM students WHERE claimed_by_user_id=$1 AND merged_into_id IS NULL ORDER BY name,id", [req.userId]
+    );
+    res.set("Cache-Control", "no-store");
+    res.json({ ...result, student_id: target.id, owned_profiles: owned.rows });
   }));;
 
   router.put("/profile", requireOrigin, requireSession, asyncHandler(async (req, res) => {
     const account = await pool.query("SELECT verified_at FROM r2_accounts WHERE user_id=$1", [req.userId]);
     if (!account.rows[0]?.verified_at) return res.status(403).json({ error: "Verify your Algoma email first." });
+    const target = await profileTarget(pool, req.userId, req.query.student_id);
     const source = req.body || {};
     const skills = Array.isArray(source.skills) ? [...new Set(source.skills.map((v) => text(v, 60)).filter(Boolean))].slice(0, 20) : [];
     if (skills.length) {
@@ -260,8 +272,8 @@ module.exports = function createR2Router(pool) {
       availability: Array.isArray(source.availability) ? [...new Set(source.availability.map((v) => text(v, 40)).filter((v) => ["internship", "full-time", "contract"].includes(v)))] : [],
       skills, links
     };
-    await pool.query("INSERT INTO r2_profiles (user_id, profile) VALUES ($1,$2::jsonb) ON CONFLICT (user_id) DO UPDATE SET profile=EXCLUDED.profile, updated_at=NOW()", [req.userId, JSON.stringify(profile)]);
-    res.json({ ok: true, profile });
+    await saveEditorProfile(pool, req.userId, target, profile);
+    res.json({ ok: true, profile, student_id: target.id });
   }));;
 
   router.post("/profile/publish", requireOrigin, requireSession, asyncHandler(async (req, res) => {
@@ -270,30 +282,30 @@ module.exports = function createR2Router(pool) {
       await client.query("BEGIN");
       const account = await client.query("SELECT verified_at FROM r2_accounts WHERE user_id=$1 FOR UPDATE", [req.userId]);
       if (!account.rows[0]?.verified_at) { await client.query("ROLLBACK"); return res.status(403).json({ error: "Verify your Algoma email first." }); }
-      const profileResult = await client.query("SELECT profile FROM r2_profiles WHERE user_id=$1 FOR UPDATE", [req.userId]);
-      const p = profileResult.rows[0]?.profile || {};
+      const target = await profileTarget(client, req.userId, req.query.student_id, true);
+      const { profile: p } = await editorProfile(client, req.userId, target, true);
       if (!p.name || !p.headline || !p.program) { await client.query("ROLLBACK"); return res.status(400).json({ error: "Add your name, headline, and program before publishing." }); }
-      const studentId = "U" + String(req.userId);
+      const studentId = target.id;
       const status = ["current", "alumni"].includes(p.status) ? p.status : "current";
       const availabilityState = ["active", "showcase"].includes(p.availability_state) ? p.availability_state : "active";
       const confirmedAt = p.availability_confirmed_at || new Date().toISOString();
       await client.query("INSERT INTO students (id,name,headline,program,biography,location,theme,section_order,status,profile_status,availability,availability_state,availability_confirmed_at,links) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'published',$10::jsonb,$11,$12,$13::jsonb) ON CONFLICT (id) DO UPDATE SET name=EXCLUDED.name,headline=EXCLUDED.headline,program=EXCLUDED.program,biography=EXCLUDED.biography,location=EXCLUDED.location,theme=EXCLUDED.theme,section_order=EXCLUDED.section_order,status=EXCLUDED.status,profile_status='published',availability=EXCLUDED.availability,availability_state=EXCLUDED.availability_state,availability_confirmed_at=EXCLUDED.availability_confirmed_at,links=EXCLUDED.links", [studentId,p.name,p.headline,p.program,p.biography,p.location,p.theme,p.section_order,status,JSON.stringify(p.show_availability === false || availabilityState === "showcase" ? [] : p.availability || []),availabilityState,confirmedAt,JSON.stringify(p.show_links === false ? {} : p.links || {})]);
       await client.query("DELETE FROM student_skills WHERE student_id=$1", [studentId]);
       for (const skill of p.skills || []) await client.query("INSERT INTO student_skills (student_id,skill_name) VALUES ($1,$2) ON CONFLICT DO NOTHING", [studentId,skill]);
-      await client.query("UPDATE r2_profiles SET published=TRUE, updated_at=NOW() WHERE user_id=$1", [req.userId]);
+      if (!target.imported) await client.query("UPDATE r2_profiles SET published=TRUE, updated_at=NOW() WHERE user_id=$1", [req.userId]);
       await client.query("COMMIT");
       res.json({ ok: true, url: "/student.html?id=" + encodeURIComponent(studentId) });
     } catch (error) {
       await client.query("ROLLBACK");
       console.error("Profile publish failed:", error.message);
-      res.status(500).json({ error: "Could not publish profile." });
+      res.status(error.status || 500).json({ error: error.status ? error.message : "Could not publish profile." });
     } finally { client.release(); }
   }));;
 
   router.post("/profile/unpublish", requireOrigin, requireSession, asyncHandler(async (req, res) => {
-    const studentId = "U" + String(req.userId);
-    await pool.query("UPDATE students SET profile_status='draft' WHERE id=$1", [studentId]);
-    await pool.query("UPDATE r2_profiles SET published=FALSE, updated_at=NOW() WHERE user_id=$1", [req.userId]);
+    const target = await profileTarget(pool, req.userId, req.query.student_id);
+    await pool.query("UPDATE students SET profile_status='draft' WHERE id=$1 AND (claimed_by_user_id IS NULL OR claimed_by_user_id=$2)", [target.id, req.userId]);
+    if (!target.imported) await pool.query("UPDATE r2_profiles SET published=FALSE, updated_at=NOW() WHERE user_id=$1", [req.userId]);
     res.json({ ok: true });
   }));;
 
