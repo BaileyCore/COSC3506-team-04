@@ -49,6 +49,16 @@ try {
     }
 
     const student = await response.json();
+    if (student.merged && student.redirect_url) {
+      profileContainer.innerHTML = `
+        <h2>Profile moved</h2>
+        <p>${escapeHtml(student.message || "This student profile was merged into a surviving record.")}</p>
+        <p><a href="${escapeHtml(student.redirect_url)}">View surviving profile: ${escapeHtml(student.target_name || student.merged_into_id)}</a></p>
+      `;
+      aboutContainer.hidden = true;
+      projectsContainer.innerHTML = "";
+      return;
+    }
     document.body.dataset.theme = ["classic", "compact", "warm"].includes(student.theme) ? student.theme : "classic";
     aboutContainer.hidden = !student.biography;
     aboutContainer.innerHTML = student.biography ? "<h2>About</h2><p>" + escapeHtml(student.biography) + "</p>" : "";
@@ -77,9 +87,9 @@ try {
     <p>
         <strong>Availability:</strong>
         ${escapeHtml(
-        Array.isArray(student.availability)
-            ? student.availability.join(", ")
-            : student.availability
+        student.availability_state === "showcase" || !(student.availability || []).length
+            ? (student.availability_stale ? "Showcase Only (availability needs reconfirmation)" : "Showcase Only")
+            : `Active Talent (${Array.isArray(student.availability) ? student.availability.join(", ") : student.availability})`
         )}
     </p>
 

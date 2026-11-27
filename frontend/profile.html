@@ -29,16 +29,29 @@
 <label for="headline">Professional headline</label><input id="headline" maxlength="180">
 <label for="biography">About you</label><textarea id="biography" maxlength="2000" rows="5"></textarea>
 <label for="location">Location (optional)</label><input id="location" maxlength="120">
+<div class="columns">
+<div><label for="status">Affiliation status</label><select id="status"><option value="current">Current student</option><option value="alumni">Alumni</option></select></div>
+<div><label for="availabilityState">Talent availability state</label><select id="availabilityState"><option value="active">Active Talent (seeking opportunities)</option><option value="showcase">Showcase Only</option></select></div>
+</div>
 <label class="choice"><input id="showAvailability" type="checkbox" checked> Show my availability publicly</label>
 <label class="choice"><input id="showLinks" type="checkbox" checked> Show my professional links publicly</label>
 <label>Availability</label><div id="availability"></div>
+<p id="availabilityConfirmed" class="muted"></p>
+<div class="actions"><button id="reconfirmAvailability" type="button" class="secondary">Reconfirm availability</button></div>
 <label>Shared skills</label><div id="skills"></div>
 <label>Professional links (HTTPS only)</label><div class="columns"><div><label for="portfolio">Portfolio URL</label><input id="portfolio" type="url" placeholder="https://…"></div><div><label for="github">GitHub URL</label><input id="github" type="url" placeholder="https://github.com/…"></div></div>
 <div class="columns">
 <div><label for="theme">Profile style</label><select id="theme"><option value="classic">Classic</option><option value="compact">Compact</option><option value="warm">Warm</option></select></div>
 <div><label for="sectionOrder">Optional section order</label><select id="sectionOrder"><option value="about-projects">About, then Project Evidence</option><option value="projects-about">Project Evidence, then About</option></select></div>
 </div>
-<div class="actions"><button id="save">Save private draft</button><button id="preview" class="secondary">Preview</button><button id="publish">Publish profile</button><button id="unpublish" class="danger">Unpublish</button><button id="logout" class="secondary">Sign out</button></div>
+<div class="actions"><button id="save">Save private draft</button><button id="preview" class="secondary">Preview</button><button id="publish">Publish profile</button><button id="unpublish" class="secondary">Unpublish</button><button id="retire" type="button" class="danger">Retire / Archive profile</button><button id="logout" class="secondary">Sign out</button></div>
+</div>
+<div class="panel" id="claimPanel"><h2>Claim an imported legacy profile</h2><p class="muted">If your profile was imported before you created an account, request ownership here. Exact verified email matches are approved automatically; all other claims enter staff review.</p>
+<label for="claimStudent">Unclaimed imported profile</label><select id="claimStudent"><option value="">Loading unclaimed profiles…</option></select>
+<label for="claimNote">Verification note (optional)</label><input id="claimNote" maxlength="500" placeholder="Provide context if your email changed since graduation">
+<div class="actions"><button id="submitClaim" type="button">Request profile claim</button></div>
+<div id="claimStatus" class="muted" role="status" aria-live="polite"></div>
+<div id="myClaims"></div>
 </div>
 <div id="previewPanel" class="panel" hidden><h2>Preview</h2><div id="previewContent"></div><p class="muted">Only the information shown here is included in your public profile.</p></div>
 </section>

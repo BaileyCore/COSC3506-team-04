@@ -4,6 +4,9 @@ const cors = require("cors");
 const express = require("express");
 const { Pool } = require("pg");
 const path = require("node:path");
+const { attachRequestId, logDiagnostic } = require("./diagnostics.cjs");
+const { mountFinal } = require("./final_routes.cjs");
+const { queryStudentsDirectory, queryStudentDetail } = require("./directory_query.cjs");
 
 if (!process.env.DATABASE_URL) {
   console.error("DATABASE_URL is required. Copy backend/.env.example to backend/.env and set it.");
@@ -11,6 +14,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 const app = express();
+app.use(attachRequestId);
 const frontendOrigin = process.env.FRONTEND_ORIGIN || "https://cosc3506-team04-frontend.onrender.com";
 const accountOrigin = process.env.GITHUB_CALLBACK_URL
   ? new URL(process.env.GITHUB_CALLBACK_URL).origin
@@ -64,100 +68,32 @@ require("./r4_routes.cjs").mountR4(app, {
   staffGithubIds: process.env.R4_STAFF_GITHUB_IDS
 });
 
+// Final Release routes: legacy migration, profile claim/recovery, alumni/availability/retirement,
+// duplicate merge + redirect continuity, and staff project maintainer recovery.
+mountFinal(app, {
+  pool,
+  ready: createR2Router.schemaReady,
+  getSession: createR2Router.getSession,
+  origin: allowedOrigins,
+  staffGithubIds: process.env.R4_STAFF_GITHUB_IDS
+});
+
 app.get("/api/health", async (_request, response) => {
   try {
     await pool.query("SELECT 1");
     response.json({ ok: true, database: "reachable" });
   } catch (error) {
-    console.error("Health check could not reach PostgreSQL:", error.message);
+    logDiagnostic("error", "health_check_failed", { message: error.message });
     response.status(503).json({ ok: false, error: "database unavailable" });
   }
 });
 
+// F.28: Bounded SQL-level directory loading with pagination and server-side filtering.
 app.get("/api/students", async (request, response, next) => {
   try {
-    const search = (request.query.search || "").toLowerCase();
-    const skill = request.query.skill;
-    const availability = request.query.availability;
-    const status = request.query.status;
-
-    const result = await pool.query(`
-      SELECT
-        s.id,
-        s.name,
-        s.headline,
-        s.program,
-        s.biography,
-        s.location,
-        s.theme,
-        s.section_order,
-        s.status,
-        s.profile_status,
-        s.availability,
-        s.links,
-        COALESCE(
-          json_agg(DISTINCT ss.skill_name)
-          FILTER (WHERE ss.skill_name IS NOT NULL),
-          '[]'
-        ) AS skills,
-        COUNT(DISTINCT pc.project_id)::int AS project_count
-      FROM students s
-      LEFT JOIN student_skills ss
-        ON ss.student_id = s.id
-      LEFT JOIN project_contributors pc
-        ON pc.student_id = s.id
-      WHERE s.profile_status = 'published'
-      GROUP BY s.id
-      ORDER BY s.name ASC
-    `);
-
-    let students = result.rows;
-
-    if (search) {
-      students = students.filter((student) => {
-        const searchable = [
-          student.name,
-          student.headline,
-          ...(student.skills || []),
-        ]
-          .join(" ")
-          .toLowerCase();
-
-        return searchable.includes(search);
-      });
-    }
-
-    if (skill) {
-      const requestedSkills = Array.isArray(skill) ? skill : [skill];
-
-      students = students.filter((student) =>
-        requestedSkills.every((requestedSkill) =>
-          student.skills.includes(requestedSkill)
-        )
-      );
-    }
-
-    if (availability) {
-      const requestedAvailability = Array.isArray(availability)
-        ? availability
-        : [availability];
-
-      students = students.filter((student) =>
-        requestedAvailability.some((value) =>
-          student.availability.includes(value)
-        )
-      );
-    }
-
-    if (status) {
-      const requestedStatuses = Array.isArray(status) ? status : [status];
-
-      students = students.filter((student) =>
-        requestedStatuses.includes(student.status)
-      );
-    }
-
-    response.json(students);
+    await createR2Router.schemaReady;
+    const result = await queryStudentsDirectory(pool, request.query);
+    response.json(result);
   } catch (error) {
     next(error);
   }
@@ -178,68 +114,9 @@ app.get("/api/skills", async (_request, response, next) => {
 });
 app.get("/api/students/:id", async (request, response, next) => {
   try {
-    const { id } = request.params;
-
-    const studentResult = await pool.query(
-      `
-      SELECT
-        s.id,
-        s.name,
-        s.headline,
-        s.program,
-        s.biography,
-        s.location,
-        s.theme,
-        s.section_order,
-        s.status,
-        s.profile_status,
-        s.availability,
-        s.links,
-        COALESCE(
-          json_agg(DISTINCT ss.skill_name)
-          FILTER (WHERE ss.skill_name IS NOT NULL),
-          '[]'
-        ) AS skills
-      FROM students s
-      LEFT JOIN student_skills ss
-        ON ss.student_id = s.id
-      WHERE s.id = $1
-        AND s.profile_status = 'published'
-      GROUP BY s.id
-      `,
-      [id]
-    );
-
-    if (studentResult.rows.length === 0) {
-      response.status(404).json({
-        error: "Student not found",
-      });
-      return;
-    }
-
-    const projectResult = await pool.query(
-      `
-      SELECT
-        p.id,
-        p.title,
-        p.description,
-        p.domain,
-        p.technologies,
-        p.links,
-        pc.role
-      FROM projects p
-      JOIN project_contributors pc
-        ON pc.project_id = p.id
-      WHERE pc.student_id = $1
-      ORDER BY p.title ASC
-      `,
-      [id]
-    );
-
-    response.json({
-      ...studentResult.rows[0],
-      projects: projectResult.rows,
-    });
+    await createR2Router.schemaReady;
+    const result = await queryStudentDetail(pool, request.params.id);
+    response.status(result.status).json(result.body);
   } catch (error) {
     next(error);
   }
@@ -331,9 +208,14 @@ app.post("/api/items", async (request, response, next) => {
 app.use("/r4-fixtures", express.static(path.join(__dirname, "../fixtures/r4")));
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-app.use((error, _request, response, _next) => {
-  console.error("Unexpected API error:", error.message);
-  response.status(500).json({ error: "unexpected server error" });
+app.use((error, request, response, _next) => {
+  logDiagnostic("error", "unexpected_api_error", {
+    requestId: request.requestId,
+    method: request.method,
+    path: request.originalUrl,
+    message: error.message,
+  });
+  response.status(500).json({ error: "unexpected server error", request_id: request.requestId });
 });
 
 const port = process.env.PORT || 3000;

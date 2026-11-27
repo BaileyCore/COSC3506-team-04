@@ -1,207 +1,109 @@
 {
-  "release": "R4",
+  "release": "FINAL",
+  "project_option": "Option 1 - ImmXrsive Talent and Industry Platform",
   "deployment_url": "https://cosc3506-team04-frontend.onrender.com",
-  "chosen_challenge": "R4.19 - Server-Side Collaboration Privacy",
+  "api_origin": "https://cosc3506-team-04-ey5d.onrender.com",
+  "repository_url": "https://github.com/BaileyCore/COSC3506-team-04",
+  "assessed_tag": "FINAL-submission",
+  "chosen_r4_challenge": "R4.19 - Server-Side Collaboration Privacy",
+  "migration_command": "node scripts/migrate-legacy.mjs --file fixtures/final/legacy_export.json",
+  "scale_import_command": "node scripts/migrate-legacy.mjs --file fixtures/final/scale_fixture.json",
   "checks": [
     {
-      "requirement_or_scenario": "R4.01",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Open staff queue after GitHub sign-in",
+      "requirement_or_scenario": "F.01-F.06",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/final/staff/import-legacy",
+      "method_or_action": "POST legacy_export.json as staff (or run scripts/migrate-legacy.mjs) twice",
       "role": "configured staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Queue is available only to separately allowlisted staff."
+      "setup": "Uses fixtures/final/legacy_export.json and compares report against fixtures/final/legacy_expected_results.json.",
+      "expected_behavior": "First run imports 6 students, 3 projects, 3 companies, 4 collaborations and reports LS04->LS01 duplicate, LP02->LS99 broken reference, and LS02/LS05/LS06 unclaimed profiles. Second run reports 0 created and creates no duplicates."
     },
     {
-      "requirement_or_scenario": "R4.02",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/staff/queue",
-      "method_or_action": "GET as public and ordinary student. Also attempt a staff action.",
-      "role": "visitor or verified student",
-      "setup": "Teammate screenshots show a signed-in non-staff session denied access to /r4-staff.html and /api/r4/staff/queue with \"Staff access is required.\" Algoma verification state is not shown. A non-staff staff-action write attempt still requires live evidence. Anonymous reads and writes were denied in prior live checks.",
-      "expected_behavior": "401 signed out or 403 for ordinary students, with no mutation."
+      "requirement_or_scenario": "F.07-F.10",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/profile.html",
+      "method_or_action": "List unclaimed profiles (/api/final/claimable), submit claim (/api/final/claims), and review as staff (/r4-staff.html -> /api/final/staff/claims)",
+      "role": "verified student and staff",
+      "setup": "Unclaimed legacy profiles exist after migration. Reviewer test access details supplied in Moodle Online text.",
+      "expected_behavior": "Auto-approval occurs only on exact verified email match. Ambiguous or different-email claims enter staff review. Legacy emails are never exposed publicly."
     },
     {
-      "requirement_or_scenario": "R4.03",
+      "requirement_or_scenario": "F.11-F.16",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/profile.html",
+      "method_or_action": "Set current/alumni status, Active Talent vs Showcase Only, reconfirm availability (/api/final/profile/reconfirm-availability), or retire profile (/api/final/profile/retire)",
+      "role": "verified student",
+      "setup": "LS02 has availability_confirmed older than 365 days (2024-06-01); LS06 is retired and linked to LP03.",
+      "expected_behavior": "Alumni status does not expire Algoma verification; availability older than 365 days is not presented as active job-seeking until reconfirmed; retired profiles are hidden from directory while shared projects and historical collaborations remain intact."
+    },
+    {
+      "requirement_or_scenario": "F.17-F.18",
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Inspect the work queue",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Pending verification requests, partner requests and company drafts have separate sections."
+      "method_or_action": "Merge duplicate student (/api/final/staff/merge/students) or company (/api/final/staff/merge/partners), then visit the merged public URL",
+      "role": "configured staff and visitor",
+      "setup": "Merge LS04 into LS01 or LC02 into LC01.",
+      "expected_behavior": "Relationships move to surviving record with no dangling references; visiting the merged public URL leads to the surviving record via continuity notice/redirect instead of a bare 404."
     },
     {
-      "requirement_or_scenario": "R4.04",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r3-projects.html",
-      "method_or_action": "Open a maintained project and send a verification request with evidence",
-      "role": "verified maintainer",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "A pending request appears for staff review."
-    },
-    {
-      "requirement_or_scenario": "R4.05",
+      "requirement_or_scenario": "F.19",
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Inspect project, contributors and notes then approve or reject",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Staff can make a decision based on the project and request context."
+      "method_or_action": "Reassign shared project maintainer (/api/final/staff/projects/{projectId}/reassign-maintainer)",
+      "role": "configured staff",
+      "setup": "Select an existing shared project and verified target account.",
+      "expected_behavior": "New maintainer receives edit control without creating a new project or erasing contributor history; audit event recorded."
     },
     {
-      "requirement_or_scenario": "R4.06",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/projects/{projectId}",
-      "method_or_action": "Compare public verification before and after staff approval",
+      "requirement_or_scenario": "F.20-F.23",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/students",
+      "method_or_action": "Inspect public API payloads and attempt unauthorized staff/maintainer requests",
+      "role": "visitor and verified student",
+      "setup": "Check /api/students, /api/r4/public/partners/{id}, /api/r4/staff/queue, /api/final/staff/claims.",
+      "expected_behavior": "Private collaborations, drafts, and legacy emails are absent server-side; unauthorized requests return 401/403; untrusted input cannot execute script or grant permissions."
+    },
+    {
+      "requirement_or_scenario": "F.24-F.26",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/",
+      "method_or_action": "Navigate core employer, student, and staff workflows via keyboard and at 390 CSS px viewport",
+      "role": "visitor, student, staff",
+      "setup": "Test directory, profile, shared project, partner, inquiry, and staff queue at 390px.",
+      "expected_behavior": "Visible focus outlines, meaningful labels, no horizontal-only controls."
+    },
+    {
+      "requirement_or_scenario": "F.27-F.29",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/students?page=1&limit=20",
+      "method_or_action": "Load directory over scale_fixture.json (220 students, 110 projects)",
+      "role": "visitor",
+      "setup": "Import fixtures/final/scale_fixture.json via scripts/migrate-legacy.mjs.",
+      "expected_behavior": "Directory returns bounded page (20 records) with total/page metadata; initial transfer size does not grow linearly with dataset size; no heavy media or playable runtime fetched on directory load."
+    },
+    {
+      "requirement_or_scenario": "F.30-F.32",
+      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/health",
+      "method_or_action": "Test unreachable import URL / broken media / health endpoint and inspect server diagnostic logs",
       "role": "visitor and staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Student edits do not create or change the institutional verification marker."
+      "setup": "Try importing an unreachable HTTPS URL in /r4-staff.html.",
+      "expected_behavior": "Public browsing stays usable; human-readable error preserves unsaved draft; server logs timestamped JSON diagnostics with request ID and no secrets."
     },
     {
-      "requirement_or_scenario": "R4.07",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Add a company manually",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Name and optional website, description, sector and location are editable. Saves a draft."
+      "requirement_or_scenario": "F.33-F.38",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r3-project.html",
+      "method_or_action": "Inspect shared project with active or unavailable/archived demo_status",
+      "role": "visitor and maintainer",
+      "setup": "Set demo_status in /r3-projects.html and view /r3-project.html?id={projectId}.",
+      "expected_behavior": "No auto-launch or permission prompt on load; broken/retired demo state shows status note and keeps fallback evidence usable; external demos open isolated from parent session."
     },
     {
-      "requirement_or_scenario": "R4.08",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Import the hosted company_normal.html and company_sparse.html fixtures; review and edit the extracted fields",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Name and available metadata appear for review. Sparse data needs manual completion."
+      "requirement_or_scenario": "R4.24 / Issue #11",
+      "entry_point": "https://cosc3506-team04-frontend.onrender.com/inquiry.html",
+      "method_or_action": "Open inquiry from partner/collaboration/student/project and test tampered source_name query parameter",
+      "role": "visitor",
+      "setup": "Open /inquiry.html?source_type=partner&source_id={partnerId}&source_name=Fake%20Corp",
+      "expected_behavior": "Inquiry resolves canonical record server-side (ignoring Fake Corp), shows plain-language label without raw UUID/type, and links back to the source page."
     },
     {
-      "requirement_or_scenario": "R4.09",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/partners",
-      "method_or_action": "Inspect before staff publishes the imported draft",
-      "role": "visitor and staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Imported draft is not public and does not confer project verification."
-    },
-    {
-      "requirement_or_scenario": "R4.11",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Try an unreachable website while editing a draft",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Import fails with guidance and does not replace the existing draft."
-    },
-    {
-      "requirement_or_scenario": "R4.12",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Review an imported draft",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Source URL and import time are visible."
-    },
-    {
-      "requirement_or_scenario": "R4.15",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Choose a company and add a collaboration",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Title, period, summary, outcome, status, project and student choices can be saved."
-    },
-    {
-      "requirement_or_scenario": "R4.16",
+      "requirement_or_scenario": "R4.01-R4.28 Baseline",
       "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
-      "method_or_action": "Open company after staff adds records from two years",
-      "role": "visitor",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "The same company page shows separate current and past collaborations."
-    },
-    {
-      "requirement_or_scenario": "R4.17",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Select multiple projects for a collaboration and approve two partner requests for one project",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Many related projects and multiple approved partners are supported."
-    },
-    {
-      "requirement_or_scenario": "R4.18",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Set public, limited and private visibility on test records",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Public shows details, limited shows the intended summary only, private is hidden."
-    },
-    {
-      "requirement_or_scenario": "R4.19",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/partners/{partnerId}",
-      "method_or_action": "Inspect raw anonymous partner data for all three visibility states",
-      "role": "visitor",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Private fields and IDs are absent. Limited records have only public_summary."
-    },
-    {
-      "requirement_or_scenario": "R4.20",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r3-projects.html",
-      "method_or_action": "Choose Add an industry partner; select existing partner or suggest one and explain",
-      "role": "verified maintainer",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Pending request appears in the staff queue."
-    },
-    {
-      "requirement_or_scenario": "R4.21",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/api/r4/public/projects/{projectId}",
-      "method_or_action": "Compare pending and approved partner requests",
-      "role": "visitor and staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Only staff-approved partner requests appear as official relationships."
-    },
-    {
-      "requirement_or_scenario": "R4.22",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
-      "method_or_action": "Open published company and inspect current/past projects, students, website and inquiry",
-      "role": "visitor",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Company relationships are presented in plain language."
-    },
-    {
-      "requirement_or_scenario": "R4.23",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
-      "method_or_action": "Review current and past groups",
-      "role": "visitor",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Historical cooperation remains visible under Past."
-    },
-    {
-      "requirement_or_scenario": "R4.24",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
-      "method_or_action": "Use Start a collaboration inquiry on a public partner and a public collaboration",
-      "role": "visitor",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "The existing inquiry simulation receives the link context."
-    },
-    {
-      "requirement_or_scenario": "R4.25",
-      "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html",
-      "method_or_action": "Import, review, publish and add collaboration through the visible UI",
-      "role": "staff",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Task workflow is usable without database tools."
-    },
-    {
-      "requirement_or_scenario": "R4.26",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com/r4-partners.html",
-      "method_or_action": "Set browser viewport to 390 CSS px; open partner and inquiry",
-      "role": "visitor",
-      "setup": "User-assisted live Chrome DevTools check on November 20, 2026 (Toronto), at 390 CSS pixels opened North Shore Simulations, followed the inquiry and submitted synthetic details. The simulation retained the correct partner identity and source URL. This evidence covers that public journey.",
-      "expected_behavior": "Public content remains readable and usable."
-    },
-    {
-      "requirement_or_scenario": "R4.27",
-      "entry_point": "https://cosc3506-team04-frontend.onrender.com",
-      "method_or_action": "Run R1-R3 regression checks plus invite-by-name on a disposable project",
-      "role": "all applicable roles",
-      "setup": "See release_submission.md for existing evidence and unchanged fixture URLs. Designated staff reviewer provisioning and a dedicated student test account are not yet confirmed; do not assume access is available.",
-      "expected_behavior": "Earlier directory, self-service, sharing and demo/fallback flows still work."
-    },
-    {
-      "requirement_or_scenario": "R4.28",
-      "entry_point": "https://github.com/BaileyCore/COSC3506-team-04",
-      "method_or_action": "Verify R4-submission after production retest",
-      "role": "release coordinator",
-      "setup": "Published R4-submission resolves to 9c4ac4760f4c832e31c7ba919481edf53729c61a, matching the assessed deployed application. Do not move the tag. Moodle submission is separate.",
-      "expected_behavior": "Tag resolves to the assessed, deployed revision."
+      "method_or_action": "Verify R4 partner directory, R4.19 privacy, staff verification/partner queues, and duplicate-pending + rejection-reason fixes",
+      "role": "visitor, verified student, staff",
+      "setup": "Published partner and demo project remain active; reviewer test access provided in Moodle Online text.",
+      "expected_behavior": "All R1-R4 core journeys continue working with zero regressions (F.39)."
     }
   ]
 }

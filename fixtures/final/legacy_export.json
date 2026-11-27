@@ -1,0 +1,167 @@
+{
+  "students": [
+    {
+      "legacy_id": "LS01",
+      "name": "Avery Chen",
+      "email": "avery.chen@algoma.example",
+      "status": "current",
+      "publication": "published",
+      "availability": "internship",
+      "availability_confirmed": "2026-08-01",
+      "claimed": true
+    },
+    {
+      "legacy_id": "LS02",
+      "name": "Daniel Kim",
+      "email": "daniel.kim@alumni.example",
+      "status": "alumni",
+      "publication": "published",
+      "availability": "full-time",
+      "availability_confirmed": "2024-06-01",
+      "claimed": false
+    },
+    {
+      "legacy_id": "LS03",
+      "name": "Maya Patel",
+      "email": "maya.patel@algoma.example",
+      "status": "current",
+      "publication": "published",
+      "availability": "contract",
+      "availability_confirmed": "2026-07-15",
+      "claimed": true
+    },
+    {
+      "legacy_id": "LS04",
+      "name": "Avery C.",
+      "email": "avery.chen@algoma.example",
+      "status": "current",
+      "publication": "published",
+      "availability": "internship",
+      "availability_confirmed": "2026-08-01",
+      "claimed": false,
+      "possible_duplicate_of": "LS01"
+    },
+    {
+      "legacy_id": "LS05",
+      "name": "Unclaimed Alum",
+      "email": null,
+      "status": "alumni",
+      "publication": "published",
+      "availability": null,
+      "availability_confirmed": null,
+      "claimed": false
+    },
+    {
+      "legacy_id": "LS06",
+      "name": "Retired Contributor",
+      "email": "retired@example.test",
+      "status": "alumni",
+      "publication": "retired",
+      "availability": null,
+      "availability_confirmed": "2023-01-10",
+      "claimed": false
+    }
+  ],
+  "projects": [
+    {
+      "legacy_id": "LP01",
+      "title": "XR Anatomy Lab",
+      "contributors": [
+        {
+          "student_legacy_id": "LS01",
+          "role": "XR Developer"
+        },
+        {
+          "student_legacy_id": "LS02",
+          "role": "Interaction Developer"
+        }
+      ],
+      "repository": "https://github.com/example-org/xr-anatomy"
+    },
+    {
+      "legacy_id": "LP02",
+      "title": "Museum Quest Experience",
+      "contributors": [
+        {
+          "student_legacy_id": "LS03",
+          "role": "3D Artist"
+        },
+        {
+          "student_legacy_id": "LS99",
+          "role": "Unknown legacy contributor"
+        }
+      ],
+      "repository": null,
+      "expected_issue": "broken_contributor_reference"
+    },
+    {
+      "legacy_id": "LP03",
+      "title": "Historical Training Demo",
+      "contributors": [
+        {
+          "student_legacy_id": "LS06",
+          "role": "Developer"
+        }
+      ],
+      "repository": "https://github.com/example-org/historical-training"
+    }
+  ],
+  "companies": [
+    {
+      "legacy_id": "LC01",
+      "name": "North Shore Simulations",
+      "domain": "northshore-sim.example.test"
+    },
+    {
+      "legacy_id": "LC02",
+      "name": "North Shore Simulation Inc.",
+      "domain": "www.northshore-sim.example.test",
+      "possible_duplicate_of": "LC01"
+    },
+    {
+      "legacy_id": "LC03",
+      "name": "Superior Immersive Labs",
+      "domain": "superior-immersive.example.test"
+    }
+  ],
+  "collaborations": [
+    {
+      "legacy_id": "LCO1",
+      "company_legacy_id": "LC01",
+      "title": "Industrial Safety Training",
+      "status": "past",
+      "visibility": "public",
+      "project_legacy_ids": [
+        "LP01"
+      ]
+    },
+    {
+      "legacy_id": "LCO2",
+      "company_legacy_id": "LC01",
+      "title": "XR Maintenance Study",
+      "status": "current",
+      "visibility": "public",
+      "project_legacy_ids": [
+        "LP01"
+      ]
+    },
+    {
+      "legacy_id": "LCO3",
+      "company_legacy_id": "LC03",
+      "title": "Confidential Prototype",
+      "status": "current",
+      "visibility": "private",
+      "project_legacy_ids": [
+        "LP02"
+      ]
+    },
+    {
+      "legacy_id": "LCO4",
+      "company_legacy_id": "LC02",
+      "title": "Legacy Brand Event",
+      "status": "past",
+      "visibility": "public",
+      "project_legacy_ids": []
+    }
+  ]
+}

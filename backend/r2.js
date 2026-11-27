@@ -251,6 +251,9 @@ module.exports = function createR2Router(pool) {
     const profile = {
       name: text(source.name, 100), headline: text(source.headline, 180), program: text(source.program, 120),
       biography: text(source.biography, 2000), location: text(source.location, 120),
+      status: ["current", "alumni"].includes(source.status) ? source.status : "current",
+      availability_state: ["active", "showcase"].includes(source.availability_state) ? source.availability_state : "active",
+      availability_confirmed_at: new Date().toISOString(),
       theme: ["classic", "compact", "warm"].includes(source.theme) ? source.theme : "classic",
       section_order: ["about-projects", "projects-about"].includes(source.section_order) ? source.section_order : "about-projects",
       show_availability: source.show_availability !== false, show_links: source.show_links !== false,
@@ -271,7 +274,10 @@ module.exports = function createR2Router(pool) {
       const p = profileResult.rows[0]?.profile || {};
       if (!p.name || !p.headline || !p.program) { await client.query("ROLLBACK"); return res.status(400).json({ error: "Add your name, headline, and program before publishing." }); }
       const studentId = "U" + String(req.userId);
-      await client.query("INSERT INTO students (id,name,headline,program,biography,location,theme,section_order,status,profile_status,availability,links) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'current','published',$9::jsonb,$10::jsonb) ON CONFLICT (id) DO UPDATE SET name=EXCLUDED.name,headline=EXCLUDED.headline,program=EXCLUDED.program,biography=EXCLUDED.biography,location=EXCLUDED.location,theme=EXCLUDED.theme,section_order=EXCLUDED.section_order,profile_status='published',availability=EXCLUDED.availability,links=EXCLUDED.links", [studentId,p.name,p.headline,p.program,p.biography,p.location,p.theme,p.section_order,JSON.stringify(p.show_availability === false ? [] : p.availability || []),JSON.stringify(p.show_links === false ? {} : p.links || {})]);
+      const status = ["current", "alumni"].includes(p.status) ? p.status : "current";
+      const availabilityState = ["active", "showcase"].includes(p.availability_state) ? p.availability_state : "active";
+      const confirmedAt = p.availability_confirmed_at || new Date().toISOString();
+      await client.query("INSERT INTO students (id,name,headline,program,biography,location,theme,section_order,status,profile_status,availability,availability_state,availability_confirmed_at,links) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'published',$10::jsonb,$11,$12,$13::jsonb) ON CONFLICT (id) DO UPDATE SET name=EXCLUDED.name,headline=EXCLUDED.headline,program=EXCLUDED.program,biography=EXCLUDED.biography,location=EXCLUDED.location,theme=EXCLUDED.theme,section_order=EXCLUDED.section_order,status=EXCLUDED.status,profile_status='published',availability=EXCLUDED.availability,availability_state=EXCLUDED.availability_state,availability_confirmed_at=EXCLUDED.availability_confirmed_at,links=EXCLUDED.links", [studentId,p.name,p.headline,p.program,p.biography,p.location,p.theme,p.section_order,status,JSON.stringify(p.show_availability === false || availabilityState === "showcase" ? [] : p.availability || []),availabilityState,confirmedAt,JSON.stringify(p.show_links === false ? {} : p.links || {})]);
       await client.query("DELETE FROM student_skills WHERE student_id=$1", [studentId]);
       for (const skill of p.skills || []) await client.query("INSERT INTO student_skills (student_id,skill_name) VALUES ($1,$2) ON CONFLICT DO NOTHING", [studentId,skill]);
       await client.query("UPDATE r2_profiles SET published=TRUE, updated_at=NOW() WHERE user_id=$1", [req.userId]);

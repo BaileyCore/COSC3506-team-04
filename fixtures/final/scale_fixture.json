@@ -1,0 +1,5471 @@
+{
+  "students": [
+    {
+      "id": "SC001",
+      "name": "Synthetic Student 001",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC002",
+      "name": "Synthetic Student 002",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC003",
+      "name": "Synthetic Student 003",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC004",
+      "name": "Synthetic Student 004",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC005",
+      "name": "Synthetic Student 005",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC006",
+      "name": "Synthetic Student 006",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC007",
+      "name": "Synthetic Student 007",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC008",
+      "name": "Synthetic Student 008",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC009",
+      "name": "Synthetic Student 009",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC010",
+      "name": "Synthetic Student 010",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC011",
+      "name": "Synthetic Student 011",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC012",
+      "name": "Synthetic Student 012",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC013",
+      "name": "Synthetic Student 013",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC014",
+      "name": "Synthetic Student 014",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC015",
+      "name": "Synthetic Student 015",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC016",
+      "name": "Synthetic Student 016",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC017",
+      "name": "Synthetic Student 017",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC018",
+      "name": "Synthetic Student 018",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC019",
+      "name": "Synthetic Student 019",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC020",
+      "name": "Synthetic Student 020",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC021",
+      "name": "Synthetic Student 021",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC022",
+      "name": "Synthetic Student 022",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC023",
+      "name": "Synthetic Student 023",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC024",
+      "name": "Synthetic Student 024",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC025",
+      "name": "Synthetic Student 025",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC026",
+      "name": "Synthetic Student 026",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC027",
+      "name": "Synthetic Student 027",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC028",
+      "name": "Synthetic Student 028",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC029",
+      "name": "Synthetic Student 029",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC030",
+      "name": "Synthetic Student 030",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC031",
+      "name": "Synthetic Student 031",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC032",
+      "name": "Synthetic Student 032",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC033",
+      "name": "Synthetic Student 033",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC034",
+      "name": "Synthetic Student 034",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC035",
+      "name": "Synthetic Student 035",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC036",
+      "name": "Synthetic Student 036",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC037",
+      "name": "Synthetic Student 037",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC038",
+      "name": "Synthetic Student 038",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC039",
+      "name": "Synthetic Student 039",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC040",
+      "name": "Synthetic Student 040",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC041",
+      "name": "Synthetic Student 041",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC042",
+      "name": "Synthetic Student 042",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC043",
+      "name": "Synthetic Student 043",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC044",
+      "name": "Synthetic Student 044",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC045",
+      "name": "Synthetic Student 045",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC046",
+      "name": "Synthetic Student 046",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC047",
+      "name": "Synthetic Student 047",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC048",
+      "name": "Synthetic Student 048",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC049",
+      "name": "Synthetic Student 049",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC050",
+      "name": "Synthetic Student 050",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC051",
+      "name": "Synthetic Student 051",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC052",
+      "name": "Synthetic Student 052",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC053",
+      "name": "Synthetic Student 053",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC054",
+      "name": "Synthetic Student 054",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC055",
+      "name": "Synthetic Student 055",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC056",
+      "name": "Synthetic Student 056",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC057",
+      "name": "Synthetic Student 057",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC058",
+      "name": "Synthetic Student 058",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC059",
+      "name": "Synthetic Student 059",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC060",
+      "name": "Synthetic Student 060",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC061",
+      "name": "Synthetic Student 061",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC062",
+      "name": "Synthetic Student 062",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC063",
+      "name": "Synthetic Student 063",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC064",
+      "name": "Synthetic Student 064",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC065",
+      "name": "Synthetic Student 065",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC066",
+      "name": "Synthetic Student 066",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC067",
+      "name": "Synthetic Student 067",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC068",
+      "name": "Synthetic Student 068",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC069",
+      "name": "Synthetic Student 069",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC070",
+      "name": "Synthetic Student 070",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC071",
+      "name": "Synthetic Student 071",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC072",
+      "name": "Synthetic Student 072",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC073",
+      "name": "Synthetic Student 073",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC074",
+      "name": "Synthetic Student 074",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC075",
+      "name": "Synthetic Student 075",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC076",
+      "name": "Synthetic Student 076",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC077",
+      "name": "Synthetic Student 077",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC078",
+      "name": "Synthetic Student 078",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC079",
+      "name": "Synthetic Student 079",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC080",
+      "name": "Synthetic Student 080",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC081",
+      "name": "Synthetic Student 081",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC082",
+      "name": "Synthetic Student 082",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC083",
+      "name": "Synthetic Student 083",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC084",
+      "name": "Synthetic Student 084",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC085",
+      "name": "Synthetic Student 085",
+      "status": "alumni",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC086",
+      "name": "Synthetic Student 086",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC087",
+      "name": "Synthetic Student 087",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC088",
+      "name": "Synthetic Student 088",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC089",
+      "name": "Synthetic Student 089",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC090",
+      "name": "Synthetic Student 090",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC091",
+      "name": "Synthetic Student 091",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC092",
+      "name": "Synthetic Student 092",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC093",
+      "name": "Synthetic Student 093",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC094",
+      "name": "Synthetic Student 094",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC095",
+      "name": "Synthetic Student 095",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC096",
+      "name": "Synthetic Student 096",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC097",
+      "name": "Synthetic Student 097",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC098",
+      "name": "Synthetic Student 098",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC099",
+      "name": "Synthetic Student 099",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC100",
+      "name": "Synthetic Student 100",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC101",
+      "name": "Synthetic Student 101",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC102",
+      "name": "Synthetic Student 102",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC103",
+      "name": "Synthetic Student 103",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC104",
+      "name": "Synthetic Student 104",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC105",
+      "name": "Synthetic Student 105",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC106",
+      "name": "Synthetic Student 106",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC107",
+      "name": "Synthetic Student 107",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC108",
+      "name": "Synthetic Student 108",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC109",
+      "name": "Synthetic Student 109",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC110",
+      "name": "Synthetic Student 110",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC111",
+      "name": "Synthetic Student 111",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC112",
+      "name": "Synthetic Student 112",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC113",
+      "name": "Synthetic Student 113",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC114",
+      "name": "Synthetic Student 114",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC115",
+      "name": "Synthetic Student 115",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC116",
+      "name": "Synthetic Student 116",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC117",
+      "name": "Synthetic Student 117",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC118",
+      "name": "Synthetic Student 118",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC119",
+      "name": "Synthetic Student 119",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC120",
+      "name": "Synthetic Student 120",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC121",
+      "name": "Synthetic Student 121",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC122",
+      "name": "Synthetic Student 122",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC123",
+      "name": "Synthetic Student 123",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC124",
+      "name": "Synthetic Student 124",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC125",
+      "name": "Synthetic Student 125",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC126",
+      "name": "Synthetic Student 126",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC127",
+      "name": "Synthetic Student 127",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC128",
+      "name": "Synthetic Student 128",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC129",
+      "name": "Synthetic Student 129",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC130",
+      "name": "Synthetic Student 130",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC131",
+      "name": "Synthetic Student 131",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC132",
+      "name": "Synthetic Student 132",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC133",
+      "name": "Synthetic Student 133",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC134",
+      "name": "Synthetic Student 134",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC135",
+      "name": "Synthetic Student 135",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC136",
+      "name": "Synthetic Student 136",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC137",
+      "name": "Synthetic Student 137",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC138",
+      "name": "Synthetic Student 138",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC139",
+      "name": "Synthetic Student 139",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC140",
+      "name": "Synthetic Student 140",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC141",
+      "name": "Synthetic Student 141",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC142",
+      "name": "Synthetic Student 142",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC143",
+      "name": "Synthetic Student 143",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC144",
+      "name": "Synthetic Student 144",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC145",
+      "name": "Synthetic Student 145",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC146",
+      "name": "Synthetic Student 146",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC147",
+      "name": "Synthetic Student 147",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC148",
+      "name": "Synthetic Student 148",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC149",
+      "name": "Synthetic Student 149",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC150",
+      "name": "Synthetic Student 150",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC151",
+      "name": "Synthetic Student 151",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC152",
+      "name": "Synthetic Student 152",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC153",
+      "name": "Synthetic Student 153",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC154",
+      "name": "Synthetic Student 154",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC155",
+      "name": "Synthetic Student 155",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC156",
+      "name": "Synthetic Student 156",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC157",
+      "name": "Synthetic Student 157",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC158",
+      "name": "Synthetic Student 158",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC159",
+      "name": "Synthetic Student 159",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC160",
+      "name": "Synthetic Student 160",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC161",
+      "name": "Synthetic Student 161",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC162",
+      "name": "Synthetic Student 162",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC163",
+      "name": "Synthetic Student 163",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC164",
+      "name": "Synthetic Student 164",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC165",
+      "name": "Synthetic Student 165",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC166",
+      "name": "Synthetic Student 166",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC167",
+      "name": "Synthetic Student 167",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC168",
+      "name": "Synthetic Student 168",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC169",
+      "name": "Synthetic Student 169",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC170",
+      "name": "Synthetic Student 170",
+      "status": "alumni",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC171",
+      "name": "Synthetic Student 171",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC172",
+      "name": "Synthetic Student 172",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC173",
+      "name": "Synthetic Student 173",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC174",
+      "name": "Synthetic Student 174",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC175",
+      "name": "Synthetic Student 175",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC176",
+      "name": "Synthetic Student 176",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC177",
+      "name": "Synthetic Student 177",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC178",
+      "name": "Synthetic Student 178",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC179",
+      "name": "Synthetic Student 179",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC180",
+      "name": "Synthetic Student 180",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC181",
+      "name": "Synthetic Student 181",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC182",
+      "name": "Synthetic Student 182",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC183",
+      "name": "Synthetic Student 183",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC184",
+      "name": "Synthetic Student 184",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC185",
+      "name": "Synthetic Student 185",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC186",
+      "name": "Synthetic Student 186",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC187",
+      "name": "Synthetic Student 187",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC188",
+      "name": "Synthetic Student 188",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC189",
+      "name": "Synthetic Student 189",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC190",
+      "name": "Synthetic Student 190",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC191",
+      "name": "Synthetic Student 191",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC192",
+      "name": "Synthetic Student 192",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC193",
+      "name": "Synthetic Student 193",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC194",
+      "name": "Synthetic Student 194",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC195",
+      "name": "Synthetic Student 195",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC196",
+      "name": "Synthetic Student 196",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC197",
+      "name": "Synthetic Student 197",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC198",
+      "name": "Synthetic Student 198",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC199",
+      "name": "Synthetic Student 199",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC200",
+      "name": "Synthetic Student 200",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC201",
+      "name": "Synthetic Student 201",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC202",
+      "name": "Synthetic Student 202",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC203",
+      "name": "Synthetic Student 203",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC204",
+      "name": "Synthetic Student 204",
+      "status": "current",
+      "publication": "unpublished",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC205",
+      "name": "Synthetic Student 205",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC206",
+      "name": "Synthetic Student 206",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "FastAPI",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC207",
+      "name": "Synthetic Student 207",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "WebXR",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC208",
+      "name": "Synthetic Student 208",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Accessibility",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC209",
+      "name": "Synthetic Student 209",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC210",
+      "name": "Synthetic Student 210",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Unity",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC211",
+      "name": "Synthetic Student 211",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "OpenXR",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC212",
+      "name": "Synthetic Student 212",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "React",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC213",
+      "name": "Synthetic Student 213",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Python",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC214",
+      "name": "Synthetic Student 214",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC215",
+      "name": "Synthetic Student 215",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "Three.js",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC216",
+      "name": "Synthetic Student 216",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Figma",
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC217",
+      "name": "Synthetic Student 217",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "RealityKit",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "SC218",
+      "name": "Synthetic Student 218",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "C#",
+        "Swift"
+      ]
+    },
+    {
+      "id": "SC219",
+      "name": "Synthetic Student 219",
+      "status": "current",
+      "publication": "published",
+      "availability": [
+        "contract"
+      ],
+      "skills": [
+        "Blender"
+      ]
+    },
+    {
+      "id": "SC220",
+      "name": "Synthetic Student 220",
+      "status": "alumni",
+      "publication": "published",
+      "availability": [
+        "internship"
+      ],
+      "skills": [
+        "TypeScript",
+        "PostgreSQL"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "PC001",
+      "title": "Synthetic Project 001",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC002",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC008",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC002",
+      "title": "Synthetic Project 002",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC004",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC015",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC023",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC003",
+      "title": "Synthetic Project 003",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC006",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC022",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC004",
+      "title": "Synthetic Project 004",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC008",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC029",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC045",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo4.example.test"
+    },
+    {
+      "id": "PC005",
+      "title": "Synthetic Project 005",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC010",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC036",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC056",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC006",
+      "title": "Synthetic Project 006",
+      "technologies": [
+        "Python",
+        "Three.js"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC043",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC067",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC007",
+      "title": "Synthetic Project 007",
+      "technologies": [
+        "FastAPI",
+        "Accessibility"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC014",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC050",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC008",
+      "title": "Synthetic Project 008",
+      "technologies": [
+        "PostgreSQL",
+        "Figma"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC016",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC057",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC089",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo8.example.test"
+    },
+    {
+      "id": "PC009",
+      "title": "Synthetic Project 009",
+      "technologies": [
+        "WebXR",
+        "Swift"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC018",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC064",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC010",
+      "title": "Synthetic Project 010",
+      "technologies": [
+        "Three.js",
+        "RealityKit"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC020",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC071",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC111",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC011",
+      "title": "Synthetic Project 011",
+      "technologies": [
+        "Accessibility",
+        "Unity"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC022",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC122",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC012",
+      "title": "Synthetic Project 012",
+      "technologies": [
+        "Figma",
+        "C#"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC024",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC085",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC133",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo12.example.test"
+    },
+    {
+      "id": "PC013",
+      "title": "Synthetic Project 013",
+      "technologies": [
+        "Swift",
+        "OpenXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC026",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC092",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC144",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC014",
+      "title": "Synthetic Project 014",
+      "technologies": [
+        "RealityKit",
+        "Blender"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC028",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC099",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC155",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC015",
+      "title": "Synthetic Project 015",
+      "technologies": [
+        "Unity",
+        "React"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC030",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC106",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC166",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC016",
+      "title": "Synthetic Project 016",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC032",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC113",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC177",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo16.example.test"
+    },
+    {
+      "id": "PC017",
+      "title": "Synthetic Project 017",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC120",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC188",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC018",
+      "title": "Synthetic Project 018",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC036",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC127",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC199",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC019",
+      "title": "Synthetic Project 019",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC038",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC134",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC210",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC020",
+      "title": "Synthetic Project 020",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC040",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC141",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC001",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo20.example.test"
+    },
+    {
+      "id": "PC021",
+      "title": "Synthetic Project 021",
+      "technologies": [
+        "Python",
+        "Three.js"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC042",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC148",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC022",
+      "title": "Synthetic Project 022",
+      "technologies": [
+        "FastAPI",
+        "Accessibility"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC044",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC155",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC023",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC023",
+      "title": "Synthetic Project 023",
+      "technologies": [
+        "PostgreSQL",
+        "Figma"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC046",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC162",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC024",
+      "title": "Synthetic Project 024",
+      "technologies": [
+        "WebXR",
+        "Swift"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC048",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC169",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC045",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo24.example.test"
+    },
+    {
+      "id": "PC025",
+      "title": "Synthetic Project 025",
+      "technologies": [
+        "Three.js",
+        "RealityKit"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC050",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC176",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC056",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC026",
+      "title": "Synthetic Project 026",
+      "technologies": [
+        "Accessibility",
+        "Unity"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC052",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC183",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC067",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC027",
+      "title": "Synthetic Project 027",
+      "technologies": [
+        "Figma",
+        "C#"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC054",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC190",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC028",
+      "title": "Synthetic Project 028",
+      "technologies": [
+        "Swift",
+        "OpenXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC056",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC197",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC089",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo28.example.test"
+    },
+    {
+      "id": "PC029",
+      "title": "Synthetic Project 029",
+      "technologies": [
+        "RealityKit",
+        "Blender"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC058",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC204",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC030",
+      "title": "Synthetic Project 030",
+      "technologies": [
+        "Unity",
+        "React"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC060",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC211",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC111",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC031",
+      "title": "Synthetic Project 031",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC062",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC218",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC122",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC032",
+      "title": "Synthetic Project 032",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC064",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC005",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC133",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo32.example.test"
+    },
+    {
+      "id": "PC033",
+      "title": "Synthetic Project 033",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC066",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC144",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC034",
+      "title": "Synthetic Project 034",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC068",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC019",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC155",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC035",
+      "title": "Synthetic Project 035",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC070",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC026",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC166",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC036",
+      "title": "Synthetic Project 036",
+      "technologies": [
+        "Python",
+        "Three.js"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC072",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC033",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC177",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo36.example.test"
+    },
+    {
+      "id": "PC037",
+      "title": "Synthetic Project 037",
+      "technologies": [
+        "FastAPI",
+        "Accessibility"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC074",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC040",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC188",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC038",
+      "title": "Synthetic Project 038",
+      "technologies": [
+        "PostgreSQL",
+        "Figma"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC076",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC047",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC199",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC039",
+      "title": "Synthetic Project 039",
+      "technologies": [
+        "WebXR",
+        "Swift"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC054",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC210",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC040",
+      "title": "Synthetic Project 040",
+      "technologies": [
+        "Three.js",
+        "RealityKit"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC080",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC061",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC001",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo40.example.test"
+    },
+    {
+      "id": "PC041",
+      "title": "Synthetic Project 041",
+      "technologies": [
+        "Accessibility",
+        "Unity"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC082",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC068",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC042",
+      "title": "Synthetic Project 042",
+      "technologies": [
+        "Figma",
+        "C#"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC084",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC075",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC023",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC043",
+      "title": "Synthetic Project 043",
+      "technologies": [
+        "Swift",
+        "OpenXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC086",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC082",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC044",
+      "title": "Synthetic Project 044",
+      "technologies": [
+        "RealityKit",
+        "Blender"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC088",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC089",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC045",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo44.example.test"
+    },
+    {
+      "id": "PC045",
+      "title": "Synthetic Project 045",
+      "technologies": [
+        "Unity",
+        "React"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC090",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC096",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC056",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC046",
+      "title": "Synthetic Project 046",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC092",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC103",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC067",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC047",
+      "title": "Synthetic Project 047",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC094",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC110",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC048",
+      "title": "Synthetic Project 048",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC096",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC117",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC089",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo48.example.test"
+    },
+    {
+      "id": "PC049",
+      "title": "Synthetic Project 049",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC098",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC124",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC050",
+      "title": "Synthetic Project 050",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC131",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC111",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC051",
+      "title": "Synthetic Project 051",
+      "technologies": [
+        "Python",
+        "Three.js"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC102",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC138",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC122",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC052",
+      "title": "Synthetic Project 052",
+      "technologies": [
+        "FastAPI",
+        "Accessibility"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC104",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC145",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC133",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo52.example.test"
+    },
+    {
+      "id": "PC053",
+      "title": "Synthetic Project 053",
+      "technologies": [
+        "PostgreSQL",
+        "Figma"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC106",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC152",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC144",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC054",
+      "title": "Synthetic Project 054",
+      "technologies": [
+        "WebXR",
+        "Swift"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC108",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC159",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC155",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC055",
+      "title": "Synthetic Project 055",
+      "technologies": [
+        "Three.js",
+        "RealityKit"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC110",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC166",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC056",
+      "title": "Synthetic Project 056",
+      "technologies": [
+        "Accessibility",
+        "Unity"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC112",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC173",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC177",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo56.example.test"
+    },
+    {
+      "id": "PC057",
+      "title": "Synthetic Project 057",
+      "technologies": [
+        "Figma",
+        "C#"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC114",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC180",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC188",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC058",
+      "title": "Synthetic Project 058",
+      "technologies": [
+        "Swift",
+        "OpenXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC116",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC187",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC199",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC059",
+      "title": "Synthetic Project 059",
+      "technologies": [
+        "RealityKit",
+        "Blender"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC118",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC194",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC210",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC060",
+      "title": "Synthetic Project 060",
+      "technologies": [
+        "Unity",
+        "React"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC120",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC201",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC001",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo60.example.test"
+    },
+    {
+      "id": "PC061",
+      "title": "Synthetic Project 061",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC122",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC208",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC062",
+      "title": "Synthetic Project 062",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC124",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC215",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC023",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC063",
+      "title": "Synthetic Project 063",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC126",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC002",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC064",
+      "title": "Synthetic Project 064",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC128",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC009",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC045",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo64.example.test"
+    },
+    {
+      "id": "PC065",
+      "title": "Synthetic Project 065",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC130",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC016",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC056",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC066",
+      "title": "Synthetic Project 066",
+      "technologies": [
+        "Python",
+        "Three.js"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC132",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC023",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC067",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC067",
+      "title": "Synthetic Project 067",
+      "technologies": [
+        "FastAPI",
+        "Accessibility"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC134",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC030",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC068",
+      "title": "Synthetic Project 068",
+      "technologies": [
+        "PostgreSQL",
+        "Figma"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC136",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC037",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC089",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo68.example.test"
+    },
+    {
+      "id": "PC069",
+      "title": "Synthetic Project 069",
+      "technologies": [
+        "WebXR",
+        "Swift"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC138",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC044",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC070",
+      "title": "Synthetic Project 070",
+      "technologies": [
+        "Three.js",
+        "RealityKit"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC140",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC051",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC111",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC071",
+      "title": "Synthetic Project 071",
+      "technologies": [
+        "Accessibility",
+        "Unity"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC142",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC058",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC122",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC072",
+      "title": "Synthetic Project 072",
+      "technologies": [
+        "Figma",
+        "C#"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC144",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC065",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC133",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo72.example.test"
+    },
+    {
+      "id": "PC073",
+      "title": "Synthetic Project 073",
+      "technologies": [
+        "Swift",
+        "OpenXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC146",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC072",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC144",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC074",
+      "title": "Synthetic Project 074",
+      "technologies": [
+        "RealityKit",
+        "Blender"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC148",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC079",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC155",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC075",
+      "title": "Synthetic Project 075",
+      "technologies": [
+        "Unity",
+        "React"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC150",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC086",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC166",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC076",
+      "title": "Synthetic Project 076",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC152",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC093",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC177",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo76.example.test"
+    },
+    {
+      "id": "PC077",
+      "title": "Synthetic Project 077",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC154",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC188",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC078",
+      "title": "Synthetic Project 078",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC156",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC107",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC199",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC079",
+      "title": "Synthetic Project 079",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC158",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC114",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC210",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC080",
+      "title": "Synthetic Project 080",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC160",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC121",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC001",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo80.example.test"
+    },
+    {
+      "id": "PC081",
+      "title": "Synthetic Project 081",
+      "technologies": [
+        "Python",
+        "Three.js"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC162",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC128",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC082",
+      "title": "Synthetic Project 082",
+      "technologies": [
+        "FastAPI",
+        "Accessibility"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC164",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC135",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC023",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC083",
+      "title": "Synthetic Project 083",
+      "technologies": [
+        "PostgreSQL",
+        "Figma"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC166",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC142",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC084",
+      "title": "Synthetic Project 084",
+      "technologies": [
+        "WebXR",
+        "Swift"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC168",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC149",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC045",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo84.example.test"
+    },
+    {
+      "id": "PC085",
+      "title": "Synthetic Project 085",
+      "technologies": [
+        "Three.js",
+        "RealityKit"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC170",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC156",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC056",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC086",
+      "title": "Synthetic Project 086",
+      "technologies": [
+        "Accessibility",
+        "Unity"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC172",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC163",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC067",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC087",
+      "title": "Synthetic Project 087",
+      "technologies": [
+        "Figma",
+        "C#"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC174",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC170",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC088",
+      "title": "Synthetic Project 088",
+      "technologies": [
+        "Swift",
+        "OpenXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC176",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC177",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC089",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo88.example.test"
+    },
+    {
+      "id": "PC089",
+      "title": "Synthetic Project 089",
+      "technologies": [
+        "RealityKit",
+        "Blender"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC178",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC184",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC090",
+      "title": "Synthetic Project 090",
+      "technologies": [
+        "Unity",
+        "React"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC180",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC191",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC111",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC091",
+      "title": "Synthetic Project 091",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC182",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC198",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC122",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC092",
+      "title": "Synthetic Project 092",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC184",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC205",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC133",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo92.example.test"
+    },
+    {
+      "id": "PC093",
+      "title": "Synthetic Project 093",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC186",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC212",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC144",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC094",
+      "title": "Synthetic Project 094",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC188",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC219",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC155",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC095",
+      "title": "Synthetic Project 095",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC190",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC006",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC166",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC096",
+      "title": "Synthetic Project 096",
+      "technologies": [
+        "Python",
+        "Three.js"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC192",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC013",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC177",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo96.example.test"
+    },
+    {
+      "id": "PC097",
+      "title": "Synthetic Project 097",
+      "technologies": [
+        "FastAPI",
+        "Accessibility"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC194",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC020",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC188",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC098",
+      "title": "Synthetic Project 098",
+      "technologies": [
+        "PostgreSQL",
+        "Figma"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC196",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC027",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC199",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC099",
+      "title": "Synthetic Project 099",
+      "technologies": [
+        "WebXR",
+        "Swift"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC198",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC210",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC100",
+      "title": "Synthetic Project 100",
+      "technologies": [
+        "Three.js",
+        "RealityKit"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC200",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC041",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC001",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo100.example.test"
+    },
+    {
+      "id": "PC101",
+      "title": "Synthetic Project 101",
+      "technologies": [
+        "Accessibility",
+        "Unity"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC202",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC048",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC012",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC102",
+      "title": "Synthetic Project 102",
+      "technologies": [
+        "Figma",
+        "C#"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC204",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC055",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC023",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC103",
+      "title": "Synthetic Project 103",
+      "technologies": [
+        "Swift",
+        "OpenXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC206",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC062",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC034",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC104",
+      "title": "Synthetic Project 104",
+      "technologies": [
+        "RealityKit",
+        "Blender"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC208",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC069",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC045",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo104.example.test"
+    },
+    {
+      "id": "PC105",
+      "title": "Synthetic Project 105",
+      "technologies": [
+        "Unity",
+        "React"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC210",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC076",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC056",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC106",
+      "title": "Synthetic Project 106",
+      "technologies": [
+        "C#",
+        "TypeScript"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC212",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC083",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC067",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC107",
+      "title": "Synthetic Project 107",
+      "technologies": [
+        "OpenXR",
+        "Python"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC214",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC090",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC078",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC108",
+      "title": "Synthetic Project 108",
+      "technologies": [
+        "Blender",
+        "FastAPI"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC216",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC097",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC089",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": "https://demo108.example.test"
+    },
+    {
+      "id": "PC109",
+      "title": "Synthetic Project 109",
+      "technologies": [
+        "React",
+        "PostgreSQL"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC218",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC104",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC100",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    },
+    {
+      "id": "PC110",
+      "title": "Synthetic Project 110",
+      "technologies": [
+        "TypeScript",
+        "WebXR"
+      ],
+      "contributors": [
+        {
+          "student_id": "SC220",
+          "role": "Contributor"
+        },
+        {
+          "student_id": "SC111",
+          "role": "Contributor"
+        }
+      ],
+      "demo_url": null
+    }
+  ],
+  "companies": [
+    {
+      "id": "CC01",
+      "name": "Synthetic Partner 01",
+      "domain": "partner01.example.test"
+    },
+    {
+      "id": "CC02",
+      "name": "Synthetic Partner 02",
+      "domain": "partner02.example.test"
+    },
+    {
+      "id": "CC03",
+      "name": "Synthetic Partner 03",
+      "domain": "partner03.example.test"
+    },
+    {
+      "id": "CC04",
+      "name": "Synthetic Partner 04",
+      "domain": "partner04.example.test"
+    },
+    {
+      "id": "CC05",
+      "name": "Synthetic Partner 05",
+      "domain": "partner05.example.test"
+    },
+    {
+      "id": "CC06",
+      "name": "Synthetic Partner 06",
+      "domain": "partner06.example.test"
+    },
+    {
+      "id": "CC07",
+      "name": "Synthetic Partner 07",
+      "domain": "partner07.example.test"
+    },
+    {
+      "id": "CC08",
+      "name": "Synthetic Partner 08",
+      "domain": "partner08.example.test"
+    },
+    {
+      "id": "CC09",
+      "name": "Synthetic Partner 09",
+      "domain": "partner09.example.test"
+    },
+    {
+      "id": "CC10",
+      "name": "Synthetic Partner 10",
+      "domain": "partner10.example.test"
+    },
+    {
+      "id": "CC11",
+      "name": "Synthetic Partner 11",
+      "domain": "partner11.example.test"
+    },
+    {
+      "id": "CC12",
+      "name": "Synthetic Partner 12",
+      "domain": "partner12.example.test"
+    },
+    {
+      "id": "CC13",
+      "name": "Synthetic Partner 13",
+      "domain": "partner13.example.test"
+    },
+    {
+      "id": "CC14",
+      "name": "Synthetic Partner 14",
+      "domain": "partner14.example.test"
+    },
+    {
+      "id": "CC15",
+      "name": "Synthetic Partner 15",
+      "domain": "partner15.example.test"
+    },
+    {
+      "id": "CC16",
+      "name": "Synthetic Partner 16",
+      "domain": "partner16.example.test"
+    },
+    {
+      "id": "CC17",
+      "name": "Synthetic Partner 17",
+      "domain": "partner17.example.test"
+    },
+    {
+      "id": "CC18",
+      "name": "Synthetic Partner 18",
+      "domain": "partner18.example.test"
+    },
+    {
+      "id": "CC19",
+      "name": "Synthetic Partner 19",
+      "domain": "partner19.example.test"
+    },
+    {
+      "id": "CC20",
+      "name": "Synthetic Partner 20",
+      "domain": "partner20.example.test"
+    },
+    {
+      "id": "CC21",
+      "name": "Synthetic Partner 21",
+      "domain": "partner21.example.test"
+    },
+    {
+      "id": "CC22",
+      "name": "Synthetic Partner 22",
+      "domain": "partner22.example.test"
+    },
+    {
+      "id": "CC23",
+      "name": "Synthetic Partner 23",
+      "domain": "partner23.example.test"
+    },
+    {
+      "id": "CC24",
+      "name": "Synthetic Partner 24",
+      "domain": "partner24.example.test"
+    },
+    {
+      "id": "CC25",
+      "name": "Synthetic Partner 25",
+      "domain": "partner25.example.test"
+    }
+  ]
+}

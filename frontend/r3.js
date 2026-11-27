@@ -97,10 +97,12 @@
   const readForm=()=>({title:$('title').value,description:$('description').value,domain:$('domain').value,
     status:$('status').value,technologies:$('technologies').value.split(',').map(s=>s.trim()).filter(Boolean),
     started_on:$('started_on').value||null,repositories:repos(),
-    playable_url:$('playable_url').value||null,video_url:$('video_url').value||null,fallback_url:$('fallback_url').value||null});
-  const fillForm=p=>{for(const id of ['title','description','domain','status','started_on','playable_url','video_url','fallback_url']){
-      $(id).value=id==='started_on'&&p?.[id]?String(p[id]).slice(0,10):p?.[id]||'';
+    playable_url:$('playable_url').value||null,video_url:$('video_url').value||null,fallback_url:$('fallback_url').value||null,
+    demo_status:$('demo_status')?$('demo_status').value:'active',demo_note:$('demo_note')?$('demo_note').value.trim():''});
+  const fillForm=p=>{for(const id of ['title','description','domain','status','started_on','playable_url','video_url','fallback_url','demo_note']){
+      if($(id))$(id).value=id==='started_on'&&p?.[id]?String(p[id]).slice(0,10):p?.[id]||'';
     }
+    if($('demo_status'))$('demo_status').value=p?.demo_status||'active';
     $('technologies').value=(p?.technologies||[]).join(', ');
     $('repositories').value=(p?.repositories||[]).join('\n');
   };

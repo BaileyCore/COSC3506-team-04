@@ -100,13 +100,13 @@ function mountR4(app,{pool,getSession,ready,origin,staffGithubIds,readHtml=fetch
     return result;
   });
   admin('post','/requests/:id/review',async(req,actor)=>{
-    const b=req.body||{}, decision=b.decision;
+    const b=req.body||{}, decision=b.decision, decisionNote=str(b.decision_note,600);
     if(!['approved','rejected'].includes(decision))throw fail(400,'Choose approve or reject.');
     const result=await one(`UPDATE r4_requests SET state=$2,reviewed_by=$3,reviewed_at=now(),
-       partner_id=COALESCE($4::uuid,partner_id)
+       partner_id=COALESCE($4::uuid,partner_id),decision_note=$5
        WHERE id=$1 AND state='pending'
        AND ($2<>'approved' OR kind='verification' OR EXISTS (SELECT 1 FROM r4_partners WHERE id=COALESCE($4::uuid,r4_requests.partner_id) AND published))
-       RETURNING id,state`,[uuid(req.params.id),decision,actor.user_id,b.partner_id?uuid(b.partner_id):null]);
+       RETURNING id,state,decision_note`,[uuid(req.params.id),decision,actor.user_id,b.partner_id?uuid(b.partner_id):null,decisionNote]);
     if(!result)throw fail(409,'Request already reviewed, or select a published company before approving.');
     return result;
   });
@@ -119,7 +119,7 @@ function mountR4(app,{pool,getSession,ready,origin,staffGithubIds,readHtml=fetch
   }
   route('get','/projects/:id/requests','student',async(req,a)=>{
     const p=await owned(req,a);
-    return rows(`SELECT r.kind,r.state,r.suggested_company,c.name AS partner_name FROM r4_requests r
+    return rows(`SELECT r.kind,r.state,r.suggested_company,r.decision_note,c.name AS partner_name FROM r4_requests r
       LEFT JOIN r4_partners c ON r.partner_id=c.id WHERE r.project_id=$1 ORDER BY r.created_at DESC`,[p.id]);
   });
   route('post','/projects/:id/requests','student',async(req,a)=>{
@@ -128,26 +128,53 @@ function mountR4(app,{pool,getSession,ready,origin,staffGithubIds,readHtml=fetch
     const partnerId=b.kind==='partner'&&b.partner_id?uuid(b.partner_id):null;
     const suggestion=b.kind==='partner'&&!partnerId?reqText(b.suggested_company,'Company suggestion',160):'';
     if(partnerId&&!await one('SELECT 1 FROM r4_partners WHERE id=$1 AND published',[partnerId]))throw fail(400,'Select a published company or submit a suggestion.');
+    // Issue #10: prevent duplicate pending requests for the same project/kind/company.
+    const dup=b.kind==='verification'
+      ? await one("SELECT id FROM r4_requests WHERE project_id=$1 AND kind='verification' AND state='pending'",[p.id])
+      : partnerId
+        ? await one("SELECT id FROM r4_requests WHERE project_id=$1 AND kind='partner' AND partner_id=$2 AND state='pending'",[p.id,partnerId])
+        : await one("SELECT id FROM r4_requests WHERE project_id=$1 AND kind='partner' AND partner_id IS NULL AND lower(suggested_company)=lower($2) AND state='pending'",[p.id,suggestion]);
+    if(dup)throw fail(409,'A pending request for this company or verification already exists.');
     return one('INSERT INTO r4_requests(project_id,requested_by,kind,partner_id,suggested_company,note) VALUES($1,$2,$3,$4,$5,$6) RETURNING id,state',
       [p.id,a.user_id,b.kind,partnerId,suggestion,reqText(b.note,'Supporting note or relationship explanation',2200)]);
   });
 
-  pub('/partners',()=>rows('SELECT id,name,description,sector,location FROM r4_partners WHERE published ORDER BY name'));
+  pub('/partners',()=>rows('SELECT id,name,description,sector,location FROM r4_partners WHERE published AND merged_into_id IS NULL ORDER BY name'));
   pub('/partners/:id',async req=>{
     const id=uuid(req.params.id);
-    const partner=await one('SELECT id,name,description,website,sector,location FROM r4_partners WHERE id=$1 AND published',[id]);
-    if(!partner)throw fail(404,'Published partner not found.');
+    const partner=await one('SELECT id,name,description,website,sector,location FROM r4_partners WHERE id=$1 AND published AND merged_into_id IS NULL',[id]);
+    if(!partner){
+      // F.18: continuity after duplicate partner merge (never a bare 404 for a previously merged partner)
+      const redirect=await one("SELECT target_id,reason FROM final_merge_redirects WHERE entity_type='partner' AND source_id=$1",[id]);
+      if(redirect){
+        const target=await one('SELECT id,name FROM r4_partners WHERE id=$1 AND published',[redirect.target_id]);
+        if(target){
+          return {merged:true,merged_into_id:target.id,target_name:target.name,redirect_url:'/r4-partners.html?id='+encodeURIComponent(target.id),message:redirect.reason||'This partner record was merged into '+target.name+'.'};
+        }
+      }
+      throw fail(404,'Published partner not found.');
+    }
     const collaborations=await rows(`SELECT id,title,period,description,outcome,status,project_ids,student_ids
       FROM r4_collaborations WHERE partner_id=$1 AND visibility='public' ORDER BY period DESC,title`,[id]);
     const limited=await rows("SELECT public_summary FROM r4_collaborations WHERE partner_id=$1 AND visibility='limited' ORDER BY id",[id]);
     for(const c of collaborations){
       c.projects=await rows('SELECT id,title,kind FROM ('+publicProjectCatalog+') p WHERE id=ANY($1::text[])',[c.project_ids]);
-      c.students=await rows("SELECT id,name FROM students WHERE profile_status='published' AND id=ANY($1::text[])",[c.student_ids]);
+      // F.16 & F.20: retired students retain historical collaboration attribution without exposing unpublished/draft profiles.
+      c.students=await rows("SELECT id,name,(profile_status='retired') AS retired FROM students WHERE profile_status IN ('published','retired') AND id=ANY($1::text[])",[c.student_ids]);
       delete c.project_ids;delete c.student_ids;
     }
     const verifiedProjects=await rows(`SELECT DISTINCT p.id,p.title,'shared' AS kind FROM r4_requests r
       JOIN r3_projects p ON r.project_id=p.id AND p.published WHERE r.partner_id=$1 AND r.kind='partner' AND r.state='approved' ORDER BY p.title`,[id]);
     return {partner,collaborations,limited,verifiedProjects};
+  });
+  // Issue #11: public lookup for a single public collaboration so inquiry.html verifies context server-side.
+  pub('/collaborations/:id',async req=>{
+    const id=uuid(req.params.id);
+    const collab=await one(`SELECT c.id,c.title,c.period,c.status,p.id AS partner_id,p.name AS partner_name
+      FROM r4_collaborations c JOIN r4_partners p ON p.id=c.partner_id
+      WHERE c.id=$1 AND c.visibility='public' AND p.published AND p.merged_into_id IS NULL`,[id]);
+    if(!collab)throw fail(404,'Public collaboration not found.');
+    return collab;
   });
   pub('/projects/:id',async req=>{
     const id=uuid(req.params.id);

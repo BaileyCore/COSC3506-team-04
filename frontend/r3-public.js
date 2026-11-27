@@ -4,7 +4,9 @@
   const id=new URLSearchParams(location.search).get('id');
   const node=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};
   const feedback=msg=>$('feedback').textContent=msg;
-  function link(href,text){const a=node('a',text);a.href=href;a.target='_blank';a.rel='noopener noreferrer';a.className='button-link';return a;}
+  function safeHttps(href){try{const u=new URL(href);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null;}catch{return null;}}
+  function link(href,text){const safe=safeHttps(href);if(!safe)return document.createTextNode('');const a=node('a',text);a.href=safe;a.target='_blank';a.rel='noopener noreferrer';a.className='button-link';return a;}
+  function hasWebGL(){try{const c=document.createElement('canvas');return Boolean(c.getContext('webgl2')||c.getContext('webgl'));}catch{return false;}}
   try{
     const response=await fetch(base+`/api/r3/public/projects/${encodeURIComponent(id||'')}`,{credentials:'omit'});
     if(!response.ok)throw Error('Project is not published or cannot be reached.');
@@ -13,7 +15,13 @@
     $('domain').textContent=p.domain;$('status').textContent=p.status;
     $('technologies').textContent=(p.technologies||[]).join(', ')||'Not specified';
     $('started-on').textContent=p.started_on?String(p.started_on).slice(0,10):'Not specified';
-    if(p.playable_url)$('links').append(link(p.playable_url,'Play Demo / Launch Experience'));
+    const demoState=p.demo_status||'active';
+    if(demoState!=='active'){
+      $('links').append(node('p',`Interactive demo status: ${demoState}. ${p.demo_note||'Use the recorded demo, source, or fallback evidence below.'}`));
+    }else if(p.playable_url){
+      if(!hasWebGL())$('links').append(node('p','Interactive 3D/XR support was not detected in this browser. You may still open the demo or use the fallback evidence below.'));
+      $('links').append(link(p.playable_url,'Play Demo / Launch Experience'));
+    }
     if(p.video_url)$('links').append(link(p.video_url,'Watch Demo'));
     for(const repo of (p.repositories||[]))$('links').append(link(repo,'View Source'));
     if(p.fallback_url){const img=node('img');img.className='fallback';img.src=p.fallback_url;img.alt='Project fallback evidence';img.loading='lazy';

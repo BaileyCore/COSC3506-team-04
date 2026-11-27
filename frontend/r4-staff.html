@@ -25,4 +25,25 @@
 <fieldset><legend>Related projects</legend><div id="collab-projects" class="r4-options"></div></fieldset>
 <fieldset><legend>Participating public students</legend><div id="collab-students" class="r4-options"></div></fieldset>
 <div class="actions"><button>Save collaboration</button><button type="button" id="new-collab">Start a new collaboration</button></div></form></section>
+<section><h2>Profile claim requests <span id="claim-count"></span></h2><div id="claim-queue"></div></section>
+<section><h2>Duplicate record merge &amp; recovery</h2>
+<form id="merge-students-form" class="r4-form"><h3>Merge duplicate student profiles</h3>
+<label>Duplicate profile to retire/redirect <select name="source_id" id="merge-student-source"></select></label>
+<label>Surviving student profile <select name="target_id" id="merge-student-target"></select></label>
+<label>Merge reason <input name="reason" maxlength="400" placeholder="Duplicate legacy profile merged"></label>
+<button>Merge student profiles</button></form>
+<form id="merge-partners-form" class="r4-form"><h3>Merge duplicate company records</h3>
+<label>Duplicate company to merge <select name="source_id" id="merge-partner-source"></select></label>
+<label>Surviving company <select name="target_id" id="merge-partner-target"></select></label>
+<label>Merge reason <input name="reason" maxlength="400" placeholder="Duplicate partner merged"></label>
+<button>Merge company records</button></form>
+<form id="reassign-maintainer-form" class="r4-form"><h3>Recover shared project maintainer</h3>
+<label>Shared project <select name="project_id" id="recover-project"></select></label>
+<label>New verified maintainer <select name="student_id" id="recover-maintainer"></select></label>
+<label>Reason <input name="reason" maxlength="400" placeholder="Previous maintainer unavailable"></label>
+<button>Reassign maintainer</button></form></section>
+<section><h2>Legacy migration import</h2>
+<form id="legacy-import-form" class="r4-form"><label>Legacy export JSON <textarea name="json" rows="5" placeholder='{"students":[], "projects":[], "companies":[], "collaborations":[]}'></textarea></label>
+<button>Run idempotent legacy import</button></form>
+<pre id="legacy-import-report" class="muted"></pre></section>
 </div></main><script src="config.js"></script><script src="r4.js"></script></html>
