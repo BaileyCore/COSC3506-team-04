@@ -6,9 +6,9 @@
 - **Public deployment:** https://cosc3506-team04-frontend.onrender.com
 - **Account and staff application:** https://cosc3506-team-04-ey5d.onrender.com
 - **Repository:** https://github.com/BaileyCore/COSC3506-team-04
-- **Preparation branch:** `final/launch-candidate` (branched off `r4/production-sign-in` @ `958634f`)
-- **Assessed tag:** `FINAL-submission` *(to be created on the verified deployed commit prior to Moodle freeze)*
-- **Assessed full commit SHA:** *(fill with exact 40-character SHA of `FINAL-submission` after team merge & Render deployment)*
+- **Deployment branch:** `r4/production-sign-in` (PR #14 + PR #15 merged; deployed code commit `1a4eff7`)
+- **Assessed tag:** `FINAL-submission` (points to the tagged commit on `r4/production-sign-in`)
+- **Assessed full commit SHA:** The exact 40-character SHA of the `FINAL-submission` tag on `r4/production-sign-in` (deployment code commit `1a4eff7` plus final `[skip render]` documentation commit)
 - **Prior immutable tags:** `R1-submission` (`6c1d241`), `R2-submission` (`d97c647`), `R3-submission` (`692e2dc`), `R4-submission` (`9c4ac47`) — all preserved unchanged.
 
 ## Launch Notes & What Changed Since Release 4
@@ -49,17 +49,33 @@ The Final Release hardens the cumulative R1–R4 platform for production readine
 - Regression checklist (R1–R4 + Final): [docs/final/regression_checklist.md](docs/final/regression_checklist.md)
 - Moodle Online text (Reviewer test access) & GitHub issue replies: [docs/final/moodle_online_text_and_issue_replies.md](docs/final/moodle_online_text_and_issue_replies.md)
 
+## Live Deployment Verification (November 27, 2026, Toronto Time)
+
+Verified against live Render services tracking `r4/production-sign-in` (`1a4eff7`):
+
+- **Frontend (`https://cosc3506-team04-frontend.onrender.com`):** `HTTP 200 OK`, `last-modified: Sat, 28 Nov 2026 00:57:16 UTC` (Nov 27, 7:57 PM EST).
+- **Backend Health (`https://cosc3506-team-04-ey5d.onrender.com/api/health`):** `HTTP 200 OK`, `{"ok":true,"database":"reachable"}`, returning `x-request-id` diagnostic header (F.32).
+- **Additive Final Schema:** Auto-applied cleanly on Render boot; `GET /api/students?page=1&limit=20` returns bounded paginated JSON (`total: 20, page: 1, limit: 20, total_pages: 1`) with `availability_state` and `availability_stale` fields and zero private fields.
+- **Auth Boundary:** Anonymous `GET /api/r4/staff/queue` returns `HTTP 401 Unauthorized` (`{"error":"Sign in with GitHub first."}`).
+- **Public Partners:** `GET /api/r4/public/partners` returns published partner `North Shore Simulations` (`c53a2828-5ce6-40f1-a700-547e2d55d4d0`).
+- **Live Browser Verification (Desktop 1280×800 & Mobile 390×844, 0 console errors):**
+  - Directory `/` loaded 20 published profiles (19 `Active Talent`, 1 `Showcase Only`) with `#availabilityState` filter and `#pagination` container present.
+  - Issue #11 verified live: `/inquiry.html?source_type=partner&source_id=c53a2828-5ce6-40f1-a700-547e2d55d4d0&source_name=Fake%20Corp` displayed `"Collaboration inquiry for North Shore Simulations"`, ignored `Fake Corp`, hid raw UUID and internal `Type: partner`, and rendered `"← Back to North Shore Simulations"`.
+  - Mobile 390×844 verified zero horizontal overflow (`scrollWidth: 390 <= innerWidth: 390`) on `/` and `/r4-partners.html?id=c53a2828-5ce6-40f1-a700-547e2d55d4d0`, and clean responsive form rendering with 0 console errors on `/inquiry.html`.
+- **Staff Reviewer Access (`R4_STAFF_GITHUB_IDS`):** Currently allowlists the deployment owner and `harshitp1009` (GitHub numeric ID `158309251`, provisioned Nov 23 per `docs/r4/qa-reviewer-access-2026-11-23.md`). Any assigned Final reviewer or instructor who needs staff access can supply their GitHub username/numeric ID to be added via Render environment config without altering the frozen tag.
+
 ## Known Issues, Operational Assumptions & Remaining Risks (F.40)
 
-- **Production deployment & DB migration pending team merge:** All 73 automated tests, syntax checks, frontend build, legacy migration, and scale tests passed locally against PGlite on `final/launch-candidate`. Before freezing `FINAL-submission`, apply additive `backend/final_schema.sql` to Supabase PostgreSQL, deploy to Render, and run live smoke checks.
 - **Render free-tier cold start:** Backend may take ~10–30 seconds to wake after inactivity.
-- **Simulated employer inquiry:** `inquiry.html` logs verified inquiries in-browser as a simulation (no outbound employer email).
+- **Simulated employer inquiry:** `inquiry.html` verifies source context server-side and logs submitted inquiries in-browser as a simulation (no outbound employer email).
 - **Synthetic fixture domains:** Supplied course fixtures use reserved `.example` / `.example.test` domains.
-- **Reviewer test access:** Supplied in Moodle Online text under **Reviewer test access** (never committed as secrets in Git).
+- **Existing published partner keywords:** Pre-existing `North Shore Simulations` record retains its earlier R4-saved `sector` text until re-imported or edited by staff; newly imported sites use the cleaned Issue #12 extractor.
+- **Reviewer test access:** Supplied in Moodle Online text under **Reviewer test access** (no passwords or secrets committed to Git).
 
-## Automated Verification Summary (Local Baseline on `final/launch-candidate`)
+## Automated Verification Summary (73 / 73 PASS)
 
 - `npm run check:r3`, `npm run check:r4`, and `npm run check:final-release`: **PASS**
 - `npm run test:r3`: **57 / 57 PASS**
-- `npm test` (R4 + Phase 0 + Final migration, features, scale, QA): **16 / 16 PASS** (**73 / 73 total**)
+- `npm test` (R4 + Phase 0 + Final migration, claim editor, features, scale, QA): **16 / 16 PASS** (**73 / 73 total**)
 - `npm run build`: **PASS** (`frontend/dist`)
+- Local PGlite browser smoke test (1280×800 desktop + 390×844 mobile + F.29 network check): **PASS** (zero horizontal overflow, zero JS console errors, zero heavy media on directory load).

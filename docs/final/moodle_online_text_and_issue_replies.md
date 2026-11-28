@@ -1,6 +1,6 @@
 # Draft Moodle Online Text & GitHub Issue Replies
 
-> **Note:** Fill in `<FINAL_COMMIT_SHA>` and `<REVIEWER_GITHUB_IDS>` once the team merges, deploys to Render, and pushes the immutable `FINAL-submission` tag.
+> **Note:** Fill in `<FINAL_COMMIT_SHA>` once `FINAL-submission` is tagged and pushed.
 
 ---
 
@@ -21,8 +21,8 @@
 - **Public Visitor / Employer:** No sign-in required. Open https://cosc3506-team04-frontend.onrender.com (Talent Directory, Industry Partners, Student/Project pages, and Inquiry simulation).
 - **Student / Contributor Role:** Sign in at https://cosc3506-team-04-ey5d.onrender.com/profile.html using your own GitHub account and verify your `@algomau.ca` email via the one-time code flow. After verification, you can edit/publish/retire your profile and claim an imported legacy profile. Once a claim is approved, use its Edit button or the Profile to manage selector to maintain that same imported portfolio. You can create/join shared projects at https://cosc3506-team-04-ey5d.onrender.com/r3-projects.html.
 - **Staff Role:** Staff access is controlled server-side via the backend's `R4_STAFF_GITHUB_IDS` allowlist (stable numeric GitHub user IDs). Once signed in with an allowlisted GitHub account at https://cosc3506-team-04-ey5d.onrender.com/profile.html, open https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html.
-  - **Currently allowlisted staff GitHub accounts:** `<CONFIRM WITH DEPLOYMENT OWNER: deployment owner + assigned Final Peer QA reviewer / instructor GitHub username & numeric ID>`.
-  - *(If an additional reviewer GitHub account needs staff access, reply with the GitHub username and we will add its numeric ID immediately via Render environment config without altering the frozen code.)*
+  - **Currently allowlisted staff GitHub accounts:** Deployment owner account and `harshitp1009` (numeric GitHub ID `158309251`, provisioned Nov 23 per `docs/r4/qa-reviewer-access-2026-11-23.md`).
+  - *(If another assigned Final reviewer or the instructor needs staff access, reply with your GitHub username and we will add its stable numeric ID immediately via Render environment config without altering the frozen `FINAL-submission` tag.)*
 ```
 
 ---
