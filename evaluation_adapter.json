@@ -20,10 +20,10 @@
     {
       "requirement_or_scenario": "F.07-F.10",
       "entry_point": "https://cosc3506-team-04-ey5d.onrender.com/profile.html",
-      "method_or_action": "List unclaimed profiles (/api/final/claimable), submit claim (/api/final/claims), and review as staff (/r4-staff.html -> /api/final/staff/claims)",
+      "method_or_action": "List unclaimed profiles (/api/final/claimable), submit claim (/api/final/claims), and review as staff (/r4-staff.html -> /api/final/staff/claims); after approval use Edit on the claim or Profile to manage, then save, publish and unpublish via /api/profile?student_id={originalStudentId}",
       "role": "verified student and staff",
       "setup": "Unclaimed legacy profiles exist after migration. Reviewer test access details supplied in Moodle Online text.",
-      "expected_behavior": "Auto-approval occurs only on exact verified email match. Ambiguous or different-email claims enter staff review. Legacy emails are never exposed publicly."
+      "expected_behavior": "Auto-approval occurs only on exact verified email match. Ambiguous or different-email claims enter staff review. Legacy emails are never exposed publicly. Approved owners edit the original public record, with separate private drafts; wrong owners receive 403 and staff reassignment does not expose the previous owner's private draft."
     },
     {
       "requirement_or_scenario": "F.11-F.16",

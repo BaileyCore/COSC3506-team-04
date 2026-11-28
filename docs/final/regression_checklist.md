@@ -6,11 +6,11 @@ Status key: `PASS (Local Automated)` = verified via PGlite/Node test suite on `f
 | :--- | :--- | :--- | :--- |
 | **R1 Public Directory & Filters** | R1.01–R1.10, Issue #2 | PASS (SQL filtering, pagination, `sessionStorage` restore) | PENDING LIVE |
 | **R2 Auth, Verification & Profile** | R2.01–R2.15, Issue #6 | PASS (`r3_auth_flow`, `r3_auth_ui`, `r4_account_origin`) | PENDING LIVE |
-| **R3 Shared Projects & Invite Picker** | R3.01–R3.20 | PASS (56/56 `test:r3` tests) | PENDING LIVE |
+| **R3 Shared Projects & Invite Picker** | R3.01–R3.20 | PASS (57/57 `test:r3` tests) | PENDING LIVE |
 | **R4 Staff Queue, Partners & R4.19 Privacy** | R4.01–R4.28 | PASS (`r4_integration.test.mjs`) | PENDING LIVE |
 | **R4 QA Fixes (#10, #11, #12, #13)** | R4.05, R4.08, R4.20, R4.24 | PASS (`final_scale_and_qa.test.mjs`) | PENDING LIVE |
 | **Legacy Migration & Idempotency** | F.01–F.06 | PASS (`final_migration.test.mjs` + CLI `--repeat`) | PENDING LIVE |
-| **Profile Claim & Claim Safety** | F.07–F.10 | PASS (`final_features.test.mjs`) | PENDING LIVE |
+| **Profile Claim & Claim Safety** | F.07–F.10 | PASS (`final_features.test.mjs`, real HTTP claim/editor lifecycle and UI selection tests; see `claim_editor_review.md`) | PENDING LIVE |
 | **Alumni, Availability, 365d Stale, Retire** | F.11–F.16 | PASS (`final_features.test.mjs`) | PENDING LIVE |
 | **Duplicate Merge & Redirect Continuity** | F.17–F.18 | PASS (`final_features.test.mjs`) | PENDING LIVE |
 | **Staff Maintainer Recovery** | F.19 | PASS (`final_features.test.mjs`) | PENDING LIVE |

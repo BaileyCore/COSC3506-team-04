@@ -64,3 +64,22 @@ BEGIN
     EXECUTE format('REVOKE ALL ON final_claim_requests, final_merge_redirects, final_migration_runs FROM %I', role_name);
   END LOOP;
 END $$;
+
+-- Private editable drafts for claimed legacy portfolios. Ownership is checked
+-- on every request; drafts belong to both a portfolio and its current author.
+CREATE TABLE IF NOT EXISTS final_profile_drafts (
+  student_id TEXT NOT NULL REFERENCES students(id),
+  user_id UUID NOT NULL REFERENCES r2_accounts(user_id),
+  profile JSONB NOT NULL DEFAULT '{}'::jsonb,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (student_id, user_id)
+);
+ALTER TABLE final_profile_drafts ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON final_profile_drafts FROM PUBLIC;
+DO $$
+DECLARE role_name text;
+BEGIN
+  FOR role_name IN SELECT rolname FROM pg_roles WHERE rolname IN ('anon', 'authenticated') LOOP
+    EXECUTE format('REVOKE ALL ON final_profile_drafts FROM %I', role_name);
+  END LOOP;
+END $$;
