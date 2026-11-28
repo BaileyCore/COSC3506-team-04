@@ -3,9 +3,10 @@ const $=(id)=>document.getElementById(id);
 const note=(message,error=false)=>{$("notice").textContent=message;$("notice").className="status"+(error?" error":"");};
 const choices=[["internship","Internship"],["full-time","Full-time"],["contract","Contract"]];
 $("availability").innerHTML=choices.map(([v,l])=>'<label class="choice"><input type="checkbox" name="availability" value="'+v+'">'+l+'</label>').join("");
-async function call(path,options={}){const response=await fetch(API+"/api"+path,{credentials:"include",...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});let data={};try{data=await response.json()}catch{}if(!response.ok)throw Object.assign(new Error(data.error||"Request failed ("+response.status+")"),{status:response.status});return data}
-function readProfile(){return {name:$("name").value.trim(),headline:$("headline").value.trim(),program:$("program").value.trim(),biography:$("biography").value.trim(),location:$("location").value.trim(),theme:$("theme").value,section_order:$("sectionOrder").value,show_availability:$("showAvailability").checked,show_links:$("showLinks").checked,availability:[...document.querySelectorAll('input[name="availability"]:checked')].map(x=>x.value),skills:[...document.querySelectorAll('input[name="skill"]:checked')].map(x=>x.value),links:{Portfolio:$("portfolio").value.trim(),GitHub:$("github").value.trim()}}}
-function fillProfile(p={}){for(const key of ["name","headline","program","biography","location"])$(key).value=p[key]||"";$("showAvailability").checked=p.show_availability!==false;$("showLinks").checked=p.show_links!==false;$("theme").value=p.theme||"classic";$("sectionOrder").value=p.section_order||"about-projects";for(const input of document.querySelectorAll('input[name="availability"]'))input.checked=(p.availability||[]).includes(input.value);for(const input of document.querySelectorAll('input[name="skill"]'))input.checked=(p.skills||[]).includes(input.value);$("portfolio").value=p.links?.Portfolio||"";$("github").value=p.links?.GitHub||""}
+let currentProfileId="",accountProfileId="";
+async function call(path,options={}){if(currentProfileId&&(path==="/profile"||path.startsWith("/profile/")))path+="?student_id="+encodeURIComponent(currentProfileId);const response=await fetch(API+"/api"+path,{credentials:"include",...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});let data={};try{data=await response.json()}catch{}if(!response.ok)throw Object.assign(new Error(data.error||"Request failed ("+response.status+")"),{status:response.status});return data}
+function readProfile(){return {name:$("name").value.trim(),headline:$("headline").value.trim(),program:$("program").value.trim(),biography:$("biography").value.trim(),location:$("location").value.trim(),status:$("status")?$("status").value:"current",availability_state:$("availabilityState")?$("availabilityState").value:"active",theme:$("theme").value,section_order:$("sectionOrder").value,show_availability:$("showAvailability").checked,show_links:$("showLinks").checked,availability:[...document.querySelectorAll('input[name="availability"]:checked')].map(x=>x.value),skills:[...document.querySelectorAll('input[name="skill"]:checked')].map(x=>x.value),links:{Portfolio:$("portfolio").value.trim(),GitHub:$("github").value.trim()}}}
+function fillProfile(p={}){for(const key of ["name","headline","program","biography","location"])$(key).value=p[key]||"";if($("status"))$("status").value=p.status||"current";if($("availabilityState"))$("availabilityState").value=p.availability_state||"active";if($("availabilityConfirmed"))$("availabilityConfirmed").textContent=p.availability_confirmed_at?"Availability last confirmed: "+new Date(p.availability_confirmed_at).toLocaleDateString():"";$("showAvailability").checked=p.show_availability!==false;$("showLinks").checked=p.show_links!==false;$("theme").value=p.theme||"classic";$("sectionOrder").value=p.section_order||"about-projects";for(const input of document.querySelectorAll('input[name="availability"]'))input.checked=(p.availability||[]).includes(input.value);for(const input of document.querySelectorAll('input[name="skill"]'))input.checked=(p.skills||[]).includes(input.value);$("portfolio").value=p.links?.Portfolio||"";$("github").value=p.links?.GitHub||""}
 function containsSkill(text,skill){const escaped=skill.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return new RegExp("(^|[^a-z0-9])"+escaped+"(?=$|[^a-z0-9])","i").test(text)}
 function escapeHTML(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 async function loadSkills(){const response=await fetch(API+"/api/skills");if(!response.ok)throw new Error("Could not load shared skills");const skills=await response.json();$("skills").innerHTML=skills.map(s=>'<label class="choice"><input type="checkbox" name="skill" value="'+escapeHTML(s)+'">'+escapeHTML(s)+'</label>').join("")}
@@ -28,12 +29,57 @@ async function start(){
   }
   if(!me.verified){verify.hidden=false;note("Signed in as @"+me.github_login+". Verify your Algoma email to continue.");return}
   try{
-    await loadSkills();const p=await call("/profile");fillProfile(p.profile);
+    await loadSkills();const p=await loadEditor();
     editor.hidden=false;
     note("Signed in and verified as "+me.email+". Your profile is "+(p.published?"published":"private")+".");
     $("unpublish").hidden=!p.published;
+    loadClaims();
   }catch(e){note(e.message,true)}
 }
+async function loadEditor(){
+  const p=await call("/profile");
+  if(p.student_id){
+    if(!accountProfileId)accountProfileId=p.student_id;
+    currentProfileId=p.student_id;
+    const target=$("profileTarget");
+    if(target){target.replaceChildren(new Option("My account profile",accountProfileId));for(const owned of p.owned_profiles||[])if(owned.id!==accountProfileId)target.add(new Option(owned.name+" (imported profile)",owned.id));target.value=currentProfileId;}
+  }
+  fillProfile(p.profile);$("unpublish").hidden=!p.published;
+  $("previewPanel").hidden=true;$("resumeSuggestions").hidden=true;$("suggestionItems").replaceChildren();
+  return p;
+}
+async function selectProfile(id){
+  const previous=currentProfileId;
+  const controls=[...document.querySelectorAll("#editor button")];
+  controls.forEach(x=>x.disabled=true);
+  if($("profileTarget"))$("profileTarget").disabled=true;
+  try{currentProfileId=id;await loadEditor();note("Selected profile loaded. Save changes as a private draft or publish when ready.");}
+  catch(e){currentProfileId=previous;if($("profileTarget"))$("profileTarget").value=previous;note(e.message,true);}
+  finally{controls.forEach(x=>x.disabled=false);if($("profileTarget"))$("profileTarget").disabled=false;}
+}
+if($("profileTarget"))$("profileTarget").onchange=()=>{const target=$("profileTarget");if(confirm("Switch profiles? Unsaved edits will be discarded."))selectProfile(target.value);else target.value=currentProfileId;};
+async function loadClaims(){
+  if(!$("claimStudent"))return;
+  try{
+    const [claimable,mine]=await Promise.all([call("/final/claimable"),call("/final/claims/mine")]);
+    const sel=$("claimStudent");
+    sel.replaceChildren(new Option("Choose an unclaimed profile…",""));
+    for(const s of claimable)sel.add(new Option(`${s.name} (${s.id}, ${s.status})`,s.id));
+    const box=$("myClaims");
+    if(box){
+      box.replaceChildren();
+      for(const c of mine){
+        const p=document.createElement("p");
+        p.textContent=`Claim for ${c.student_name} (${c.student_id}): ${c.state}`+(c.decision_note?` — ${c.decision_note}`:"");
+        box.append(p);
+        if(c.state==="approved"){const edit=document.createElement("button");edit.type="button";edit.textContent="Edit "+c.student_name;edit.onclick=()=>{if(confirm("Open this imported profile? Unsaved edits will be discarded."))selectProfile(c.student_id);};box.append(edit);}
+      }
+    }
+  }catch{}
+}
+if($("reconfirmAvailability"))$("reconfirmAvailability").onclick=async()=>{try{const r=await call("/final/profile/reconfirm-availability",{method:"POST",body:JSON.stringify({student_id:currentProfileId})});if($("availabilityConfirmed"))$("availabilityConfirmed").textContent="Availability last confirmed: "+new Date(r.confirmed_at).toLocaleDateString();note("Availability reconfirmed.")}catch(e){note(e.message,true)}};
+if($("retire"))$("retire").onclick=async()=>{if(!confirm("Retire/archive your personal profile? Shared projects and verified historical collaborations will be preserved."))return;try{await call("/final/profile/retire",{method:"POST",body:JSON.stringify({student_id:currentProfileId})});note("Profile retired/archived. Shared project and collaboration history remains intact.");$("unpublish").hidden=true}catch(e){note(e.message,true)}};
+if($("submitClaim"))$("submitClaim").onclick=async()=>{try{const sid=$("claimStudent").value;if(!sid){$("claimStatus").textContent="Choose an unclaimed profile first.";return;}const r=await call("/final/claims",{method:"POST",body:JSON.stringify({student_id:sid,note:$("claimNote").value.trim()})});$("claimStatus").textContent=r.auto_approved?"Profile claim automatically approved (verified email matched).":"Claim submitted for staff review.";$("claimNote").value="";await loadClaims();}catch(e){$("claimStatus").textContent=e.message;}};
 $("sendCode").onclick=async()=>{try{const data=await call("/affiliation/request",{method:"POST",body:JSON.stringify({email:$("email").value})});$("codePanel").hidden=false;note(data.message)}catch(e){note(e.message,true)}};
 $("verifyCode").onclick=async()=>{try{await call("/affiliation/verify",{method:"POST",body:JSON.stringify({code:$("code").value})});note("Email verified. Loading your private profile…");await start()}catch(e){note(e.message,true)}};
 $("save").onclick=async()=>{try{await call("/profile",{method:"PUT",body:JSON.stringify(readProfile())});note("Private draft saved.")}catch(e){note(e.message,true)}};

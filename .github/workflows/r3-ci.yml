@@ -2,7 +2,7 @@ name: Release 3 verification
 
 on:
   push:
-    branches: [r3/shared-projects, "r4/**"]
+    branches: [r3/shared-projects, "r4/**", "final/**"]
   pull_request:
     paths:
       - "backend/**"
@@ -10,6 +10,8 @@ on:
       - "tests/**"
       - "schema.sql"
       - "fixtures/r4/**"
+      - "fixtures/final/**"
+      - "scripts/migrate-legacy.mjs"
       - "package.json"
       - ".github/workflows/r3-ci.yml"
   workflow_dispatch:
@@ -33,5 +35,6 @@ jobs:
       - run: npm run check:r3
       - run: npm run test:r3
       - run: npm run check:r4
+      - run: npm run check:final-release
       - run: npm test
       - run: npm run build

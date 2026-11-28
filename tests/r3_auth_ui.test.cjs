@@ -7,7 +7,7 @@ const vm = require('node:vm');
 async function profile({search = '', status = 401, data = {authenticated: false}, networkError = false} = {}) {
   const nodes = new Map();
   const node = id => {
-    if (!nodes.has(id)) nodes.set(id, {hidden: true, value: '', textContent: '', className: '', dataset: {}});
+    if (!nodes.has(id)) nodes.set(id, {hidden: true, value: '', textContent: '', className: '', dataset: {}, replaceChildren() {}});
     return nodes.get(id);
   };
   const requests = [];

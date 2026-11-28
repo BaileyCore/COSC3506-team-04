@@ -1,116 +1,65 @@
-Chosen challenge: R4.19 - Server-Side Collaboration Privacy
+# Final Release Product Submission — Team 04
 
-# Release 4 product submission
+- **Release:** FINAL (Cumulative R1–R4 + Final Release F.01–F.41)
+- **Team:** Team 04 (Ran Zhai, Bhumika Rai, Thahira Bailey)
+- **Project Option:** Project Option 1 — ImmXrsive Talent and Industry Platform
+- **Public deployment:** https://cosc3506-team04-frontend.onrender.com
+- **Account and staff application:** https://cosc3506-team-04-ey5d.onrender.com
+- **Repository:** https://github.com/BaileyCore/COSC3506-team-04
+- **Preparation branch:** `final/launch-candidate` (branched off `r4/production-sign-in` @ `958634f`)
+- **Assessed tag:** `FINAL-submission` *(to be created on the verified deployed commit prior to Moodle freeze)*
+- **Assessed full commit SHA:** *(fill with exact 40-character SHA of `FINAL-submission` after team merge & Render deployment)*
+- **Prior immutable tags:** `R1-submission` (`6c1d241`), `R2-submission` (`d97c647`), `R3-submission` (`692e2dc`), `R4-submission` (`9c4ac47`) — all preserved unchanged.
 
-- Team 04
-- Project Option 1 - ImmXrsive Talent and Industry Platform
-- Public deployment https://cosc3506-team04-frontend.onrender.com
-- Account and staff application https://cosc3506-team-04-ey5d.onrender.com
-- Repository https://github.com/BaileyCore/COSC3506-team-04
-- Working branch r4/production-sign-in
-- Deployed application commit 9c4ac4760f4c832e31c7ba919481edf53729c61a
-- Assessed tag R4-submission
-- Assessed full commit SHA 9c4ac4760f4c832e31c7ba919481edf53729c61a
-- Release https://github.com/BaileyCore/COSC3506-team-04/releases/tag/R4-submission
-- The published tag was checked through GitHub and resolves to the deployed application commit above. Keep this tag unchanged.
-- Moodle submission must be completed separately. Publishing the GitHub release does not submit on Moodle.
-- This evidence document was finalized after tag creation. Later documentation commits do not change the assessed application revision.
+## Launch Notes & What Changed Since Release 4
 
-## Release notes
+The Final Release hardens the cumulative R1–R4 platform for production readiness:
 
-R4 adds staff queues, institutional project verification, partner association requests,
-reviewed company website imports, public Industry Partners pages, contextual inquiries,
-and current/past collaborations with public, anonymized and private visibility.
-The selected Challenge is R4.19. Challenges R4.10, R4.13 and R4.14 are not chosen.
+1. **Legacy Migration & Record Continuity (F.01–F.06):**
+   - Repeatable, idempotent migration engine (`backend/final_migration.cjs`), CLI (`scripts/migrate-legacy.mjs`), and staff UI trigger (`POST /api/final/staff/import-legacy`).
+   - Full validation report (`docs/final/migration_report.md`) matching `legacy_expected_results.json` (6 students, 3 projects, 3 companies, 4 collaborations; detects duplicate student `LS04`→`LS01`, duplicate company `LC02`→`LC01`, broken contributor ref `LP02`→`LS99`, unclaimed profiles `LS02`/`LS05`/`LS06`; second run creates 0 duplicates).
+2. **Legacy Profile Claim & Recovery (F.07–F.10):**
+   - Unclaimed imported profiles exist before account creation (`GET /api/final/claimable` omits `legacy_email`).
+   - Approved imported portfolios can be selected in the existing profile editor. Private drafts are kept per portfolio and author; publish/unpublish retains the original student ID, URL, and project links. Staff reassignment revokes the previous owner's access without transferring private draft content. See `docs/final/claim_editor_review.md`.
+   - Exact verified Algoma email match auto-approves (`POST /api/final/claims`); any other claim (name similarity, different email, missing email) enters staff review (`GET /api/final/staff/claims`, `POST /api/final/staff/claims/:id/review`, `POST /api/final/staff/profiles/:id/reassign`).
+3. **Alumni, Availability, 365-Day Staleness & Retirement (F.11–F.16):**
+   - Students can switch `status` (`current`/`alumni`) without expiring verified Algoma affiliation (`r2_accounts.verified_at`).
+   - Distinguishes `Active Talent` vs `Showcase Only`; tracks `availability_confirmed_at` with 365-day staleness enforcement (stale availability is hidden from active job-seeking views/filters until reconfirmed via `POST /api/final/profile/reconfirm-availability`).
+   - Non-destructive `retired` lifecycle (`POST /api/final/profile/retire`) removes personal profile from directory while preserving shared projects and historical partner collaboration attribution.
+4. **Duplicate Resolution & Maintainer Recovery (F.17–F.19):**
+   - Staff duplicate merge for student profiles and company records (`POST /api/final/staff/merge/students`, `POST /api/final/staff/merge/partners`) with continuity redirects (`final_merge_redirects` — visiting merged URLs displays a clear notice and link to the surviving record instead of a bare 404).
+   - Staff shared-project maintainer recovery (`POST /api/final/staff/projects/:id/reassign-maintainer`) preserves contributor history and appends an audit event.
+5. **Scale & Bounded Directory Loading (F.27–F.29):**
+   - SQL-level filtering and pagination (`LIMIT`/`OFFSET`, default 20/page, max 50) on `GET /api/students` and `frontend/app.js` with Previous/Next controls. Verified over `scale_fixture.json` (220 students, 110 projects, 25 companies) in `docs/final/scale_evidence.md`.
+6. **Playable/XR Hardening & Diagnostics (F.30–F.38):**
+   - Broken/retired demo build state (`demo_status`: `active`/`unavailable`/`archived`/`replaced`, `demo_note`) preserves project history and fallback evidence without deleting the project.
+   - Explicit-click launch preserved, lightweight WebGL capability fallback notice added, strict `https:` link validation enforced, and structured timestamped diagnostics with secret redaction added (`backend/diagnostics.cjs`).
+7. **Professor & R4 Peer QA Repairs (Issues #9, #10, #11, #12, #13):**
+   - **#11 (Professor-flagged):** `inquiry.html` / `inquiry.js` now verifies `source_type` + `source_id` server-side (including new `GET /api/r4/public/collaborations/:id`), displays plain-language context without raw UUIDs/types, and provides a contextual Back link.
+   - **#10:** Duplicate pending verification/partner requests return HTTP `409`.
+   - **#12:** Company import strips trailing punctuation and deduplicates keywords.
+   - **#13:** Staff review accepts an optional rejection/decision reason (`decision_note`), displayed to students.
+   - **#9:** Root `release_submission.md` and `evaluation_adapter.json` updated for Final prior to tagging.
 
-This deployment builds on the team's r4/staff-industry commit
-6360a6e5dcfb7b51553866691f10fd858db1d8eb and includes its invitation name picker.
-A production session failure was reproduced and corrected. Signed-in profile, shared
-project and staff pages now run on the backend hostname, where the session cookie
-works directly. Opening their existing static-frontend links redirects to these
-account pages. Exact frontend and backend origins are accepted for authenticated writes.
+## Required Supporting Evidence in Repo
 
-## Live access and roles
+- Migration command & report: [docs/final/migration_report.md](docs/final/migration_report.md)
+- Scale fixture evidence (220 students / 110 projects): [docs/final/scale_evidence.md](docs/final/scale_evidence.md)
+- Operational & diagnostics note: [docs/final/operational_notes.md](docs/final/operational_notes.md)
+- Regression checklist (R1–R4 + Final): [docs/final/regression_checklist.md](docs/final/regression_checklist.md)
+- Moodle Online text (Reviewer test access) & GitHub issue replies: [docs/final/moodle_online_text_and_issue_replies.md](docs/final/moodle_online_text_and_issue_replies.md)
 
-- Public visitors can open the directory, partner pages, profiles, projects and inquiry without an account.
-- Students use their own GitHub account and verified Algoma email through https://cosc3506-team-04-ey5d.onrender.com/profile.html.
-- Staff use an approved GitHub account listed by its stable numeric ID in the backend's R4_STAFF_GITHUB_IDS setting, then open https://cosc3506-team-04-ey5d.onrender.com/r4-staff.html.
-- The deployment owner account was explicitly approved and used for staff verification. A designated reviewer/instructor account must still be arranged privately before assessment. Staff passwords and verification codes are not shared in these files.
-- Supplied teammate screenshots show a signed-in non-staff account denied access to both the staff page and staff queue API with "Staff access is required." The account's Algoma verification state is not shown. A non-staff write attempt and multi-student invitation acceptance still need live evidence.
+## Known Issues, Operational Assumptions & Remaining Risks (F.40)
 
-## Test setup
+- **Production deployment & DB migration pending team merge:** All 73 automated tests, syntax checks, frontend build, legacy migration, and scale tests passed locally against PGlite on `final/launch-candidate`. Before freezing `FINAL-submission`, apply additive `backend/final_schema.sql` to Supabase PostgreSQL, deploy to Render, and run live smoke checks.
+- **Render free-tier cold start:** Backend may take ~10–30 seconds to wake after inactivity.
+- **Simulated employer inquiry:** `inquiry.html` logs verified inquiries in-browser as a simulation (no outbound employer email).
+- **Synthetic fixture domains:** Supplied course fixtures use reserved `.example` / `.example.test` domains.
+- **Reviewer test access:** Supplied in Moodle Online text under **Reviewer test access** (never committed as secrets in Git).
 
-1. Open the public deployment in a fresh browser session. No account is required for public discovery, partner pages or simulated inquiries.
-2. Student reviewers sign in through the account application with their own GitHub account and verify their own Algoma email when required. Use a disposable project to test requests and invitations.
-3. Designated staff reviewer access is not yet provisioned. The team is awaiting the reviewer GitHub identity so its stable numeric ID can be allowlisted privately. The owner's authenticated session is not a shared test account. Staff-dependent checks are blocked for a reviewer until this is completed.
-4. The published partner and demonstration project below provide existing public evidence. New pending verification/association requests can be created by a verified maintainer through My Projects; imported unpublished company drafts appear in the staff queue. Completed requests no longer appear as pending.
-5. Use the unchanged normal and sparse hosted fixtures for Core import checks. Challenge R4.19 uses the public, limited and private collaboration records on the published partner below.
-6. Use synthetic inquiry details such as qa@example.test. The inquiry is a simulation, not a delivered email.
+## Automated Verification Summary (Local Baseline on `final/launch-candidate`)
 
-## Fixture source URLs
-
-All four hosted HTML files were byte-compared with the checked-in fixtures and matched.
-
-- company_normal.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_normal.html
-- company_sparse.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_sparse.html
-- company_prompt_injection.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_prompt_injection.html
-- company_same_name_other_domain.html — https://cosc3506-team04-frontend.onrender.com/r4-fixtures/company_same_name_other_domain.html
-
-## Published evidence
-
-- Reviewed fixture company https://cosc3506-team04-frontend.onrender.com/r4-partners.html?id=c53a2828-5ce6-40f1-a700-547e2d55d4d0
-- Published demonstration project https://cosc3506-team04-frontend.onrender.com/r3-project.html?id=bc26639f-3835-47c0-9218-cf2c25e1b17e
-- The company has public current (2026) and past (2025) collaborations, related public projects/students, an anonymized highlight and a private QA record.
-- Algoma Field Systems remains an unpublished, manually completed sparse fixture draft for staff review.
-- The demonstration project has approved verification and a staff-approved North Shore Simulations association. A separate synthetic company suggestion was rejected.
-- Inquiry uses the existing local simulation. Its successful submission retained the partner identity and source context.
-
-## Observed production verification
-
-Verified on November 20, 2026, Toronto time, against the deployed application commit above.
-
-- Both Render services show Live at the same full commit; /api/health returns 200 with a reachable database.
-- GitHub sign-in succeeds after signing out of the application, and the approved staff account reaches the work queue.
-- Normal company import, editing, draft saving and explicit publication passed using the hosted fixture URL.
-- Sparse import and manual completion passed. An unavailable import left unsaved draft text intact.
-- Two public collaborations in different years show under Current and Past with project/student links.
-- Public API responses contain only the anonymized summary for the limited record and omit the private record and its marker text. Unpublished company drafts are absent.
-- Student requests were pending with no official public relationship before review. Staff approval produced public verification and the partner relationship; rejection was recorded for the suggested company.
-- Anonymous staff queue reads and staff writes return 401.
-- Teammate-provided screenshots show the staff page and staff queue API returning "Staff access is required." for a signed-in non-staff session. This confirms the read-access boundary; it does not establish a tested non-staff write denial.
-- R1 case-insensitive search, combined skill/availability/status filters, stable profile navigation and browser Back preserved the expected single result.
-- R2's existing verified profile opens. R3 project creation/publication, public demo evidence and student-name lookup passed.
-
-- User-assisted Chrome DevTools testing at a 390-CSS-pixel viewport opened North Shore Simulations, followed its collaboration inquiry, and submitted synthetic details. The simulation console retained the correct partner type, ID, name and source URL. Staff collaboration controls were also visible within the viewport in screenshots; this was a visual check of those controls.
-
-## Remaining checks and known limitations
-
-- Designated staff and student reviewer access, and issue creation by the assigned reviewers/instructor, still require confirmation. A public repository alone does not establish that assigned reviewers can complete all assessment actions.
-
-- The live 390-CSS-pixel check covered the public partner-to-inquiry journey. Other mobile journeys were not fully repeated in this live check.
-- Supplied teammate screenshots capture the signed-in non-staff read denial on both /r4-staff.html and /api/r4/staff/queue. A non-staff staff-action write attempt has not been captured. Anonymous staff reads and writes were denied live; automated integration tests also cover authorization. Designated staff reviewer access is still pending.
-- Email delivery was not re-requested during this check because the test owner already had a verified Algoma account.
-- R4.10, R4.13 and R4.14 are not chosen. Scenarios D, E and F should be marked Not chosen.
-- Import accepts bounded ordinary HTTPS HTML and requires the final URL for redirects. Sparse sites can require manual completion.
-- Supplied synthetic company website links use reserved example.test hosts.
-- Free Render instances can require a cold start after inactivity.
-- Full requirements compliance and assessment readiness remain subject to the outstanding live checks and team review.
-
-## Automated checks
-
-62 automated tests passed locally, both syntax checks passed, and the frontend build passed.
-GitHub CI passed at 9c4ac4760f4c832e31c7ba919481edf53729c61a.
-https://github.com/BaileyCore/COSC3506-team-04/actions/runs/44842124782
-
-## Deployment and recovery
-
-The application uses Node/Express, Render's static frontend and web backend, and
-persistent Supabase PostgreSQL. A private export captured all 18 existing public-schema
-application tables (236 rows) with column, constraint, index, policy and sequence metadata
-before the R4 migration. The export is retained privately; it is not stored in Git.
-The three additive R4 tables were created and their row-level security verified.
-
-Previous backend commit e2b3b2a014bc365f85d6efd4bac37408251512d8.
-Previous frontend commit 692e2dcafdc7d132a0a1abc2118e045cf557068a.
-Both services previously tracked r3/shared-projects and now track r4/production-sign-in.
-The existing OAuth app, mail configuration and database were retained.
+- `npm run check:r3`, `npm run check:r4`, and `npm run check:final-release`: **PASS**
+- `npm run test:r3`: **57 / 57 PASS**
+- `npm test` (R4 + Phase 0 + Final migration, features, scale, QA): **16 / 16 PASS** (**73 / 73 total**)
+- `npm run build`: **PASS** (`frontend/dist`)

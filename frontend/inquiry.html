@@ -110,10 +110,10 @@
 <main>
 
     <p>
-    <a href="/">← Back to Talent Directory</a>
+    <a id="backLink" href="/">← Back to Talent Directory</a>
     </p>
 
-    <div id="context" class="context"></div>
+    <div id="context" class="context" role="status" aria-live="polite">Loading inquiry context…</div>
 
     <form id="inquiryForm">
 
@@ -154,6 +154,7 @@
 
 </main>
 
+<script src="config.js"></script>
 <script src="inquiry.js"></script>
 
 </body>

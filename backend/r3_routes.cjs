@@ -117,9 +117,11 @@ function mountR3(app, {pool,getVerifiedStudentId,studentExists,frontendOrigin}) 
       const duplicate=await duplicateFor(db,repos);
       if (duplicate) throw fail(409,'Repository already belongs to a project; view or request to join it',{existing_project_id:duplicate.project_id});
       const v=Object.values(payload);
+      const demoStatus=['active','unavailable','archived','replaced'].includes(req.body?.demo_status)?req.body.demo_status:'active';
+      const demoNote=typeof req.body?.demo_note==='string'?req.body.demo_note.trim().slice(0,500):'';
       const {rows}=await db.query(`INSERT INTO r3_projects
-        (maintainer_id,title,description,domain,status,technologies,started_on,playable_url,video_url,fallback_url)
-        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING id,version`,[userId,...v]);
+        (maintainer_id,title,description,domain,status,technologies,started_on,playable_url,video_url,fallback_url,demo_status,demo_note)
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id,version`,[userId,...v,demoStatus,demoNote]);
       const created=rows[0];
       await db.query(`INSERT INTO r3_contributors(project_id,student_id,role,state,joined_at)
         VALUES($1,$2,'Project Manager','accepted',now())`,[created.id,userId]);
@@ -156,9 +158,12 @@ function mountR3(app, {pool,getVerifiedStudentId,studentExists,frontendOrigin}) 
         const dup=await duplicateFor(db,repos,projectId);
         if (dup) throw fail(409,'Repository connected to another project',{existing_project_id:dup.project_id});
       }
+      const demoStatus=['active','unavailable','archived','replaced'].includes(req.body?.demo_status)?req.body.demo_status:(old.demo_status||'active');
+      const demoNote=typeof req.body?.demo_note==='string'?req.body.demo_note.trim().slice(0,500):(old.demo_note||'');
       const q=await db.query(`UPDATE r3_projects SET title=$2,description=$3,domain=$4,status=$5,
         technologies=$6,started_on=$7,playable_url=$8,video_url=$9,fallback_url=$10,
-        version=version+1,updated_at=now() WHERE id=$1 RETURNING version`,[projectId,...Object.values(payload)]);
+        demo_status=$11,demo_note=$12,
+        version=version+1,updated_at=now() WHERE id=$1 RETURNING version`,[projectId,...Object.values(payload),demoStatus,demoNote]);
       if(repos) {
         await db.query('DELETE FROM r3_repositories WHERE project_id=$1',[projectId]);
         for(const r of repos) await db.query('INSERT INTO r3_repositories(project_id,repo_url,repo_key) VALUES($1,$2,$3)',[projectId,r.url,r.key]);

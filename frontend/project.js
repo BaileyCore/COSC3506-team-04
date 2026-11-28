@@ -73,6 +73,7 @@ try {
     ${
     project.links && Object.keys(project.links).length > 0
         ? Object.entries(project.links)
+            .filter(([, url]) => { try { return new URL(url).protocol === "https:"; } catch { return false; } })
             .map(
             ([label, url]) => `
                 <a
@@ -84,7 +85,7 @@ try {
                 </a>
             `
             )
-            .join("<br>")
+            .join("<br>") || "None provided"
         : "None provided"
     }
 </div>

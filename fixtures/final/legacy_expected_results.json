@@ -1,0 +1,30 @@
+{
+  "source_counts": {
+    "students": 6,
+    "projects": 3,
+    "companies": 3,
+    "collaborations": 4
+  },
+  "duplicate_student_candidates": [
+    {
+      "legacy_id": "LS04",
+      "possible_duplicate_of": "LS01",
+      "reason": "same email"
+    }
+  ],
+  "broken_references": [
+    {
+      "project_legacy_id": "LP02",
+      "student_legacy_id": "LS99"
+    }
+  ],
+  "unclaimed_profiles": [
+    "LS02",
+    "LS05",
+    "LS06"
+  ],
+  "notes": [
+    "Repeated import of identical legacy IDs must not create duplicates.",
+    "Preserve shared-project contributor relationships and private collaboration visibility."
+  ]
+}

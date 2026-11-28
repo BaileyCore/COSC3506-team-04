@@ -96,10 +96,12 @@
           partner=element('select');options(partner,queue.partners.filter(p=>p.published),'Choose a published company');
           partner.value=r.partner_id||'';const l=element('label','Partner to approve');l.append(partner);row.append(l);
         }
+        const reasonInput=element('input');reasonInput.type='text';reasonInput.maxLength=600;reasonInput.placeholder='Optional reason or next steps (shown to student on rejection)';
+        const reasonLabel=element('label','Decision note / rejection reason');reasonLabel.append(reasonInput);row.append(reasonLabel);
         for(const [decision,label] of [['approved','Approve'],['rejected','Reject']]){
           actions.append(button(label,async()=>{
             if(partner&&decision==='approved'&&!partner.value)throw Error('Choose a published company, or publish it as a draft first.');
-            await api('/staff/requests/'+r.id+'/review',{decision,partner_id:partner?.value||undefined});await refresh();status('Request '+decision+'.');
+            await api('/staff/requests/'+r.id+'/review',{decision,partner_id:partner?.value||undefined,decision_note:reasonInput.value.trim()});await refresh();status('Request '+decision+'.');
           }));
         }
         row.append(actions);target.append(row);
@@ -122,7 +124,68 @@
       company.value=oldCompany;
       selectCompany();
       if(oldEdit)edit(queue.partners.find(p=>p.id===oldEdit)||null,false);
+      await refreshFinalStaff();
     }
+    const finalApi=async(path,body)=>{
+      const r=await fetch(apiBase+'/api/final'+path,body===undefined?{credentials:'include'}:{
+        credentials:'include',method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      const out=await r.json().catch(()=>({}));
+      if(!r.ok)throw Object.assign(new Error(out.error||'Could not complete this request.'),{status:r.status});
+      return out;
+    };
+    async function refreshFinalStaff(){
+      if(!$('claim-queue'))return;
+      try{
+        const [claims,opts]=await Promise.all([finalApi('/staff/claims'),finalApi('/staff/recovery-options')]);
+        $('claim-count').textContent='('+claims.length+')';
+        const cq=$('claim-queue');cq.replaceChildren();
+        if(!claims.length)cq.append(paragraph('No pending profile claims.'));
+        for(const c of claims){
+          const row=element('article');row.className='item';
+          row.append(element('h3',`${c.student_name} (${c.student_id})`),
+            paragraph(`Claimant: @${c.claimant_github} (${c.claimant_email||'unverified'})`),
+            paragraph('Note: '+(c.note||'None')));
+          const noteInput=element('input');noteInput.type='text';noteInput.maxLength=600;noteInput.placeholder='Optional decision note';
+          const lbl=element('label','Decision note');lbl.append(noteInput);row.append(lbl);
+          const acts=element('div');acts.className='actions';
+          for(const [decision,label] of [['approved','Approve claim'],['rejected','Reject claim']]){
+            acts.append(button(label,async()=>{await finalApi('/staff/claims/'+c.id+'/review',{decision,decision_note:noteInput.value.trim()});await refresh();status('Claim '+decision+'.');}));
+          }
+          row.append(acts);cq.append(row);
+        }
+        const stuOpts=opts.students.map(s=>({id:s.id,name:`${s.name} (${s.id} · ${s.profile_status})`}));
+        options($('merge-student-source'),stuOpts,'Select duplicate student');
+        options($('merge-student-target'),stuOpts,'Select surviving student');
+        const pOpts=queue.partners.filter(p=>!p.merged_into_id).map(p=>({id:p.id,name:`${p.name} (${p.published?'Published':'Draft'})`}));
+        options($('merge-partner-source'),pOpts,'Select duplicate company');
+        options($('merge-partner-target'),pOpts,'Select surviving company');
+        options($('recover-project'),opts.sharedProjects,'Select shared project');
+        options($('recover-maintainer'),opts.accounts.map(a=>({id:a.user_id,name:`@${a.github_login} (U${a.user_id})`})),'Select verified account');
+      }catch{}
+    }
+    if($('merge-students-form'))$('merge-students-form').onsubmit=run(async()=>{
+      const d=data($('merge-students-form'));
+      const res=await finalApi('/staff/merge/students',d);
+      await refresh();status(`Merged ${res.source_id} into ${res.target_id}. Redirect active at ${res.redirect_url}.`);
+    });
+    if($('merge-partners-form'))$('merge-partners-form').onsubmit=run(async()=>{
+      const d=data($('merge-partners-form'));
+      const res=await finalApi('/staff/merge/partners',d);
+      await refresh();status(`Merged company into ${res.target_id}. Redirect active.`);
+    });
+    if($('reassign-maintainer-form'))$('reassign-maintainer-form').onsubmit=run(async()=>{
+      const d=data($('reassign-maintainer-form'));
+      if(!d.project_id||!d.student_id)throw Error('Select a project and new maintainer.');
+      await finalApi('/staff/projects/'+encodeURIComponent(d.project_id)+'/reassign-maintainer',{student_id:d.student_id,reason:d.reason});
+      await refresh();status('Project maintainer reassigned without erasing contributor history.');
+    });
+    if($('legacy-import-form'))$('legacy-import-form').onsubmit=run(async()=>{
+      const raw=data($('legacy-import-form')).json;
+      let parsed;try{parsed=JSON.parse(raw);}catch{throw Error('Enter valid JSON.');}
+      const res=await finalApi('/staff/import-legacy',{fixture_name:'staff_ui_import.json',data:parsed});
+      $('legacy-import-report').textContent=JSON.stringify(res.report,null,2);
+      await refresh();status('Legacy import completed. Review the validation report below.');
+    });
     company.onchange=selectCompany;
     $('new-company').onclick=()=>edit(null);
     $('new-collab').onclick=()=>editCollab(null);
@@ -152,7 +215,16 @@
         for(const p of partners){const s=element('section');s.append(element('h2'),paragraph(p.description));s.firstChild.append(link(partnerUrl(p.id),p.name));root.append(s);}
         return;
       }
-      const {partner:p,collaborations,limited,verifiedProjects}=await api('/public/partners/'+encodeURIComponent(id),undefined,true);
+      const res=await api('/public/partners/'+encodeURIComponent(id),undefined,true);
+      if(res.merged&&res.redirect_url){
+        $('partner-title').textContent='Industry partner moved';
+        const s=element('section');
+        s.append(paragraph(res.message||'This partner record was merged into a surviving record.'));
+        s.append(link(res.redirect_url,'View surviving partner: '+(res.target_name||res.merged_into_id)));
+        root.append(s);
+        return;
+      }
+      const {partner:p,collaborations,limited,verifiedProjects}=res;
       $('partner-title').textContent=p.name;
       const intro=element('section');intro.append(paragraph(p.description));
       if(p.sector||p.location)intro.append(paragraph([p.sector,p.location].filter(Boolean).join(' · ')));
@@ -166,7 +238,12 @@
           const a=element('article');a.className='item';a.append(element('h3',c.title),paragraph(c.period),paragraph(c.description));
           if(c.outcome)a.append(paragraph('Outcome: '+c.outcome));
           for(const x of c.projects){const line=paragraph('Related project: ');line.append(link(projectUrl(x),x.title));a.append(line);}
-          for(const x of c.students){const line=paragraph('Participating student: ');line.append(link(studentUrl(x.id),x.name));a.append(line);}
+          for(const x of c.students){
+            const line=paragraph('Participating student: ');
+            if(x.retired)line.append(document.createTextNode(x.name+' (retired profile)'));
+            else line.append(link(studentUrl(x.id),x.name));
+            a.append(line);
+          }
           a.append(inquiry('collaboration',c.id,c.title+' — '+p.name));section.append(a);
         }
         root.append(section);
@@ -188,7 +265,7 @@
     async function readRequests(id,g){
       const rr=await api('/projects/'+encodeURIComponent(id)+'/requests');
       if(generation!==g)return;
-      list.replaceChildren(...rr.map(r=>paragraph((r.kind==='verification'?'Project verification':'Industry partner: '+(r.partner_name||r.suggested_company))+' — '+r.state)));
+      list.replaceChildren(...rr.map(r=>paragraph((r.kind==='verification'?'Project verification':'Industry partner: '+(r.partner_name||r.suggested_company))+' — '+r.state+(r.decision_note?' ('+r.decision_note+')':''))));
     }
     window.r4SelectProject=async(id,maintainer)=>{
       const g=++generation;projectId=maintainer?id:null;

@@ -57,7 +57,16 @@ function extractCompany(html, source) {
   const desc=meta.description || meta['og:description'] || paragraphs.find(p=>p.length>=35 && !/^(location|services|keywords|sector):/i.test(p)) || '';
   const location=meta['business:contact_data:locality'] || paragraphs.find(p=>/^location:/i.test(p))?.replace(/^location:\s*/i,'') || '';
   const services=meta.keywords || paragraphs.find(p=>/^(services|sector|keywords):/i.test(p))?.split(':').slice(1).join(':').trim() || '';
-  const keywords=[...new Set([...services.split(',').map(x=>x.trim()).filter(Boolean), ...['simulation','XR','training'].filter(x=>new RegExp('\\b'+x+'\\b','i').test(desc+' '+services))])];
+  const rawKeywords=[
+    ...services.split(',').map(x=>x.trim().replace(/[.;:]+$/g,'').trim()).filter(Boolean),
+    ...['simulation','XR','training'].filter(x=>new RegExp('\\b'+x+'\\b','i').test(desc+' '+services))
+  ];
+  const seenKeywords=new Set();
+  const keywords=[];
+  for(const kw of rawKeywords){
+    const key=kw.toLowerCase();
+    if(!seenKeywords.has(key)){seenKeywords.add(key);keywords.push(kw);}
+  }
   let website=sourceUrl.origin;
   // Unchanged course fixtures identify the simulated company with reserved .example.test links.
   const link=Array.from(clean.matchAll(/href\s*=\s*["']([^"']+)["']/gi),x=>x[1]).find(x=>/^https:\/\/[\w.-]+\.example\.test\/?$/i.test(x));

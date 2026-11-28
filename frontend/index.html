@@ -71,10 +71,25 @@
       color: white;
     }
 
-    button:focus,
-    input:focus {
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    a:focus-visible {
       outline: 3px solid #93c5fd;
       outline-offset: 2px;
+    }
+
+    .pagination {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .75rem;
+      margin-top: 1.25rem;
+    }
+
+    .pagination button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
     }
 
     .students {
@@ -190,19 +205,34 @@
         </label>
       </div>
 
+      <div class="filter-group">
+        <label for="availabilityState"><strong>Talent state</strong></label>
+        <select id="availabilityState" name="availability_state">
+          <option value="">All published profiles</option>
+          <option value="active">Active Talent (seeking opportunities)</option>
+          <option value="showcase">Showcase Only</option>
+        </select>
+      </div>
+
       <button id="clearFilters" type="button">
         Clear Filters
       </button>
 
     </section>
 
-    <p id="status"></p>
+    <p id="status" role="status" aria-live="polite"></p>
 
     <section
       id="students"
       class="students"
       aria-live="polite"
     ></section>
+
+    <nav id="pagination" class="pagination" aria-label="Directory pages" hidden>
+      <button id="prevPage" type="button">Previous</button>
+      <span id="pageInfo"></span>
+      <button id="nextPage" type="button">Next</button>
+    </nav>
 
   </main>
 

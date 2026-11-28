@@ -15,6 +15,8 @@
 <label>GitHub repository URLs (one per line) <textarea id="repositories" rows="2" placeholder="https://github.com/owner/repo"></textarea></label>
 <div class="actions"><button type="button" id="github-preview">Import suggestions from GitHub</button><button type="button" id="duplicate-check">Check duplicate repositories</button></div>
 <label>Playable demo HTTPS URL <input type="url" id="playable_url" placeholder="https://..."></label>
+<label>Demo build state <select id="demo_status"><option value="active">Active</option><option value="unavailable">Unavailable</option><option value="archived">Archived</option><option value="replaced">Replaced</option></select></label>
+<label>Demo status note (optional) <input id="demo_note" maxlength="500" placeholder="e.g., Retired WebGL build; see recorded video below"></label>
 <label>Video / recorded demo HTTPS URL <input type="url" id="video_url" placeholder="https://..."></label>
 <label>Fallback image HTTPS URL <input type="url" id="fallback_url" placeholder="https://.../fallback.svg"></label>
 <div class="actions"><button type="submit" id="save">Create project</button><button type="button" id="publish" disabled>Publish</button><button type="button" id="unpublish" disabled>Unpublish</button></div>
